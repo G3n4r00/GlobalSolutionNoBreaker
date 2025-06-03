@@ -1,3 +1,7 @@
+using GlobalSolutionNoBreaker.Forms;
+using GlobalSolutionNoBreaker.Data;
+
+
 namespace GlobalSolutionNoBreaker
 {
     internal static class Program
@@ -8,10 +12,10 @@ namespace GlobalSolutionNoBreaker
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            // Chama a função para garantir que o banco está criado
+            DataMaker.CreateDatabase();
+            Application.Run(new LoginForm());
         }
     }
 }
