@@ -32,7 +32,8 @@ namespace GlobalSolutionNoBreaker.Forms
                 if (UsuarioRepository.LoginUsuario(usuario))
                 {
                     MessageBox.Show("Login realizado com sucesso!");
-                    this.Hide(); // Esconde o formulário de login
+                    Session.LoggedInEmail = usuario.Email; // Armazena o email do usuário logado na sessão
+                    this.Hide();
                     NobreakForm mainForm = new NobreakForm();
                     mainForm.Show();
                 }

@@ -1,4 +1,5 @@
 ﻿using GlobalSolutionNoBreaker.Models;
+using GlobalSolutionNoBreaker.Repositories;
 using GlobalSolutionNoBreaker.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,13 @@ namespace GlobalSolutionNoBreaker.Services
 
         public static void AddUsuario(Usuario usuario)
         {
-            try
+            if (UsuarioRepository.RegisterUsuario(usuario))
             {
-                if(Repositories.UsuarioRepository.RegisterUsuario(usuario))
-                    ;
+                return; // Usuário registrado com sucesso
             }
-            catch (ArgumentException ex)
+            else
             {
-                throw new ArgumentException("Erro ao inserir o usuário: " + ex.Message);
+                throw new Exception("Erro ao registrar usuário. Verifique os dados e tente novamente.");
             }
         }
     }

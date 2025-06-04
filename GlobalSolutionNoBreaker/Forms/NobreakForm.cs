@@ -41,7 +41,7 @@ namespace GlobalSolutionNoBreaker.Forms
                     // Atualizar nobreak existente
                     nobreak.Id = selectedNobreakId;
                     nobreak.AtualizadoEm = DateTime.Now;
-                    nobreak.AtualizadoPor = Environment.UserName; // Captura o usuário que está atualizando
+                    nobreak.AtualizadoPor = Session.LoggedInEmail; // Captura o usuário que está atualizando
                     NobreakServices.UpdateNobreak(nobreak);
                     MessageBox.Show("Nobreak atualizado com sucesso!");
                     isEditMode = false;
@@ -52,7 +52,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 else
                 {
                     nobreak.CriadoEm = DateTime.Now;
-                    nobreak.CriadoPor = Environment.UserName; 
+                    nobreak.CriadoPor = Session.LoggedInEmail; 
                     NobreakServices.AddNobreak(nobreak);
                     MessageBox.Show("Nobreak inserido com sucesso!");
                     CarregarNobreaksGrid();

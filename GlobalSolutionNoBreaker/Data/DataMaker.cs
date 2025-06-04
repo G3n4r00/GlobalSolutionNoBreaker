@@ -41,8 +41,8 @@ namespace GlobalSolutionNoBreaker.Data
                         VidaUtilAnos INTEGER NOT NULL,
                         DataUltimaManutencao DATE,
                         ProximaTrocaBateria DATE,
-                        StatusOperacional TEXT,
-                        NivelBateriaPercent INTEGER,
+                        StatusOperacional TEXT DEFAULT 'Ativo',
+                        NivelBateriaPercent INTEGER DEFAULT 100,
                         CriadoEm DATETIME DEFAULT (datetime('now')),
                         CriadoPor TEXT,
                         AtualizadoEm DATETIME,
@@ -103,10 +103,10 @@ namespace GlobalSolutionNoBreaker.Data
                         FOREIGN KEY (MonitoramentoId) REFERENCES Monitoramento(Id)
                        );
 
-                        CREATE TABLE IF NOT EXISTS Usuário(
-                        Id INTEGER NOT NULL,
+                        CREATE TABLE IF NOT EXISTS Usuarios(
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         Email TEXT NOT NULL,
-                        HashSenha TEXT NOT NULL
+                        senhaHash TEXT NOT NULL
                        );
 
                     ";
