@@ -57,7 +57,7 @@
             dgvNobreak.Size = new Size(776, 248);
             dgvNobreak.TabIndex = 0;
             dgvNobreak.CellContentClick += dataGridView1_CellContentClick;
-            dgvNobreak.CellContentDoubleClick += dgvNobreak_CellContentDoubleClick;
+            dgvNobreak.CellDoubleClick += dgvNobreak_CellDoubleClick;
             // 
             // btnAdicionar
             // 

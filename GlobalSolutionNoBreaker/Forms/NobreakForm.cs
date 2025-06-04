@@ -1,18 +1,14 @@
-﻿using GlobalSolutionNoBreaker.Data;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using GlobalSolutionNoBreaker.Models;
+using GlobalSolutionNoBreaker.Repositories;
+using GlobalSolutionNoBreaker.Services;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
     public partial class NobreakForm : Form
     {
+        private int? _nobreakIdSelecionado = null; // null = novo, valor = edição
+
         public NobreakForm()
         {
             InitializeComponent();
@@ -27,81 +23,36 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             try
             {
-                // Pega o valor selecionado do ComboBox Modelo (assumindo que a propriedade ValueMember está configurada para string do modelo)
-                string modelo = cmbModelo.SelectedItem?.ToString();
-                if (string.IsNullOrEmpty(modelo))
+                var dto = new NobreakDTO
                 {
-                    MessageBox.Show("Selecione um modelo.");
-                    return;
-                }
+                    //Id = _nobreakIdSelecionado,
+                    Modelo = cmbModelo.SelectedItem?.ToString(),
+                    Localizacao = cmbLocal.SelectedItem?.ToString(),
+                    CapacidadeVA = txtCapacidade.Text,
+                    DataAquisicao = dtpAquisicao.Value.Date,
+                    VidaUtil = txtVida.Text,
+                    CicloInicial = txtCiclo.Text
+                };
 
-                // Pega o valor selecionado do ComboBox Localização
-                string localizacao = cmbLocal.SelectedItem?.ToString();
-                if (string.IsNullOrEmpty(localizacao))
-                {
-                    MessageBox.Show("Selecione a localização.");
-                    return;
-                }
-
-                // Capacidade VA continua vindo de TextBox, validação igual
-                if (!int.TryParse(txtCapacidade.Text, out int capacidadeVA) || capacidadeVA <= 0)
-                {
-                    MessageBox.Show("Informe uma capacidade válida (>0).");
-                    return;
-                }
-
-                // Data de aquisição pelo DateTimePicker, que sempre retorna uma data válida
-                DateTime dataAquisicao = dtpAquisicao.Value.Date;
-                if (dataAquisicao > DateTime.Today)
-                {
-                    MessageBox.Show("A data de aquisição não pode ser no futuro.");
-                    return;
-                }
-
-                // Vida útil em anos (TextBox com validação)
-                if (!int.TryParse(txtVida.Text, out int vidaUtil) || vidaUtil <= 0)
-                {
-                    MessageBox.Show("Informe uma vida útil válida (>0).");
-                    return;
-                }
-
-                int cicloCargaInicial = 0;
-                if (!string.IsNullOrWhiteSpace(txtCiclo.Text))
-                {
-                    if (!int.TryParse(txtCiclo.Text, out cicloCargaInicial) || cicloCargaInicial < 0)
-                    {
-                        MessageBox.Show("Informe um ciclo de carga inicial válido (≥0).");
-                        return;
-                    }
-                }
-
-                NobreakRepository.InsertNobreak(modelo, localizacao, capacidadeVA, dataAquisicao, vidaUtil, cicloCargaInicial);
+                NobreakServices.AdicionarNobreak(dto);
 
                 MessageBox.Show("Nobreak inserido com sucesso!");
-                LoadNobreaksToGrid();
-
-                // Limpa campos para novo cadastro
-                cmbModelo.SelectedIndex = -1;
-                cmbLocal.SelectedIndex = -1;
-                txtCapacidade.Clear();
-                dtpAquisicao.Value = DateTime.Today;
-                txtVida.Clear();
-                txtCiclo.Clear();
+                CarregarNobreaksGrid();
+                LimparCampos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao inserir nobreak: {ex.Message}");
+                MessageBox.Show("Erro ao inserir nobreak: " + ex.Message);
             }
-
         }
 
-        private void LoadNobreaksToGrid()
+        private void CarregarNobreaksGrid()
         {
             try
             {
                 DataTable dt = NobreakRepository.GetAllNobreaks();
                 dgvNobreak.DataSource = dt;
-                
+
                 // Configuração opcional para renomear colunas na interface
                 dgvNobreak.Columns["Id"].HeaderText = "ID";
                 dgvNobreak.Columns["Modelo"].HeaderText = "Modelo";
@@ -119,17 +70,37 @@ namespace GlobalSolutionNoBreaker.Forms
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-
+                        
+            try
+            {
+                DataGridViewRow nobreakrow = dgvNobreak.SelectedRows[0];
+                var idValue = nobreakrow.Cells[0].Value;
+                int id = Convert.ToInt32(idValue);
+                MessageBox.Show(id.ToString());
+                NobreakServices.DeletarNobreak(id);
+                MessageBox.Show("Nobreak excluído com sucesso!");
+                CarregarNobreaksGrid();
+                LimparCampos();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Selecione um nobreak válido para excluir.");
+            }   
+            
         }
 
-        private void btnLimpar_Click(object sender, EventArgs e)
+        private void LimparCampos()
         {
-            txtCapacidade.Clear();   
+            txtCapacidade.Clear();
             txtCiclo.Clear();
-            txtVida.Clear(); 
-            cmbModelo.SelectedIndex = -1;   
+            txtVida.Clear();
+            cmbModelo.SelectedIndex = -1;
             cmbLocal.SelectedIndex = -1;
             dtpAquisicao.Value = DateTime.Today;
+        }
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            LimparCampos();
         }
 
         private void btnVoltar_Click(object sender, EventArgs e)
@@ -137,10 +108,7 @@ namespace GlobalSolutionNoBreaker.Forms
 
         }
 
-        private void dgvNobreak_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
 
         private void NobreakForm_Load(object sender, EventArgs e)
         {
@@ -150,6 +118,32 @@ namespace GlobalSolutionNoBreaker.Forms
             cmbLocal.Items.AddRange(new string[] { "Sala 1", "Sala 2", "Sala 3" });
 
             dtpAquisicao.MaxDate = DateTime.Today;
+        }
+
+        private void dgvNobreak_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var row = dgvNobreak.Rows[e.RowIndex];
+                    _nobreakIdSelecionado = Convert.ToInt32(row.Cells["Id"].Value); // Nome da coluna Id
+
+                    cmbModelo.SelectedItem = row.Cells["Modelo"].Value.ToString();
+                    cmbLocal.SelectedItem = row.Cells["Localizacao"].Value.ToString();
+                    txtCapacidade.Text = row.Cells["CapacidadeVA"].Value.ToString();
+                    dtpAquisicao.Value = Convert.ToDateTime(row.Cells["DataAquisicao"].Value);
+                    txtVida.Text = row.Cells["VidaUtilAnos"].Value.ToString();
+                    txtCiclo.Text = row.Cells["CicloCargaInicial"].Value.ToString();
+
+                    btnAdicionar.Text = "Salvar Alterações";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao carregar nobreak para edição: " + ex.Message);
+            }
+
         }
     }
 }

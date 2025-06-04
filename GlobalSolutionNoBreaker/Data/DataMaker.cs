@@ -35,30 +35,34 @@ namespace GlobalSolutionNoBreaker.Data
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             Modelo TEXT NOT NULL,
                             Localizacao TEXT NOT NULL,
-                            CapacidadeVA INTEGER NOT NULL CHECK(CapacidadeVA > 0),
-                            DataAquisicao TEXT NOT NULL CHECK(date(DataAquisicao) <= date('now')),
-                            VidaUtilAnos INTEGER NOT NULL CHECK(VidaUtilAnos > 0),
-                            CicloCargaInicial INTEGER NOT NULL DEFAULT 0 CHECK(CicloCargaInicial >= 0)
+                            EnderecoIP TEXT,
+                            CapacidadeVA INTEGER NOT NULL,
+                            DataAquisicao TEXT NOT NULL,
+                            DataGarantia TEXT,
+                            DataUltimaManutencao TEXT,
+                            VidaUtilAnos INTEGER NOT NULL,
+                            ProximaTrocaBateria TEXT,
+                            CicloCarga INTEGER NOT NULL DEFAULT 0,
+                            StatusOperacional TEXT DEFAULT 'Ativo'
+                            EquipamentosRelacionados TEXT,
                         );
 
-                        CREATE TABLE IF NOT EXISTS EquipamentosDependentes (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Nome TEXT NOT NULL,
-                            Tipo TEXT NOT NULL,
-                            NobreakId INTEGER NOT NULL,
-                            DataInstalacao TEXT NOT NULL CHECK(date(DataInstalacao) <= date('now')),
-                            ConsumoWatts INTEGER CHECK(ConsumoWatts > 0),
-                            FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
+                        CREATE TABLE IF NOT EXISTS NobreakEquipamento (
+                            NobreakId INTEGER,
+                            EquipamentoId INTEGER,
+                            PRIMARY KEY (NobreakId, EquipamentoId),
+                            FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id),
+                            FOREIGN KEY (EquipamentoId) REFERENCES Equipamentos(Id)
                         );
 
                         CREATE TABLE IF NOT EXISTS Monitoramento (
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             NobreakId INTEGER NOT NULL,
-                            Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
+                            Timestamp TEXT NOT NULL,
                             CargaAtualVA INTEGER NOT NULL,
-                            EstadoBateria INTEGER NOT NULL CHECK(EstadoBateria >= 0 AND EstadoBateria <= 100),
+                            PorcentagemBateria INTEGER NOT NULL,
                             TemperaturaInternaC REAL NOT NULL,
-                            StatusSaude TEXT NOT NULL CHECK(StatusSaude IN ('Operacional', 'Bateria Fraca', 'Sobrecarga', 'Desligado')),
+                            StatusSaude TEXT NOT NULL,
                             FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
                         );
 
@@ -76,7 +80,7 @@ namespace GlobalSolutionNoBreaker.Data
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             IncidenteId INTEGER NOT NULL,
                             NomeEquipamento TEXT NOT NULL,
-                            TipoEquipamento TEXT NOT NULL CHECK(TipoEquipamento IN ('Servidor', 'Roteador', 'Câmera', 'Estação de Trabalho', 'Outros')),
+                            TipoEquipamento TEXT NOT NULL,
                             FOREIGN KEY (IncidenteId) REFERENCES Incidentes(Id) ON DELETE CASCADE
                         );
 
@@ -84,7 +88,7 @@ namespace GlobalSolutionNoBreaker.Data
                             Id INTEGER PRIMARY KEY AUTOINCREMENT,
                             Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
                             Usuario TEXT NOT NULL,
-                            TipoEvento TEXT NOT NULL CHECK(TipoEvento IN ('Cadastro', 'Atualização', 'Leitura', 'Incidente', 'Notificação', 'Relatório')),
+                            TipoEvento TEXT NOT NULL,
                             Descricao TEXT NOT NULL
                         );
                     ";
