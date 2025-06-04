@@ -24,7 +24,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                     connection.Open();
 
                     //Checa se o usuário já existe
-                    string checkSql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+                    string checkSql = "SELECT COUNT(*) FROM Usuarios WHERE Email = @Email";
                     using (var checkCommand = new SQLiteCommand(checkSql, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@Email", email);
@@ -41,7 +41,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                     string senhaHash = SenhaUtils.HashPassword(senha);
 
                     // Insert new user
-                    string insertSql = @"INSERT INTO Users (Email, senhaHash) 
+                    string insertSql = @"INSERT INTO Usuarios (Email, senhaHash) 
                                    VALUES (@Email, @senhaHash)";
 
                     using (var command = new SQLiteCommand(insertSql, connection))
@@ -72,7 +72,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection($"Data Source={NobreakRepository.DbPath};Version=3;"))
                 {
                     connection.Open();
-                    string sql = "SELECT PasswordHash FROM Users WHERE Email = @Email";
+                    string sql = "SELECT PasswordHash FROM Usuarios WHERE Email = @Email";
 
                     using (var command = new SQLiteCommand(sql, connection))
                     {

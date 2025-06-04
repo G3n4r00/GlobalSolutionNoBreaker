@@ -11,13 +11,18 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class Cadastro : Form
+    public partial class CadastroForm : Form
     {
-        public Cadastro()
+        public CadastroForm()
         {
             InitializeComponent();
         }
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LoginForm form = new LoginForm();
+            form.Show();
+        }
         private void btnConfirma_Click(object sender, EventArgs e)
         {
             Usuario usuario = new Usuario
@@ -42,6 +47,9 @@ namespace GlobalSolutionNoBreaker.Forms
                 // Adiciona o usuário
                 Services.UsuarioServices.AddUsuario(usuario);
                 MessageBox.Show("Usuário cadastrado com sucesso!");
+                this.Hide();
+                LoginForm form = new LoginForm();
+                form.Show();
             }
             catch (Exception ex)
             {

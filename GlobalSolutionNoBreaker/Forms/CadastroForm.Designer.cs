@@ -1,6 +1,6 @@
 ﻿namespace GlobalSolutionNoBreaker.Forms
 {
-    partial class Cadastro
+    partial class CadastroForm
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,8 @@
             lblSenha = new Label();
             txtSenha = new TextBox();
             btnConfirma = new Button();
-            btnCancelar = new Button();
+            btnVoltar = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -79,28 +80,37 @@
             btnConfirma.UseVisualStyleBackColor = true;
             btnConfirma.Click += btnConfirma_Click;
             // 
-            // btnCancelar
+            // btnVoltar
             // 
-            btnCancelar.Location = new Point(464, 376);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(75, 23);
-            btnCancelar.TabIndex = 5;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
+            btnVoltar.Location = new Point(0, 0);
+            btnVoltar.Name = "btnVoltar";
+            btnVoltar.Size = new Size(75, 23);
+            btnVoltar.TabIndex = 0;
             // 
-            // Cadastro
+            // button1
+            // 
+            button1.Location = new Point(496, 384);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 5;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += this.button1_Click;
+            // 
+            // CadastroForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnCancelar);
+            Controls.Add(button1);
+            Controls.Add(btnVoltar);
             Controls.Add(btnConfirma);
             Controls.Add(txtSenha);
             Controls.Add(lblSenha);
             Controls.Add(txtEmail);
             Controls.Add(label1);
-            Name = "Cadastro";
+            Name = "CadastroForm";
             Text = "Cadastro";
             ResumeLayout(false);
             PerformLayout();
@@ -113,6 +123,7 @@
         private Label lblSenha;
         private TextBox txtSenha;
         private Button btnConfirma;
-        private Button btnCancelar;
+        private Button btnVoltar;
+        private Button button1;
     }
 }

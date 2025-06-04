@@ -10,14 +10,18 @@ namespace GlobalSolutionNoBreaker.Services
 {
     class UsuarioServices
     {
+
         public static void AddUsuario(Usuario usuario)
         {
-            if (!ValidaInput.IsValidEmail(usuario.Email))
-                throw new ArgumentException("O email deve ser válido");
-
-
-
-            Repositories.UsuarioRepository.RegisterUsuario(usuario);
+            try
+            {
+                if(Repositories.UsuarioRepository.RegisterUsuario(usuario))
+                    ;
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("Erro ao inserir o usuário: " + ex.Message);
+            }
         }
     }
 }

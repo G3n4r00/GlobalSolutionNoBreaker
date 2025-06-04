@@ -16,7 +16,7 @@ namespace GlobalSolutionNoBreaker
             // Chama a função para garantir que o banco está criado
             //DataDeletion.DeleteDatabase();
             DataMaker.CreateDatabase();
-            Application.Run(new NobreakForm());
+            Application.Run(new LoginForm());
         }
     }
 }

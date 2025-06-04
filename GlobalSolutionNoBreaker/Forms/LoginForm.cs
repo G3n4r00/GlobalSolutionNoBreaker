@@ -25,17 +25,40 @@ namespace GlobalSolutionNoBreaker.Forms
             Usuario usuario = new Usuario
             {
                 Email = txtEmail.Text,
-                HashSenha = txtSenha.Text 
+                HashSenha = txtSenha.Text
             };
             try
             {
-                UsuarioRepository.LoginUsuario(usuario);
+                if (UsuarioRepository.LoginUsuario(usuario))
+                {
+                    MessageBox.Show("Login realizado com sucesso!");
+                    this.Hide(); // Esconde o formulário de login
+                    NobreakForm mainForm = new NobreakForm();
+                    mainForm.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Email ou senha incorretos.");
+                }
+                ;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao fazer login: " + ex.Message);
             }
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCadastro_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            CadastroForm form = new CadastroForm();
+            form.Show();
         }
     }
 }

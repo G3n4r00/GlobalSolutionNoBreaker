@@ -30,9 +30,10 @@
         {
             btnEntrar = new Button();
             label1 = new Label();
-            txtUsuario = new TextBox();
+            txtEmail = new TextBox();
             label2 = new Label();
             txtSenha = new TextBox();
+            btnCadastro = new Button();
             SuspendLayout();
             // 
             // btnEntrar
@@ -51,16 +52,17 @@
             label1.Font = new Font("Segoe UI", 12F);
             label1.Location = new Point(216, 160);
             label1.Name = "label1";
-            label1.Size = new Size(64, 21);
+            label1.Size = new Size(48, 21);
             label1.TabIndex = 1;
-            label1.Text = "Usuário";
+            label1.Text = "Email";
+            label1.Click += label1_Click;
             // 
-            // txtUsuario
+            // txtEmail
             // 
-            txtUsuario.Location = new Point(288, 160);
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(272, 23);
-            txtUsuario.TabIndex = 2;
+            txtEmail.Location = new Point(288, 160);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(272, 23);
+            txtEmail.TabIndex = 2;
             // 
             // label2
             // 
@@ -76,8 +78,19 @@
             // 
             txtSenha.Location = new Point(288, 216);
             txtSenha.Name = "txtSenha";
+            txtSenha.PasswordChar = '*';
             txtSenha.Size = new Size(272, 23);
             txtSenha.TabIndex = 4;
+            // 
+            // btnCadastro
+            // 
+            btnCadastro.Location = new Point(328, 376);
+            btnCadastro.Name = "btnCadastro";
+            btnCadastro.Size = new Size(152, 23);
+            btnCadastro.TabIndex = 5;
+            btnCadastro.Text = "Realizar Cadastro";
+            btnCadastro.UseVisualStyleBackColor = true;
+            btnCadastro.Click += btnCadastro_Click;
             // 
             // LoginForm
             // 
@@ -85,9 +98,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCadastro);
             Controls.Add(txtSenha);
             Controls.Add(label2);
-            Controls.Add(txtUsuario);
+            Controls.Add(txtEmail);
             Controls.Add(label1);
             Controls.Add(btnEntrar);
             Name = "LoginForm";
@@ -100,8 +114,9 @@
 
         private Button btnEntrar;
         private Label label1;
-        private TextBox txtUsuario;
+        private TextBox txtEmail;
         private Label label2;
         private TextBox txtSenha;
+        private Button btnCadastro;
     }
 }
