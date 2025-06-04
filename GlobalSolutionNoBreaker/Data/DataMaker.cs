@@ -32,65 +32,83 @@ namespace GlobalSolutionNoBreaker.Data
 
                     string createTables = @"
                         CREATE TABLE IF NOT EXISTS Nobreaks (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Modelo TEXT NOT NULL,
-                            Localizacao TEXT NOT NULL,
-                            EnderecoIP TEXT,
-                            CapacidadeVA INTEGER NOT NULL,
-                            DataAquisicao TEXT NOT NULL,
-                            DataGarantia TEXT,
-                            DataUltimaManutencao TEXT,
-                            VidaUtilAnos INTEGER NOT NULL,
-                            ProximaTrocaBateria TEXT,
-                            CicloCarga INTEGER NOT NULL DEFAULT 0,
-                            StatusOperacional TEXT DEFAULT 'Ativo'
-                            EquipamentosRelacionados TEXT,
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Modelo TEXT NOT NULL,
+                        Localizacao TEXT NOT NULL,
+                        CapacidadeVA INTEGER NOT NULL,
+                        DataAquisicao DATE NOT NULL,
+                        DataGarantia DATE,
+                        VidaUtilAnos INTEGER NOT NULL,
+                        DataUltimaManutencao DATE,
+                        ProximaTrocaBateria DATE,
+                        StatusOperacional TEXT,
+                        NivelBateriaPercent INTEGER,
+                        CriadoEm DATETIME DEFAULT (datetime('now')),
+                        CriadoPor TEXT,
+                        AtualizadoEm DATETIME,
+                        AtualizadoPor TEXT
                         );
 
-                        CREATE TABLE IF NOT EXISTS NobreakEquipamento (
-                            NobreakId INTEGER,
-                            EquipamentoId INTEGER,
-                            PRIMARY KEY (NobreakId, EquipamentoId),
-                            FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id),
-                            FOREIGN KEY (EquipamentoId) REFERENCES Equipamentos(Id)
+
+                        CREATE TABLE IF NOT EXISTS Equipamentos (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Nome TEXT NOT NULL,
+                        Tipo TEXT,
+                        NobreakId INTEGER NOT NULL,
+                        FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
                         );
 
                         CREATE TABLE IF NOT EXISTS Monitoramento (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            NobreakId INTEGER NOT NULL,
-                            Timestamp TEXT NOT NULL,
-                            CargaAtualVA INTEGER NOT NULL,
-                            PorcentagemBateria INTEGER NOT NULL,
-                            TemperaturaInternaC REAL NOT NULL,
-                            StatusSaude TEXT NOT NULL,
-                            FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        NobreakId INTEGER NOT NULL,
+                        Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
+                        CargaAtualVA INTEGER NOT NULL,
+                        PorcentagemBateria INTEGER NOT NULL,
+                        CodigoEstado INTEGER NOT NULL, --0: Operacional, 1: BFraca, 2: Sobrecarga 3: Desligado
+                        FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
                         );
+
 
                         CREATE TABLE IF NOT EXISTS Incidentes (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            NobreakId INTEGER NOT NULL,
-                            ModeloNobreak TEXT NOT NULL,
-                            StatusAtual TEXT NOT NULL,
-                            ValorDetectado TEXT NOT NULL,
-                            DataHora TEXT NOT NULL DEFAULT (datetime('now')),
-                            FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        NobreakId INTEGER NOT NULL,
+                        TipoIncidente TEXT NOT NULL,
+                        StatusAtual TEXT NOT NULL,
+                        Prioridade INTEGER NOT NULL, -- 1=Alta,2=Média,3=Baixa
+                        DataHora TEXT NOT NULL DEFAULT (datetime('now')),
+                        FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
                         );
 
-                        CREATE TABLE IF NOT EXISTS EquipamentosAfetados (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            IncidenteId INTEGER NOT NULL,
-                            NomeEquipamento TEXT NOT NULL,
-                            TipoEquipamento TEXT NOT NULL,
-                            FOREIGN KEY (IncidenteId) REFERENCES Incidentes(Id) ON DELETE CASCADE
+                        CREATE TABLE IF NOT EXISTS EquipamentosIncidente (
+                        IncidenteId INTEGER NOT NULL,
+                        EquipamentoId INTEGER NOT NULL,
+                        PRIMARY KEY (IncidenteId, EquipamentoId),
+                        FOREIGN KEY (IncidenteId) REFERENCES Incidentes(Id),
+                        FOREIGN KEY (EquipamentoId) REFERENCES Equipamentos(EquipamentoId)
                         );
+
 
                         CREATE TABLE IF NOT EXISTS LogsEventos (
-                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
-                            Usuario TEXT NOT NULL,
-                            TipoEvento TEXT NOT NULL,
-                            Descricao TEXT NOT NULL
-                        );
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
+                        TipoEvento TEXT NOT NULL,
+                        Retorno TEXT NOT NULL,
+                        UsuarioId INTEGER,
+                        NobreakId INTEGER,
+                        IncidenteId INTEGER,
+                        MonitoramentoId INTEGER,
+                        FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id),
+                        FOREIGN KEY (NobreakId) REFERENCES NobreakS(Id),
+                        FOREIGN KEY (IncidenteId) REFERENCES IncidenteS(Id),
+                        FOREIGN KEY (MonitoramentoId) REFERENCES Monitoramento(Id)
+                       );
+
+                        CREATE TABLE IF NOT EXISTS Usuário(
+                        Id INTEGER NOT NULL,
+                        Email TEXT NOT NULL,
+                        HashSenha TEXT NOT NULL
+                       );
+
                     ";
 
                     using (var cmd = new SQLiteCommand(createTables, connection))

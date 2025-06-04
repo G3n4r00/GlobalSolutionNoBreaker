@@ -10,13 +10,13 @@ namespace GlobalSolutionNoBreaker.Repositories
 {
     public class NobreakRepository
     {
-        private static string DbPath => Path.Combine(
+        public static string DbPath => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "NobreakerSystemApp",
             "NoBreakerSystem.db"
         );
 
-        public static DataTable GetAllNobreaks()
+        public static DataTable GetAllNobreaksNobreaksPage()
         {
             var dt = new DataTable();
 
@@ -24,7 +24,7 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
-                string query = "SELECT Id, Modelo, Localizacao, CapacidadeVA, DataAquisicao, VidaUtilAnos, CicloCargaInicial FROM Nobreaks;";
+                string query = "SELECT Id, Modelo, Localizacao, CapacidadeVA, DataAquisicao, DataGarantia, VidaUtilAnos FROM Nobreaks;";
                 using (var cmd = new SQLiteCommand(query, conn))
                 using (var adapter = new SQLiteDataAdapter(cmd))
                 {
@@ -44,8 +44,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                 conn.Open();
 
                 string query = @"
-                    INSERT INTO Nobreaks (Modelo, Localizacao, CapacidadeVA, DataAquisicao, VidaUtilAnos, CicloCargaInicial) 
-                    VALUES (@modelo, @localizacao, @capacidadeVA, @dataAquisicao, @vidaUtilAnos, @cicloCargaInicial);
+                    INSERT INTO Nobreaks (Modelo, Localizacao, CapacidadeVA, DataAquisicao, DataGarantia, VidaUtilAnos, CriadoEm, CriadoPor) 
+                    VALUES (@modelo, @localizacao, @capacidadeVA, @dataAquisicao, @dataGarantia, @vidaUtilAnos, @criadoEm, @criadoPor);
                     ";
 
                 using (var cmd = new SQLiteCommand(query, conn))
@@ -55,7 +55,10 @@ namespace GlobalSolutionNoBreaker.Repositories
                     cmd.Parameters.AddWithValue("@capacidadeVA", nobreak.CapacidadeVA);
                     cmd.Parameters.AddWithValue("@dataAquisicao", nobreak.DataAquisicao.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@vidaUtilAnos", nobreak.VidaUtilAnos);
-                    cmd.Parameters.AddWithValue("@cicloCargaInicial", nobreak.CicloCarga);
+                    cmd.Parameters.AddWithValue("@dataGarantia", nobreak.DataGarantia.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@criadoEm", nobreak.CriadoEm);
+                    cmd.Parameters.AddWithValue("@criadoPor", nobreak.CriadoPor);
+
 
                     cmd.ExecuteNonQuery();
                 }
@@ -85,8 +88,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                                 Localizacao = reader.GetString(2),
                                 CapacidadeVA = reader.GetInt32(3),
                                 DataAquisicao = DateTime.Parse(reader.GetString(4)),
-                                VidaUtilAnos = reader.GetInt32(5),
-                                CicloCarga = reader.GetInt32(6)
+                                DataGarantia = DateTime.Parse(reader.GetString(5)),
+                                VidaUtilAnos = reader.GetInt32(6),
                             };
                         }
                     }
@@ -111,7 +114,53 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
-    }
+        public static void UpdateNobreak(Nobreak nobreak)
+        {
 
+            using (var connection = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
+            {
+                connection.Open();
+                string sqlUpdate = @"UPDATE Nobreaks SET 
+                      Modelo = @Modelo, 
+                      Localizacao = @Localizacao, 
+                      CapacidadeVA = @CapacidadeVA, 
+                      DataAquisicao = @DataAquisicao, 
+                      VidaUtilAnos = @VidaUtilAnos, 
+                      DataGarantia = @DataGarantia 
+                      WHERE Id = @Id";
+
+                using (var command = new SQLiteCommand(sqlUpdate, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", nobreak.Id);
+                    command.Parameters.AddWithValue("@Modelo", nobreak.Modelo);
+                    command.Parameters.AddWithValue("@Localizacao", nobreak.Localizacao);
+                    command.Parameters.AddWithValue("@CapacidadeVA", nobreak.CapacidadeVA);
+                    command.Parameters.AddWithValue("@DataAquisicao", nobreak.DataAquisicao);
+                    command.Parameters.AddWithValue("@VidaUtilAnos", nobreak.VidaUtilAnos);
+                    command.Parameters.AddWithValue("@DataGarantia", nobreak.DataGarantia);
+                    command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
+                    command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
+
+                    command.ExecuteNonQuery();
+
+                }
+
+                string sqlAddWhoWhen = @"UPDATE Nobreaks SET 
+                      AtualizadoPor = @AtualizadoPor, 
+                      AtualizadoEm = @AtualizadoEm
+                      WHERE Id = @Id";
+
+                using (var command = new SQLiteCommand(sqlAddWhoWhen, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", nobreak.Id);
+                    command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
+                    command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
+                    command.ExecuteNonQuery();
+                }
+
+            }
+
+        }
+    }
 }
 

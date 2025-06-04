@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            btnEntrar = new Button();
             label1 = new Label();
-            usuarioTextBox = new TextBox();
+            txtUsuario = new TextBox();
             label2 = new Label();
-            senhaTextBox = new TextBox();
+            txtSenha = new TextBox();
             SuspendLayout();
             // 
-            // button1
+            // btnEntrar
             // 
-            button1.Location = new Point(360, 320);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Entrar";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnEntrar.Location = new Point(360, 320);
+            btnEntrar.Name = "btnEntrar";
+            btnEntrar.Size = new Size(75, 23);
+            btnEntrar.TabIndex = 0;
+            btnEntrar.Text = "Entrar";
+            btnEntrar.UseVisualStyleBackColor = true;
+            btnEntrar.Click += button1_Click;
             // 
             // label1
             // 
@@ -55,12 +55,12 @@
             label1.TabIndex = 1;
             label1.Text = "Usuário";
             // 
-            // usuarioTextBox
+            // txtUsuario
             // 
-            usuarioTextBox.Location = new Point(288, 160);
-            usuarioTextBox.Name = "usuarioTextBox";
-            usuarioTextBox.Size = new Size(272, 23);
-            usuarioTextBox.TabIndex = 2;
+            txtUsuario.Location = new Point(288, 160);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(272, 23);
+            txtUsuario.TabIndex = 2;
             // 
             // label2
             // 
@@ -72,25 +72,25 @@
             label2.TabIndex = 3;
             label2.Text = "Senha";
             // 
-            // senhaTextBox
+            // txtSenha
             // 
-            senhaTextBox.Location = new Point(288, 216);
-            senhaTextBox.Name = "senhaTextBox";
-            senhaTextBox.Size = new Size(272, 23);
-            senhaTextBox.TabIndex = 4;
+            txtSenha.Location = new Point(288, 216);
+            txtSenha.Name = "txtSenha";
+            txtSenha.Size = new Size(272, 23);
+            txtSenha.TabIndex = 4;
             // 
-            // Login
+            // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
             ClientSize = new Size(800, 450);
-            Controls.Add(senhaTextBox);
+            Controls.Add(txtSenha);
             Controls.Add(label2);
-            Controls.Add(usuarioTextBox);
+            Controls.Add(txtUsuario);
             Controls.Add(label1);
-            Controls.Add(button1);
-            Name = "Login";
+            Controls.Add(btnEntrar);
+            Name = "LoginForm";
             Text = "Login";
             ResumeLayout(false);
             PerformLayout();
@@ -98,10 +98,10 @@
 
         #endregion
 
-        private Button button1;
+        private Button btnEntrar;
         private Label label1;
-        private TextBox usuarioTextBox;
+        private TextBox txtUsuario;
         private Label label2;
-        private TextBox senhaTextBox;
+        private TextBox txtSenha;
     }
 }

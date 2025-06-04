@@ -37,14 +37,14 @@
             lblLocal = new Label();
             lblCapacidade = new Label();
             lblAquisicao = new Label();
+            lblGarantia = new Label();
             lblVida = new Label();
-            lblCiclo = new Label();
             txtCapacidade = new TextBox();
             dtpAquisicao = new DateTimePicker();
             txtVida = new TextBox();
-            txtCiclo = new TextBox();
             cmbModelo = new ComboBox();
             cmbLocal = new ComboBox();
+            dtpGarantia = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dgvNobreak).BeginInit();
             SuspendLayout();
             // 
@@ -122,9 +122,9 @@
             lblCapacidade.AutoSize = true;
             lblCapacidade.Location = new Point(24, 360);
             lblCapacidade.Name = "lblCapacidade";
-            lblCapacidade.Size = new Size(69, 15);
+            lblCapacidade.Size = new Size(94, 15);
             lblCapacidade.TabIndex = 7;
-            lblCapacidade.Text = "Capacidade";
+            lblCapacidade.Text = "Capacidade (VA)";
             // 
             // lblAquisicao
             // 
@@ -135,29 +135,30 @@
             lblAquisicao.TabIndex = 8;
             lblAquisicao.Text = "Data de Aquisição";
             // 
+            // lblGarantia
+            // 
+            lblGarantia.AutoSize = true;
+            lblGarantia.Location = new Point(400, 336);
+            lblGarantia.Name = "lblGarantia";
+            lblGarantia.Size = new Size(94, 15);
+            lblGarantia.TabIndex = 9;
+            lblGarantia.Text = "Data da Garantia";
+            lblGarantia.Click += lblVida_Click;
+            // 
             // lblVida
             // 
             lblVida.AutoSize = true;
-            lblVida.Location = new Point(400, 336);
+            lblVida.Location = new Point(400, 376);
             lblVida.Name = "lblVida";
-            lblVida.Size = new Size(101, 15);
-            lblVida.TabIndex = 9;
-            lblVida.Text = "Vida útil Estimada";
-            // 
-            // lblCiclo
-            // 
-            lblCiclo.AutoSize = true;
-            lblCiclo.Location = new Point(400, 368);
-            lblCiclo.Name = "lblCiclo";
-            lblCiclo.Size = new Size(111, 15);
-            lblCiclo.TabIndex = 10;
-            lblCiclo.Text = "Ciclo de carga atual";
+            lblVida.Size = new Size(106, 15);
+            lblVida.TabIndex = 10;
+            lblVida.Text = "Vida util (em anos)";
             // 
             // txtCapacidade
             // 
-            txtCapacidade.Location = new Point(104, 360);
+            txtCapacidade.Location = new Point(120, 360);
             txtCapacidade.Name = "txtCapacidade";
-            txtCapacidade.Size = new Size(184, 23);
+            txtCapacidade.Size = new Size(192, 23);
             txtCapacidade.TabIndex = 14;
             // 
             // dtpAquisicao
@@ -169,17 +170,10 @@
             // 
             // txtVida
             // 
-            txtVida.Location = new Point(512, 336);
+            txtVida.Location = new Point(512, 376);
             txtVida.Name = "txtVida";
             txtVida.Size = new Size(256, 23);
-            txtVida.TabIndex = 17;
-            // 
-            // txtCiclo
-            // 
-            txtCiclo.Location = new Point(512, 376);
-            txtCiclo.Name = "txtCiclo";
-            txtCiclo.Size = new Size(256, 23);
-            txtCiclo.TabIndex = 18;
+            txtVida.TabIndex = 18;
             // 
             // cmbModelo
             // 
@@ -197,20 +191,27 @@
             cmbLocal.Size = new Size(176, 23);
             cmbLocal.TabIndex = 20;
             // 
+            // dtpGarantia
+            // 
+            dtpGarantia.Location = new Point(512, 336);
+            dtpGarantia.Name = "dtpGarantia";
+            dtpGarantia.Size = new Size(256, 23);
+            dtpGarantia.TabIndex = 21;
+            // 
             // NobreakForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(800, 450);
+            Controls.Add(dtpGarantia);
             Controls.Add(cmbLocal);
             Controls.Add(cmbModelo);
-            Controls.Add(txtCiclo);
             Controls.Add(txtVida);
             Controls.Add(dtpAquisicao);
             Controls.Add(txtCapacidade);
-            Controls.Add(lblCiclo);
             Controls.Add(lblVida);
+            Controls.Add(lblGarantia);
             Controls.Add(lblAquisicao);
             Controls.Add(lblCapacidade);
             Controls.Add(lblLocal);
@@ -239,13 +240,13 @@
         private Label lblLocal;
         private Label lblCapacidade;
         private Label lblAquisicao;
+        private Label lblGarantia;
         private Label lblVida;
-        private Label lblCiclo;
         private TextBox txtCapacidade;
         private DateTimePicker dtpAquisicao;
         private TextBox txtVida;
-        private TextBox txtCiclo;
         private ComboBox cmbModelo;
         private ComboBox cmbLocal;
+        private DateTimePicker dtpGarantia;
     }
 }

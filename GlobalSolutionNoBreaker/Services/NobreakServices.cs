@@ -9,44 +9,31 @@ namespace GlobalSolutionNoBreaker.Services
 {
     public class NobreakServices
     {
-        public static void AdicionarNobreak(NobreakDTO dto)
+        public static void AddNobreak(Nobreak nobreak)
         {
-            if (string.IsNullOrWhiteSpace(dto.Modelo))
+            if (string.IsNullOrWhiteSpace(nobreak.Modelo))
                 throw new ArgumentException("Selecione um modelo.");
 
-            if (string.IsNullOrWhiteSpace(dto.Localizacao))
+            if (string.IsNullOrWhiteSpace(nobreak.Localizacao))
                 throw new ArgumentException("Selecione a localização.");
 
-            if (!int.TryParse(dto.CapacidadeVA, out int capacidade) || capacidade <= 0)
+            if (nobreak.CapacidadeVA <= 0)
                 throw new ArgumentException("Informe uma capacidade válida (>0).");
 
-            if (dto.DataAquisicao > DateTime.Today)
+            if (nobreak.DataAquisicao > DateTime.Today)
                 throw new ArgumentException("A data de aquisição não pode ser no futuro.");
 
-            if (!int.TryParse(dto.VidaUtil, out int vidaUtil) || vidaUtil <= 0)
+            if (nobreak.DataGarantia < DateTime.Today)
+                throw new ArgumentException("A data de garantia não pode ser no passado.");
+
+            if (nobreak.VidaUtilAnos <= 0)
                 throw new ArgumentException("Informe uma vida útil válida (>0).");
 
-            int ciclo = 0;
-            if (!string.IsNullOrWhiteSpace(dto.CicloInicial))
-            {
-                if (!int.TryParse(dto.CicloInicial, out ciclo) || ciclo < 0)
-                    throw new ArgumentException("Informe um ciclo de carga inicial válido (≥0).");
-            }
-
-            var nobreak = new Nobreak
-            {
-                Modelo = dto.Modelo,
-                Localizacao = dto.Localizacao,
-                CapacidadeVA = capacidade,
-                DataAquisicao = dto.DataAquisicao,
-                VidaUtilAnos = vidaUtil,
-                CicloCarga = ciclo
-            };
 
             Repositories.NobreakRepository.InsertNobreak(nobreak);
         }
 
-        public static void DeletarNobreak(int id)
+        public static void DeleteNobreak(int id)
         {
          
             try
@@ -63,6 +50,25 @@ namespace GlobalSolutionNoBreaker.Services
             {
                 throw new Exception("Erro ao buscar nobreak: " + ex.Message); 
             }
+        }
+
+        public static void UpdateNobreak(Nobreak nobreak)
+        {
+            if (nobreak.Id <= 0)
+                throw new ArgumentException("ID inválido.");
+            if (string.IsNullOrWhiteSpace(nobreak.Modelo))
+                throw new ArgumentException("Selecione um modelo.");
+            if (string.IsNullOrWhiteSpace(nobreak.Localizacao))
+                throw new ArgumentException("Selecione a localização.");
+            if (nobreak.CapacidadeVA <= 0)
+                throw new ArgumentException("Informe uma capacidade válida (>0).");
+            if (nobreak.DataAquisicao > DateTime.Today)
+                throw new ArgumentException("A data de aquisição não pode ser no futuro.");
+            if (nobreak.DataGarantia < DateTime.Today)
+                throw new ArgumentException("A data de garantia não pode ser no passado.");
+            if (nobreak.VidaUtilAnos <= 0)
+                throw new ArgumentException("Informe uma vida útil válida (>0).");
+            Repositories.NobreakRepository.UpdateNobreak(nobreak);
         }
     }
 }
