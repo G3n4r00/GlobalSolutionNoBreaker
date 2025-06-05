@@ -17,7 +17,7 @@ namespace GlobalSolutionNoBreaker
             //DataDeletion.DeleteDatabase();
             DataMaker.CreateDatabase();
             //Application.Run(new LoginForm());
-            Application.Run(new NobreakForm());
+            Application.Run(new DashboardForm());
         }
     }
 }

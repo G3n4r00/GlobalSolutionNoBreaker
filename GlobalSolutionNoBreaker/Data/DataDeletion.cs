@@ -9,7 +9,7 @@ namespace GlobalSolutionNoBreaker.Data
 {
     public static class DataDeletion
     {
-        private static string GetDatabasePath()
+        public static string GetDatabasePath()
         {
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
