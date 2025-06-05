@@ -38,8 +38,7 @@
             lblAquisicao = new Label();
             dtpAquisicao = new DateTimePicker();
             cmbModelo = new ComboBox();
-            cmbLocal = new ComboBox();
-            hopeComboBox1 = new ReaLTaiizor.Controls.HopeComboBox();
+            cmbLocal = new ReaLTaiizor.Controls.HopeComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvNobreak).BeginInit();
             SuspendLayout();
             // 
@@ -145,24 +144,15 @@
             // 
             // cmbLocal
             // 
+            cmbLocal.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbLocal.FlatStyle = FlatStyle.Flat;
+            cmbLocal.Font = new Font("Segoe UI", 10F);
             cmbLocal.FormattingEnabled = true;
-            cmbLocal.Location = new Point(352, 464);
-            cmbLocal.Margin = new Padding(3, 4, 3, 4);
+            cmbLocal.ItemHeight = 30;
+            cmbLocal.Location = new Point(344, 464);
             cmbLocal.Name = "cmbLocal";
-            cmbLocal.Size = new Size(256, 28);
-            cmbLocal.TabIndex = 20;
-            // 
-            // hopeComboBox1
-            // 
-            hopeComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
-            hopeComboBox1.FlatStyle = FlatStyle.Flat;
-            hopeComboBox1.Font = new Font("Segoe UI", 12F);
-            hopeComboBox1.FormattingEnabled = true;
-            hopeComboBox1.ItemHeight = 30;
-            hopeComboBox1.Location = new Point(680, 488);
-            hopeComboBox1.Name = "hopeComboBox1";
-            hopeComboBox1.Size = new Size(208, 36);
-            hopeComboBox1.TabIndex = 21;
+            cmbLocal.Size = new Size(280, 36);
+            cmbLocal.TabIndex = 21;
             // 
             // NobreakForm
             // 
@@ -170,7 +160,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(914, 600);
-            Controls.Add(hopeComboBox1);
+            //
+            //
             Controls.Add(cmbLocal);
             Controls.Add(cmbModelo);
             Controls.Add(dtpAquisicao);
@@ -204,7 +195,7 @@
         private Label lblAquisicao;
         private DateTimePicker dtpAquisicao;
         private ComboBox cmbModelo;
-        private ComboBox cmbLocal;
-        private ReaLTaiizor.Controls.HopeComboBox hopeComboBox1;
+        //private ComboBox cmbLocal;
+        private ReaLTaiizor.Controls.HopeComboBox cmbLocal;
     }
 }
