@@ -23,6 +23,8 @@ namespace GlobalSolutionNoBreaker.Forms
             InitializeComponent();
             dashboardRepo = new DashboardRepository();
             this.Load += DashboardForm_Load; // Garante que o método seja chamado quando o form carregar
+            dgvNobreaksTroca.BackgroundColor = Color.FromArgb(30, 30, 60); // Fundo azul escuro do DataGridView
+            dgvAlertasRecentes.BackgroundColor = Color.FromArgb(30, 30, 60); // Fundo azul escuro do DataGridView   
         }
 
         private async void DashboardForm_Load(object sender, EventArgs e)
@@ -65,6 +67,7 @@ namespace GlobalSolutionNoBreaker.Forms
             chartStatus.ChartAreas.Clear();
             chartStatus.Legends.Clear();
             chartStatus.BackColor = Color.FromArgb(30, 30, 60); // Fundo azul escuro do gráfico
+            
 
             // Título
             chartStatus.Titles.Add("Status dos Nobreaks");
@@ -125,6 +128,11 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void headerLabel3_Click(object sender, EventArgs e)
         {
 
         }

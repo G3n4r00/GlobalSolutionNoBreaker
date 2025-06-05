@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             panAtivos = new Panel();
-            lblValorAtivos = new Label();
-            lblTituloAtivos = new Label();
             panel1 = new Panel();
-            lblValorIncidentes = new Label();
-            lblTituloIncidentes = new Label();
             panel2 = new Panel();
-            lblValorCritico = new Label();
-            lblTituloCritico = new Label();
             lblTituloTroca = new Label();
             dgvNobreaksTroca = new DataGridView();
             lblTituloIncidentesRecentes = new Label();
             dgvAlertasRecentes = new DataGridView();
             panel3 = new Panel();
-            lblValorManutencao = new Label();
-            label2 = new Label();
             chartStatus = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
+            lblValorAtivos = new ReaLTaiizor.Controls.HeaderLabel();
+            headerLabel2 = new ReaLTaiizor.Controls.HeaderLabel();
+            lblValorIncidentes = new ReaLTaiizor.Controls.HeaderLabel();
+            headerLabel3 = new ReaLTaiizor.Controls.HeaderLabel();
+            lblValorCritico = new ReaLTaiizor.Controls.HeaderLabel();
+            headerLabel4 = new ReaLTaiizor.Controls.HeaderLabel();
+            lblValorManutencao = new ReaLTaiizor.Controls.HeaderLabel();
+            smallLabel1 = new ReaLTaiizor.Controls.SmallLabel();
             panAtivos.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -61,88 +62,34 @@
             // 
             panAtivos.BackColor = SystemColors.ControlDarkDark;
             panAtivos.Controls.Add(lblValorAtivos);
-            panAtivos.Controls.Add(lblTituloAtivos);
+            panAtivos.Controls.Add(headerLabel1);
             panAtivos.Location = new Point(24, 40);
             panAtivos.Margin = new Padding(3, 4, 3, 4);
             panAtivos.Name = "panAtivos";
             panAtivos.Size = new Size(230, 180);
             panAtivos.TabIndex = 0;
             // 
-            // lblValorAtivos
-            // 
-            lblValorAtivos.AutoSize = true;
-            lblValorAtivos.Location = new Point(64, 88);
-            lblValorAtivos.Name = "lblValorAtivos";
-            lblValorAtivos.Size = new Size(17, 20);
-            lblValorAtivos.TabIndex = 1;
-            lblValorAtivos.Text = "0";
-            // 
-            // lblTituloAtivos
-            // 
-            lblTituloAtivos.AutoSize = true;
-            lblTituloAtivos.Location = new Point(40, 32);
-            lblTituloAtivos.Name = "lblTituloAtivos";
-            lblTituloAtivos.Size = new Size(92, 20);
-            lblTituloAtivos.TabIndex = 0;
-            lblTituloAtivos.Text = "Titulo Ativos";
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlDarkDark;
             panel1.Controls.Add(lblValorIncidentes);
-            panel1.Controls.Add(lblTituloIncidentes);
+            panel1.Controls.Add(headerLabel2);
             panel1.Location = new Point(280, 40);
             panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
             panel1.Size = new Size(230, 180);
             panel1.TabIndex = 1;
             // 
-            // lblValorIncidentes
-            // 
-            lblValorIncidentes.AutoSize = true;
-            lblValorIncidentes.Location = new Point(80, 88);
-            lblValorIncidentes.Name = "lblValorIncidentes";
-            lblValorIncidentes.Size = new Size(17, 20);
-            lblValorIncidentes.TabIndex = 1;
-            lblValorIncidentes.Text = "0";
-            // 
-            // lblTituloIncidentes
-            // 
-            lblTituloIncidentes.AutoSize = true;
-            lblTituloIncidentes.Location = new Point(32, 32);
-            lblTituloIncidentes.Name = "lblTituloIncidentes";
-            lblTituloIncidentes.Size = new Size(118, 20);
-            lblTituloIncidentes.TabIndex = 0;
-            lblTituloIncidentes.Text = "Titulo Incidentes";
-            // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ControlDarkDark;
             panel2.Controls.Add(lblValorCritico);
-            panel2.Controls.Add(lblTituloCritico);
+            panel2.Controls.Add(headerLabel3);
             panel2.Location = new Point(544, 40);
             panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(230, 180);
+            panel2.Size = new Size(232, 180);
             panel2.TabIndex = 2;
-            // 
-            // lblValorCritico
-            // 
-            lblValorCritico.AutoSize = true;
-            lblValorCritico.Location = new Point(64, 75);
-            lblValorCritico.Name = "lblValorCritico";
-            lblValorCritico.Size = new Size(17, 20);
-            lblValorCritico.TabIndex = 1;
-            lblValorCritico.Text = "0";
-            // 
-            // lblTituloCritico
-            // 
-            lblTituloCritico.AutoSize = true;
-            lblTituloCritico.Location = new Point(55, 32);
-            lblTituloCritico.Name = "lblTituloCritico";
-            lblTituloCritico.Size = new Size(143, 20);
-            lblTituloCritico.TabIndex = 0;
-            lblTituloCritico.Text = "Titulo Estado Critico";
             // 
             // lblTituloTroca
             // 
@@ -156,6 +103,7 @@
             // dgvNobreaksTroca
             // 
             dgvNobreaksTroca.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvNobreaksTroca.BackgroundColor = SystemColors.MenuText;
             dgvNobreaksTroca.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvNobreaksTroca.Location = new Point(24, 560);
             dgvNobreaksTroca.Margin = new Padding(3, 4, 3, 4);
@@ -185,51 +133,143 @@
             // panel3
             // 
             panel3.BackColor = SystemColors.ControlDarkDark;
+            panel3.Controls.Add(smallLabel1);
             panel3.Controls.Add(lblValorManutencao);
-            panel3.Controls.Add(label2);
+            panel3.Controls.Add(headerLabel4);
             panel3.Location = new Point(816, 40);
             panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(230, 180);
+            panel3.Size = new Size(232, 180);
             panel3.TabIndex = 7;
             panel3.Paint += panel3_Paint;
+            // 
+            // chartStatus
+            // 
+            chartArea4.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea4.Name = "ChartArea1";
+            chartStatus.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            chartStatus.Legends.Add(legend4);
+            chartStatus.Location = new Point(24, 235);
+            chartStatus.Margin = new Padding(3, 4, 3, 4);
+            chartStatus.Name = "chartStatus";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            chartStatus.Series.Add(series4);
+            chartStatus.Size = new Size(1024, 277);
+            chartStatus.TabIndex = 8;
+            chartStatus.Text = "chart1";
+            // 
+            // headerLabel1
+            // 
+            headerLabel1.AutoSize = true;
+            headerLabel1.BackColor = Color.Transparent;
+            headerLabel1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            headerLabel1.ForeColor = Color.FromArgb(255, 255, 255);
+            headerLabel1.Location = new Point(48, 32);
+            headerLabel1.Name = "headerLabel1";
+            headerLabel1.Size = new Size(139, 20);
+            headerLabel1.TabIndex = 2;
+            headerLabel1.Text = "Nobreaks Ativos";
+            // 
+            // lblValorAtivos
+            // 
+            lblValorAtivos.AutoSize = true;
+            lblValorAtivos.BackColor = Color.Transparent;
+            lblValorAtivos.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold);
+            lblValorAtivos.ForeColor = Color.FromArgb(255, 255, 255);
+            lblValorAtivos.Location = new Point(96, 96);
+            lblValorAtivos.Name = "lblValorAtivos";
+            lblValorAtivos.Size = new Size(36, 37);
+            lblValorAtivos.TabIndex = 3;
+            lblValorAtivos.Text = "0";
+            // 
+            // headerLabel2
+            // 
+            headerLabel2.AutoSize = true;
+            headerLabel2.BackColor = Color.Transparent;
+            headerLabel2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            headerLabel2.ForeColor = Color.FromArgb(255, 255, 255);
+            headerLabel2.Location = new Point(48, 32);
+            headerLabel2.Name = "headerLabel2";
+            headerLabel2.Size = new Size(135, 20);
+            headerLabel2.TabIndex = 2;
+            headerLabel2.Text = "Incidentes Hoje";
+            // 
+            // lblValorIncidentes
+            // 
+            lblValorIncidentes.AutoSize = true;
+            lblValorIncidentes.BackColor = Color.Transparent;
+            lblValorIncidentes.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold);
+            lblValorIncidentes.ForeColor = Color.FromArgb(255, 255, 255);
+            lblValorIncidentes.Location = new Point(96, 96);
+            lblValorIncidentes.Name = "lblValorIncidentes";
+            lblValorIncidentes.Size = new Size(36, 37);
+            lblValorIncidentes.TabIndex = 3;
+            lblValorIncidentes.Text = "0";
+            // 
+            // headerLabel3
+            // 
+            headerLabel3.AutoSize = true;
+            headerLabel3.BackColor = Color.Transparent;
+            headerLabel3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            headerLabel3.ForeColor = Color.FromArgb(255, 255, 255);
+            headerLabel3.Location = new Point(0, 32);
+            headerLabel3.Name = "headerLabel3";
+            headerLabel3.Size = new Size(232, 20);
+            headerLabel3.TabIndex = 3;
+            headerLabel3.Text = "Nobreaks em Estado Crítico";
+            headerLabel3.Click += headerLabel3_Click;
+            // 
+            // lblValorCritico
+            // 
+            lblValorCritico.AutoSize = true;
+            lblValorCritico.BackColor = Color.Transparent;
+            lblValorCritico.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold);
+            lblValorCritico.ForeColor = Color.FromArgb(255, 255, 255);
+            lblValorCritico.Location = new Point(88, 96);
+            lblValorCritico.Name = "lblValorCritico";
+            lblValorCritico.Size = new Size(36, 37);
+            lblValorCritico.TabIndex = 4;
+            lblValorCritico.Text = "0";
+            // 
+            // headerLabel4
+            // 
+            headerLabel4.AutoSize = true;
+            headerLabel4.BackColor = Color.Transparent;
+            headerLabel4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            headerLabel4.ForeColor = Color.FromArgb(255, 255, 255);
+            headerLabel4.Location = new Point(0, 32);
+            headerLabel4.Name = "headerLabel4";
+            headerLabel4.Size = new Size(230, 20);
+            headerLabel4.TabIndex = 4;
+            headerLabel4.Text = "Nobreaks para Manutenção";
             // 
             // lblValorManutencao
             // 
             lblValorManutencao.AutoSize = true;
-            lblValorManutencao.Location = new Point(64, 75);
+            lblValorManutencao.BackColor = Color.Transparent;
+            lblValorManutencao.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold);
+            lblValorManutencao.ForeColor = Color.FromArgb(255, 255, 255);
+            lblValorManutencao.Location = new Point(88, 96);
             lblValorManutencao.Name = "lblValorManutencao";
-            lblValorManutencao.Size = new Size(17, 20);
-            lblValorManutencao.TabIndex = 1;
+            lblValorManutencao.Size = new Size(36, 37);
+            lblValorManutencao.TabIndex = 5;
             lblValorManutencao.Text = "0";
             // 
-            // label2
+            // smallLabel1
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(55, 32);
-            label2.Name = "label2";
-            label2.Size = new Size(192, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Titulo Quantos Manutencao";
-            // 
-            // chartStatus
-            // 
-            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
-            chartArea1.Name = "ChartArea1";
-            chartStatus.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chartStatus.Legends.Add(legend1);
-            chartStatus.Location = new Point(24, 235);
-            chartStatus.Margin = new Padding(3, 4, 3, 4);
-            chartStatus.Name = "chartStatus";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chartStatus.Series.Add(series1);
-            chartStatus.Size = new Size(1024, 277);
-            chartStatus.TabIndex = 8;
-            chartStatus.Text = "chart1";
+            smallLabel1.AutoSize = true;
+            smallLabel1.BackColor = Color.Transparent;
+            smallLabel1.Font = new Font("Segoe UI", 8F);
+            smallLabel1.ForeColor = Color.White;
+            smallLabel1.Location = new Point(64, 160);
+            smallLabel1.Name = "smallLabel1";
+            smallLabel1.Size = new Size(93, 13);
+            smallLabel1.TabIndex = 6;
+            smallLabel1.Text = "próximos 30 dias";
             // 
             // DashboardForm
             // 
@@ -267,21 +307,22 @@
         #endregion
 
         private Panel panAtivos;
-        private Label lblValorAtivos;
-        private Label lblTituloAtivos;
         private Panel panel1;
-        private Label lblValorIncidentes;
-        private Label lblTituloIncidentes;
         private Panel panel2;
-        private Label lblValorCritico;
-        private Label lblTituloCritico;
         private Label lblTituloTroca;
         private DataGridView dgvNobreaksTroca;
         private Label lblTituloIncidentesRecentes;
         private DataGridView dgvAlertasRecentes;
         private Panel panel3;
-        private Label lblValorManutencao;
-        private Label label2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartStatus;
+        private ReaLTaiizor.Controls.HeaderLabel lblValorAtivos;
+        private ReaLTaiizor.Controls.HeaderLabel headerLabel1;
+        private ReaLTaiizor.Controls.HeaderLabel headerLabel2;
+        private ReaLTaiizor.Controls.HeaderLabel lblValorIncidentes;
+        private ReaLTaiizor.Controls.HeaderLabel headerLabel3;
+        private ReaLTaiizor.Controls.HeaderLabel lblValorCritico;
+        private ReaLTaiizor.Controls.SmallLabel smallLabel1;
+        private ReaLTaiizor.Controls.HeaderLabel lblValorManutencao;
+        private ReaLTaiizor.Controls.HeaderLabel headerLabel4;
     }
 }
