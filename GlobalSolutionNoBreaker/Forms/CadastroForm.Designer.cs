@@ -32,84 +32,99 @@
             txtEmail = new TextBox();
             lblSenha = new Label();
             txtSenha = new TextBox();
-            btnConfirma = new Button();
-            btnVoltar = new Button();
-            button1 = new Button();
+            btnConfirmarCadastro = new ReaLTaiizor.Controls.HopeRoundButton();
+            btnVoltarCadastro = new ReaLTaiizor.Controls.HopeRoundButton();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(128, 120);
+            label1.Location = new Point(160, 256);
             label1.Name = "label1";
-            label1.Size = new Size(36, 15);
+            label1.Size = new Size(46, 20);
             label1.TabIndex = 0;
             label1.Text = "Email";
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(208, 120);
+            txtEmail.Location = new Point(256, 256);
+            txtEmail.Margin = new Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(304, 23);
+            txtEmail.Size = new Size(416, 27);
             txtEmail.TabIndex = 1;
             // 
             // lblSenha
             // 
             lblSenha.AutoSize = true;
-            lblSenha.Location = new Point(128, 216);
+            lblSenha.Location = new Point(160, 352);
             lblSenha.Name = "lblSenha";
-            lblSenha.Size = new Size(39, 15);
+            lblSenha.Size = new Size(49, 20);
             lblSenha.TabIndex = 2;
             lblSenha.Text = "Senha";
             // 
             // txtSenha
             // 
-            txtSenha.Location = new Point(200, 216);
+            txtSenha.Location = new Point(248, 352);
+            txtSenha.Margin = new Padding(3, 4, 3, 4);
             txtSenha.Name = "txtSenha";
             txtSenha.PasswordChar = '*';
-            txtSenha.Size = new Size(312, 23);
+            txtSenha.Size = new Size(416, 27);
             txtSenha.TabIndex = 3;
             // 
-            // btnConfirma
+            // btnConfirmarCadastro
             // 
-            btnConfirma.Location = new Point(112, 376);
-            btnConfirma.Name = "btnConfirma";
-            btnConfirma.Size = new Size(75, 23);
-            btnConfirma.TabIndex = 4;
-            btnConfirma.Text = "Confirmar";
-            btnConfirma.UseVisualStyleBackColor = true;
-            btnConfirma.Click += btnConfirma_Click;
+            btnConfirmarCadastro.BorderColor = Color.FromArgb(220, 223, 230);
+            btnConfirmarCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
+            btnConfirmarCadastro.DangerColor = Color.FromArgb(245, 108, 108);
+            btnConfirmarCadastro.DefaultColor = Color.FromArgb(255, 255, 255);
+            btnConfirmarCadastro.Font = new Font("Segoe UI", 12F);
+            btnConfirmarCadastro.HoverTextColor = Color.FromArgb(48, 49, 51);
+            btnConfirmarCadastro.InfoColor = Color.FromArgb(144, 147, 153);
+            btnConfirmarCadastro.Location = new Point(80, 496);
+            btnConfirmarCadastro.Name = "btnConfirmarCadastro";
+            btnConfirmarCadastro.PrimaryColor = Color.FromArgb(64, 158, 255);
+            btnConfirmarCadastro.Size = new Size(190, 40);
+            btnConfirmarCadastro.SuccessColor = Color.FromArgb(103, 194, 58);
+            btnConfirmarCadastro.TabIndex = 7;
+            btnConfirmarCadastro.Text = "Confirmar";
+            btnConfirmarCadastro.TextColor = Color.White;
+            btnConfirmarCadastro.WarningColor = Color.FromArgb(230, 162, 60);
+            btnConfirmarCadastro.Click += btnConfirmarCadastro_Click;
             // 
-            // btnVoltar
+            // btnVoltarCadastro
             // 
-            btnVoltar.Location = new Point(0, 0);
-            btnVoltar.Name = "btnVoltar";
-            btnVoltar.Size = new Size(75, 23);
-            btnVoltar.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(496, 384);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 5;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnVoltarCadastro.BorderColor = Color.FromArgb(220, 223, 230);
+            btnVoltarCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
+            btnVoltarCadastro.DangerColor = Color.FromArgb(245, 108, 108);
+            btnVoltarCadastro.DefaultColor = Color.FromArgb(255, 255, 255);
+            btnVoltarCadastro.Font = new Font("Segoe UI", 12F);
+            btnVoltarCadastro.HoverTextColor = Color.FromArgb(48, 49, 51);
+            btnVoltarCadastro.InfoColor = Color.FromArgb(144, 147, 153);
+            btnVoltarCadastro.Location = new Point(560, 496);
+            btnVoltarCadastro.Name = "btnVoltarCadastro";
+            btnVoltarCadastro.PrimaryColor = Color.FromArgb(64, 158, 255);
+            btnVoltarCadastro.Size = new Size(190, 40);
+            btnVoltarCadastro.SuccessColor = Color.FromArgb(103, 194, 58);
+            btnVoltarCadastro.TabIndex = 8;
+            btnVoltarCadastro.Text = "Voltar";
+            btnVoltarCadastro.TextColor = Color.White;
+            btnVoltarCadastro.WarningColor = Color.FromArgb(230, 162, 60);
+            btnVoltarCadastro.Click += this.hopeRoundButton1_Click;
             // 
             // CadastroForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
-            Controls.Add(button1);
-            Controls.Add(btnVoltar);
-            Controls.Add(btnConfirma);
+            ClientSize = new Size(914, 600);
+            Controls.Add(btnVoltarCadastro);
+            Controls.Add(btnConfirmarCadastro);
             Controls.Add(txtSenha);
             Controls.Add(lblSenha);
             Controls.Add(txtEmail);
             Controls.Add(label1);
+            Margin = new Padding(3, 5, 3, 5);
+            MinimumSize = new Size(518, 503);
             Name = "CadastroForm";
             Text = "Cadastro";
             ResumeLayout(false);
@@ -122,8 +137,7 @@
         private TextBox txtEmail;
         private Label lblSenha;
         private TextBox txtSenha;
-        private Button btnConfirma;
-        private Button btnVoltar;
-        private Button button1;
+        private ReaLTaiizor.Controls.HopeRoundButton btnConfirmarCadastro;
+        private ReaLTaiizor.Controls.HopeRoundButton btnVoltarCadastro;
     }
 }

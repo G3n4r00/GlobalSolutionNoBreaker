@@ -17,13 +17,8 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             InitializeComponent();
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            LoginForm form = new LoginForm();
-            form.Show();
-        }
-        private void btnConfirma_Click(object sender, EventArgs e)
+
+        private void btnConfirmarCadastro_Click(object sender, EventArgs e)
         {
             Usuario usuario = new Usuario
             {
@@ -48,13 +43,21 @@ namespace GlobalSolutionNoBreaker.Forms
                 Services.UsuarioServices.AddUsuario(usuario);
                 MessageBox.Show("Usuário cadastrado com sucesso!");
                 this.Hide();
-                LoginForm form = new LoginForm();
-                form.Show();
+                //LoginForm form = new LoginForm();
+                //form.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao cadastrar usuário: " + ex.Message);
             }
+
+        }
+
+        private void hopeRoundButton1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            //LoginForm form = new LoginForm();
+            //form.Show();
         }
     }
 }

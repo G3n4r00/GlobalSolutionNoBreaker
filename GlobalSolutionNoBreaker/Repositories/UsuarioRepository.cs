@@ -72,7 +72,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection($"Data Source={NobreakRepository.DbPath};Version=3;"))
                 {
                     connection.Open();
-                    string sql = "SELECT PasswordHash FROM Usuarios WHERE Email = @Email";
+                    string sql = "SELECT senhaHash FROM Usuarios WHERE Email = @Email";
 
                     using (var command = new SQLiteCommand(sql, connection))
                     {

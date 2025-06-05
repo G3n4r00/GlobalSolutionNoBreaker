@@ -1,6 +1,6 @@
 ﻿namespace GlobalSolutionNoBreaker.Forms
 {
-    partial class BaseForm
+    partial class BaseIntroForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(225)))), ((int)(((byte)(236)))));
-            this.ClientSize = new System.Drawing.Size(900, 680);
+            this.ClientSize = new System.Drawing.Size(740, 500);
             this.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "BaseForm";

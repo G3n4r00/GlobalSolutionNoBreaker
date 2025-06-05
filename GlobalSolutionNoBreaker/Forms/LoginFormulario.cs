@@ -12,20 +12,20 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class LoginForm : BaseForm
+    public partial class LoginFormulario : BaseIntroForm
     {
-        public LoginForm()
+        public LoginFormulario()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnEntrarLogin_Click(object sender, EventArgs e)
         {
 
             Usuario usuario = new Usuario
             {
-                Email = txtEmail.Text,
-                HashSenha = txtSenha.Text
+                Email = txtEmailLogin.Text,
+                HashSenha = txtSenhaLogin.Text
             };
             try
             {
@@ -47,15 +47,9 @@ namespace GlobalSolutionNoBreaker.Forms
             {
                 MessageBox.Show("Erro ao fazer login: " + ex.Message);
             }
-
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnCadastro_Click(object sender, EventArgs e)
+        private void btnCadastrarLogin_Click(object sender, EventArgs e)
         {
             this.Hide();
             CadastroForm form = new CadastroForm();
