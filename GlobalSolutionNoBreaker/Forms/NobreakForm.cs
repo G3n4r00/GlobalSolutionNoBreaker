@@ -171,6 +171,7 @@ namespace GlobalSolutionNoBreaker.Forms
             cmbLocal.Items.AddRange(new string[] { "UTI", "Centro Cirúrgico", "Radiologia", "Emergência", "TI", "Farmácia", "Laboratório de Análise", "Sala do Servidor" });
 
             dtpAquisicao.MaxDate = DateTime.Today;
+            CarregarNobreaksGrid();
         }
 
         private void dgvNobreak_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

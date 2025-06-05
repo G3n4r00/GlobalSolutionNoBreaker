@@ -39,6 +39,7 @@
             headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
             headerLabel2 = new ReaLTaiizor.Controls.HeaderLabel();
             headerLabel3 = new ReaLTaiizor.Controls.HeaderLabel();
+            foxBigLabel1 = new ReaLTaiizor.Controls.FoxBigLabel();
             ((System.ComponentModel.ISupportInitialize)dgvNobreak).BeginInit();
             SuspendLayout();
             // 
@@ -46,20 +47,20 @@
             // 
             dgvNobreak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNobreak.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNobreak.Location = new Point(9, 11);
+            dgvNobreak.Location = new Point(24, 56);
             dgvNobreak.Margin = new Padding(3, 4, 3, 4);
             dgvNobreak.Name = "dgvNobreak";
-            dgvNobreak.Size = new Size(895, 373);
+            dgvNobreak.Size = new Size(864, 328);
             dgvNobreak.TabIndex = 0;
             dgvNobreak.CellContentClick += dataGridView1_CellContentClick;
             dgvNobreak.CellDoubleClick += dgvNobreak_CellDoubleClick;
             // 
             // dtpAquisicao
             // 
-            dtpAquisicao.Location = new Point(600, 416);
+            dtpAquisicao.Location = new Point(320, 400);
             dtpAquisicao.Margin = new Padding(3, 4, 3, 4);
             dtpAquisicao.Name = "dtpAquisicao";
-            dtpAquisicao.Size = new Size(292, 27);
+            dtpAquisicao.Size = new Size(312, 27);
             dtpAquisicao.TabIndex = 16;
             // 
             // cmbLocal
@@ -68,11 +69,11 @@
             cmbLocal.FlatStyle = FlatStyle.Flat;
             cmbLocal.Font = new Font("Segoe UI", 10F);
             cmbLocal.FormattingEnabled = true;
-            cmbLocal.ItemHeight = 24;
-            cmbLocal.Location = new Point(296, 488);
+            cmbLocal.ItemHeight = 20;
+            cmbLocal.Location = new Point(632, 464);
             cmbLocal.Name = "cmbLocal";
-            cmbLocal.Size = new Size(328, 30);
-            cmbLocal.TabIndex = 21;
+            cmbLocal.Size = new Size(248, 26);
+            cmbLocal.TabIndex = 20;
             // 
             // cmbModelo
             // 
@@ -80,10 +81,10 @@
             cmbModelo.FlatStyle = FlatStyle.Flat;
             cmbModelo.Font = new Font("Segoe UI", 10F);
             cmbModelo.FormattingEnabled = true;
-            cmbModelo.ItemHeight = 24;
-            cmbModelo.Location = new Point(120, 416);
+            cmbModelo.ItemHeight = 20;
+            cmbModelo.Location = new Point(112, 464);
             cmbModelo.Name = "cmbModelo";
-            cmbModelo.Size = new Size(280, 30);
+            cmbModelo.Size = new Size(256, 26);
             cmbModelo.TabIndex = 22;
             // 
             // btnVoltarNobreak
@@ -166,11 +167,11 @@
             // 
             headerLabel1.AutoSize = true;
             headerLabel1.BackColor = Color.Transparent;
-            headerLabel1.Font = new Font("Microsoft Sans Serif", 11F, FontStyle.Bold);
+            headerLabel1.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold);
             headerLabel1.ForeColor = Color.FromArgb(255, 255, 255);
-            headerLabel1.Location = new Point(128, 496);
+            headerLabel1.Location = new Point(432, 464);
             headerLabel1.Name = "headerLabel1";
-            headerLabel1.Size = new Size(154, 18);
+            headerLabel1.Size = new Size(187, 24);
             headerLabel1.TabIndex = 27;
             headerLabel1.Text = "Localização Física:";
             // 
@@ -178,11 +179,11 @@
             // 
             headerLabel2.AutoSize = true;
             headerLabel2.BackColor = Color.Transparent;
-            headerLabel2.Font = new Font("Microsoft Sans Serif", 11F, FontStyle.Bold);
+            headerLabel2.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold);
             headerLabel2.ForeColor = Color.FromArgb(255, 255, 255);
-            headerLabel2.Location = new Point(32, 424);
+            headerLabel2.Location = new Point(24, 464);
             headerLabel2.Name = "headerLabel2";
-            headerLabel2.Size = new Size(69, 18);
+            headerLabel2.Size = new Size(86, 24);
             headerLabel2.TabIndex = 28;
             headerLabel2.Text = "Modelo:";
             // 
@@ -190,13 +191,26 @@
             // 
             headerLabel3.AutoSize = true;
             headerLabel3.BackColor = Color.Transparent;
-            headerLabel3.Font = new Font("Microsoft Sans Serif", 11F, FontStyle.Bold);
+            headerLabel3.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold);
             headerLabel3.ForeColor = Color.FromArgb(255, 255, 255);
-            headerLabel3.Location = new Point(464, 424);
+            headerLabel3.Location = new Point(152, 400);
             headerLabel3.Name = "headerLabel3";
-            headerLabel3.Size = new Size(126, 18);
+            headerLabel3.Size = new Size(155, 24);
             headerLabel3.TabIndex = 29;
             headerLabel3.Text = "Data Aquisição:";
+            // 
+            // foxBigLabel1
+            // 
+            foxBigLabel1.BackColor = Color.Transparent;
+            foxBigLabel1.Font = new Font("Segoe UI Semibold", 20F);
+            foxBigLabel1.ForeColor = Color.FromArgb(76, 88, 100);
+            foxBigLabel1.Line = ReaLTaiizor.Controls.FoxBigLabel.Direction.Bottom;
+            foxBigLabel1.LineColor = Color.FromArgb(200, 200, 200);
+            foxBigLabel1.Location = new Point(24, 8);
+            foxBigLabel1.Name = "foxBigLabel1";
+            foxBigLabel1.Size = new Size(272, 41);
+            foxBigLabel1.TabIndex = 30;
+            foxBigLabel1.Text = "Registro de Nobreaks";
             // 
             // NobreakForm
             // 
@@ -204,6 +218,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(914, 600);
+            Controls.Add(foxBigLabel1);
             Controls.Add(headerLabel3);
             Controls.Add(headerLabel2);
             Controls.Add(headerLabel1);
@@ -239,5 +254,6 @@
         private ReaLTaiizor.Controls.HeaderLabel headerLabel1;
         private ReaLTaiizor.Controls.HeaderLabel headerLabel2;
         private ReaLTaiizor.Controls.HeaderLabel headerLabel3;
+        private ReaLTaiizor.Controls.FoxBigLabel foxBigLabel1;
     }
 }

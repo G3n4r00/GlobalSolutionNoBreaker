@@ -29,7 +29,7 @@ namespace GlobalSolutionNoBreaker.Services
 
         public static void DeleteNobreak(int id)
         {
-         
+
             try
             {
                 var nobreak = Repositories.NobreakRepository.GetNobreakById(id);
@@ -42,7 +42,7 @@ namespace GlobalSolutionNoBreaker.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao buscar nobreak: " + ex.Message); 
+                throw new Exception("Erro ao buscar nobreak: " + ex.Message);
             }
         }
 
@@ -57,6 +57,16 @@ namespace GlobalSolutionNoBreaker.Services
             if (nobreak.DataAquisicao > DateTime.Today)
                 throw new ArgumentException("A data de aquisição não pode ser no futuro.");
             Repositories.NobreakRepository.UpdateNobreak(nobreak);
+        }
+
+        public static void RegistroManutencao(Nobreak nobreak)
+        {
+            if (nobreak.Id <= 0)
+                throw new ArgumentException("ID inválido.");
+            if (string.IsNullOrWhiteSpace(nobreak.StatusOperacional))
+                throw new ArgumentException("Selecione Status valido.");
+            Repositories.NobreakRepository.RegistroNobreakManutencao(nobreak);
+
         }
     }
 }

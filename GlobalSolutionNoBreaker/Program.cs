@@ -18,7 +18,7 @@ namespace GlobalSolutionNoBreaker
             DataMaker.CreateDatabase();
             //DataPopulator.Populate(); // Popula o banco de dados com dados iniciais
             //Application.Run(new LoginForm());
-            Application.Run(new DashboardForm());
+            Application.Run(new ManutencaoForm());
         }
     }
 }

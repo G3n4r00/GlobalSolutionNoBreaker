@@ -41,6 +41,59 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dt;
         }
 
+        public static DataTable GetAllNobreaksManutencao()
+        {
+            var dt = new DataTable();
+
+            using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
+            {
+                conn.Open();
+
+                string query = @"SELECT N.Id, M.Nome, N.StatusOperacional, N.Localizacao, M.CapacidadeVa, N.DataUltimaManutencao
+                FROM Nobreaks N 
+                INNER JOIN Modelos M ON N.ModeloId = M.Id";
+
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                using (var adapter = new SQLiteDataAdapter(cmd))
+                {
+                    adapter.Fill(dt);
+                }
+
+                conn.Close();
+            }
+
+            return dt;
+        }
+
+        public static void RegistroNobreakManutencao(Nobreak nobreak)
+        {
+
+            using (var connection = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
+            {
+                connection.Open();
+                string sqlUpdate = @"UPDATE Nobreaks SET 
+                      DataUltimaManutencao = @DataUltimaManutencao, 
+                      StatusOperacional = @StatusOperacional, 
+                      AtualizadoPor = @AtualizadoPor, 
+                      AtualizadoEm = @AtualizadoEm
+                      WHERE Id = @Id";
+
+                using (var command = new SQLiteCommand(sqlUpdate, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", nobreak.Id);
+                    command.Parameters.AddWithValue("@DataUltimaManutencao", nobreak.DataUltimaManutencao);
+                    command.Parameters.AddWithValue("@StatusOperacional", nobreak.StatusOperacional);
+                    command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
+                    command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
+
+                    command.ExecuteNonQuery();
+
+                }
+            }
+
+        }
+
         public static void InsertNobreak(Nobreak nobreak)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
