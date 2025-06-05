@@ -24,7 +24,11 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
-                string query = "SELECT Id, ModeloId, Localizacao DataAquisicao, DataGarantia FROM Nobreaks;";
+                string query = @"SELECT N.Id, M.Nome, N.Localizacao, M.CapacidadeVa, N.DataAquisicao, N.DataGarantia,  M.VidaUtilAnos
+                FROM Nobreaks N 
+                INNER JOIN Modelos M ON N.ModeloId = M.Id";
+
+
                 using (var cmd = new SQLiteCommand(query, conn))
                 using (var adapter = new SQLiteDataAdapter(cmd))
                 {
@@ -43,19 +47,47 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
+                // Buscar dados do modelo
+                string modeloQuery = "SELECT TempodeGarantia, TempoTrocaBateria FROM Modelos WHERE Id = @modeloId";
+                int tempoGarantiaAnos = 0;
+                int tempoTrocaBateriaAnos = 0;
+
+                using (var cmdModelo = new SQLiteCommand(modeloQuery, conn))
+                {
+                    cmdModelo.Parameters.AddWithValue("@modeloId", nobreak.ModeloId); // precisa garantir que ModeloId esteja definido
+
+                    using (var reader = cmdModelo.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            tempoGarantiaAnos = reader.GetInt32(0); // TempodeGarantia
+                            int trocaAnos = reader.GetInt32(1);     // TempoTrocaBateria
+                        }
+                    }
+                }
+
+                // Calcular datas
+                nobreak.DataGarantia = nobreak.DataAquisicao.AddYears(tempoGarantiaAnos);
+                nobreak.ProximaTrocaBateria = nobreak.DataAquisicao.AddYears(tempoTrocaBateriaAnos);
+
+
                 string query = @"
-                    INSERT INTO Nobreaks (Modelo, Localizacao, CapacidadeVA, DataAquisicao, DataGarantia, VidaUtilAnos, CriadoEm, CriadoPor) 
-                    VALUES (@modelo, @localizacao, @capacidadeVA, @dataAquisicao, @dataGarantia, @vidaUtilAnos, @criadoEm, @criadoPor);
-                    ";
+                    INSERT INTO Nobreaks (
+                        ModeloId, Localizacao, DataAquisicao, DataGarantia,
+                        ProximaTrocaBateria, CriadoEm, CriadoPor
+                    ) VALUES (
+                        @modeloId, @localizacao, @dataAquisicao, @dataGarantia,
+                        @proximaTroca, @criadoEm, @criadoPor
+                    );
+                ";
 
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@modelo", nobreak.Modelo);
+                    cmd.Parameters.AddWithValue("@modeloId", nobreak.ModeloId);
                     cmd.Parameters.AddWithValue("@localizacao", nobreak.Localizacao);
-                    cmd.Parameters.AddWithValue("@capacidadeVA", nobreak.CapacidadeVA);
                     cmd.Parameters.AddWithValue("@dataAquisicao", nobreak.DataAquisicao.ToString("yyyy-MM-dd"));
-                    cmd.Parameters.AddWithValue("@vidaUtilAnos", nobreak.VidaUtilAnos);
-                    cmd.Parameters.AddWithValue("@dataGarantia", nobreak.DataGarantia.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@dataGarantia", nobreak.DataGarantia?.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@proximaTroca", nobreak.ProximaTrocaBateria?.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@criadoEm", nobreak.CriadoEm);
                     cmd.Parameters.AddWithValue("@criadoPor", nobreak.CriadoPor);
 
@@ -84,12 +116,9 @@ namespace GlobalSolutionNoBreaker.Repositories
                             return new Nobreak
                             {
                                 Id = reader.GetInt32(0),
-                                Modelo = reader.GetString(1),
+                                ModeloId = reader.GetInt32(1),
                                 Localizacao = reader.GetString(2),
-                                CapacidadeVA = reader.GetInt32(3),
-                                DataAquisicao = DateTime.Parse(reader.GetString(4)),
-                                DataGarantia = DateTime.Parse(reader.GetString(5)),
-                                VidaUtilAnos = reader.GetInt32(6),
+                                DataAquisicao = DateTime.Parse(reader.GetString(3)),
                             };
                         }
                     }
@@ -121,43 +150,25 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 connection.Open();
                 string sqlUpdate = @"UPDATE Nobreaks SET 
-                      Modelo = @Modelo, 
+                      ModeloId = @ModeloId, 
                       Localizacao = @Localizacao, 
-                      CapacidadeVA = @CapacidadeVA, 
                       DataAquisicao = @DataAquisicao, 
-                      VidaUtilAnos = @VidaUtilAnos, 
-                      DataGarantia = @DataGarantia 
+                      AtualizadoPor = @AtualizadoPor, 
+                      AtualizadoEm = @AtualizadoEm
                       WHERE Id = @Id";
 
                 using (var command = new SQLiteCommand(sqlUpdate, connection))
                 {
                     command.Parameters.AddWithValue("@Id", nobreak.Id);
-                    command.Parameters.AddWithValue("@Modelo", nobreak.Modelo);
+                    command.Parameters.AddWithValue("@ModeloId", nobreak.ModeloId);
                     command.Parameters.AddWithValue("@Localizacao", nobreak.Localizacao);
-                    command.Parameters.AddWithValue("@CapacidadeVA", nobreak.CapacidadeVA);
                     command.Parameters.AddWithValue("@DataAquisicao", nobreak.DataAquisicao);
-                    command.Parameters.AddWithValue("@VidaUtilAnos", nobreak.VidaUtilAnos);
-                    command.Parameters.AddWithValue("@DataGarantia", nobreak.DataGarantia);
                     command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
                     command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
 
                     command.ExecuteNonQuery();
 
                 }
-
-                string sqlAddWhoWhen = @"UPDATE Nobreaks SET 
-                      AtualizadoPor = @AtualizadoPor, 
-                      AtualizadoEm = @AtualizadoEm
-                      WHERE Id = @Id";
-
-                using (var command = new SQLiteCommand(sqlAddWhoWhen, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", nobreak.Id);
-                    command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
-                    command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
-                    command.ExecuteNonQuery();
-                }
-
             }
 
         }

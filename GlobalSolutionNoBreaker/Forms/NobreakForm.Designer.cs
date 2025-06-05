@@ -35,16 +35,10 @@
             btnVoltar = new Button();
             lblModelo = new Label();
             lblLocal = new Label();
-            lblCapacidade = new Label();
             lblAquisicao = new Label();
-            lblGarantia = new Label();
-            lblVida = new Label();
-            txtCapacidade = new TextBox();
             dtpAquisicao = new DateTimePicker();
-            txtVida = new TextBox();
             cmbModelo = new ComboBox();
             cmbLocal = new ComboBox();
-            dtpGarantia = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dgvNobreak).BeginInit();
             SuspendLayout();
             // 
@@ -55,7 +49,7 @@
             dgvNobreak.Location = new Point(9, 11);
             dgvNobreak.Margin = new Padding(3, 4, 3, 4);
             dgvNobreak.Name = "dgvNobreak";
-            dgvNobreak.Size = new Size(887, 331);
+            dgvNobreak.Size = new Size(895, 373);
             dgvNobreak.TabIndex = 0;
             dgvNobreak.CellContentClick += dataGridView1_CellContentClick;
             dgvNobreak.CellDoubleClick += dgvNobreak_CellDoubleClick;
@@ -107,7 +101,7 @@
             // lblModelo
             // 
             lblModelo.AutoSize = true;
-            lblModelo.Location = new Point(18, 373);
+            lblModelo.Location = new Point(40, 400);
             lblModelo.Name = "lblModelo";
             lblModelo.Size = new Size(61, 20);
             lblModelo.TabIndex = 5;
@@ -116,77 +110,33 @@
             // lblLocal
             // 
             lblLocal.AutoSize = true;
-            lblLocal.Location = new Point(18, 427);
+            lblLocal.Location = new Point(208, 464);
             lblLocal.Name = "lblLocal";
             lblLocal.Size = new Size(125, 20);
             lblLocal.TabIndex = 6;
             lblLocal.Text = "Localização física";
             // 
-            // lblCapacidade
-            // 
-            lblCapacidade.AutoSize = true;
-            lblCapacidade.Location = new Point(16, 480);
-            lblCapacidade.Name = "lblCapacidade";
-            lblCapacidade.Size = new Size(120, 20);
-            lblCapacidade.TabIndex = 7;
-            lblCapacidade.Text = "Capacidade (VA)";
-            // 
             // lblAquisicao
             // 
             lblAquisicao.AutoSize = true;
-            lblAquisicao.Location = new Point(440, 368);
+            lblAquisicao.Location = new Point(440, 400);
             lblAquisicao.Name = "lblAquisicao";
             lblAquisicao.Size = new Size(131, 20);
             lblAquisicao.TabIndex = 8;
             lblAquisicao.Text = "Data de Aquisição";
             // 
-            // lblGarantia
-            // 
-            lblGarantia.AutoSize = true;
-            lblGarantia.Location = new Point(440, 432);
-            lblGarantia.Name = "lblGarantia";
-            lblGarantia.Size = new Size(122, 20);
-            lblGarantia.TabIndex = 9;
-            lblGarantia.Text = "Data da Garantia";
-            lblGarantia.Click += lblVida_Click;
-            // 
-            // lblVida
-            // 
-            lblVida.AutoSize = true;
-            lblVida.Location = new Point(440, 480);
-            lblVida.Name = "lblVida";
-            lblVida.Size = new Size(134, 20);
-            lblVida.TabIndex = 10;
-            lblVida.Text = "Vida util (em anos)";
-            // 
-            // txtCapacidade
-            // 
-            txtCapacidade.Location = new Point(137, 480);
-            txtCapacidade.Margin = new Padding(3, 4, 3, 4);
-            txtCapacidade.Name = "txtCapacidade";
-            txtCapacidade.Size = new Size(263, 27);
-            txtCapacidade.TabIndex = 14;
-            // 
             // dtpAquisicao
             // 
-            dtpAquisicao.Location = new Point(576, 368);
+            dtpAquisicao.Location = new Point(584, 400);
             dtpAquisicao.Margin = new Padding(3, 4, 3, 4);
             dtpAquisicao.Name = "dtpAquisicao";
             dtpAquisicao.Size = new Size(292, 27);
             dtpAquisicao.TabIndex = 16;
             // 
-            // txtVida
-            // 
-            txtVida.Location = new Point(576, 480);
-            txtVida.Margin = new Padding(3, 4, 3, 4);
-            txtVida.Name = "txtVida";
-            txtVida.Size = new Size(292, 27);
-            txtVida.TabIndex = 18;
-            // 
             // cmbModelo
             // 
             cmbModelo.FormattingEnabled = true;
-            cmbModelo.Location = new Point(144, 368);
+            cmbModelo.Location = new Point(144, 400);
             cmbModelo.Margin = new Padding(3, 4, 3, 4);
             cmbModelo.Name = "cmbModelo";
             cmbModelo.Size = new Size(255, 28);
@@ -195,19 +145,11 @@
             // cmbLocal
             // 
             cmbLocal.FormattingEnabled = true;
-            cmbLocal.Location = new Point(144, 424);
+            cmbLocal.Location = new Point(352, 464);
             cmbLocal.Margin = new Padding(3, 4, 3, 4);
             cmbLocal.Name = "cmbLocal";
             cmbLocal.Size = new Size(256, 28);
             cmbLocal.TabIndex = 20;
-            // 
-            // dtpGarantia
-            // 
-            dtpGarantia.Location = new Point(576, 432);
-            dtpGarantia.Margin = new Padding(3, 4, 3, 4);
-            dtpGarantia.Name = "dtpGarantia";
-            dtpGarantia.Size = new Size(292, 27);
-            dtpGarantia.TabIndex = 21;
             // 
             // NobreakForm
             // 
@@ -215,16 +157,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(914, 600);
-            Controls.Add(dtpGarantia);
             Controls.Add(cmbLocal);
             Controls.Add(cmbModelo);
-            Controls.Add(txtVida);
             Controls.Add(dtpAquisicao);
-            Controls.Add(txtCapacidade);
-            Controls.Add(lblVida);
-            Controls.Add(lblGarantia);
             Controls.Add(lblAquisicao);
-            Controls.Add(lblCapacidade);
             Controls.Add(lblLocal);
             Controls.Add(lblModelo);
             Controls.Add(btnVoltar);
@@ -251,15 +187,9 @@
         private Button btnVoltar;
         private Label lblModelo;
         private Label lblLocal;
-        private Label lblCapacidade;
         private Label lblAquisicao;
-        private Label lblGarantia;
-        private Label lblVida;
-        private TextBox txtCapacidade;
         private DateTimePicker dtpAquisicao;
-        private TextBox txtVida;
         private ComboBox cmbModelo;
         private ComboBox cmbLocal;
-        private DateTimePicker dtpGarantia;
     }
 }

@@ -36,9 +36,9 @@ namespace GlobalSolutionNoBreaker.Data
                         ModeloId TEXT NOT NULL,
                         Localizacao TEXT NOT NULL,
                         DataAquisicao DATE NOT NULL,
-                        DataGarantia DATE,
+                        DataGarantia DATE, -- Calculada como DataAquisicao + TempodeGarantia do modelo
                         DataUltimaManutencao DATE,
-                        ProximaTrocaBateria DATE,
+                        ProximaTrocaBateria DATE, -- Calculada como DataAquisicao + TempoTrocaBateria do modelo
                         StatusOperacional TEXT DEFAULT 'Ativo',
                         NivelBateriaPercent INTEGER DEFAULT 100,
                         CriadoEm DATETIME DEFAULT (datetime('now')),
@@ -126,6 +126,11 @@ namespace GlobalSolutionNoBreaker.Data
                     connection.Close();
                 }
             }
+        }
+
+        public static void InitializeDatabase()
+        {
+            AdicionarDados.Populate();
         }
     }
 }

@@ -26,14 +26,15 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             try
             {
+                
+                string modeloSelecionado = cmbModelo.SelectedItem?.ToString();
+                modelosDict.TryGetValue(modeloSelecionado, out int modeloId);
+
                 var nobreak = new Nobreak
                 {
-                    Modelo = cmbModelo.SelectedItem?.ToString(),
+                    ModeloId = modeloId,
                     Localizacao = cmbLocal.SelectedItem?.ToString(),
-                    CapacidadeVA = Convert.ToInt32(txtCapacidade.Text),
-                    DataAquisicao = dtpAquisicao.Value.Date,
-                    VidaUtilAnos = Convert.ToInt32(txtVida.Text),
-                    DataGarantia = dtpGarantia.Value.Date,
+                    DataAquisicao = dtpAquisicao.Value.Date
                 };
 
                 if (isEditMode)
@@ -77,12 +78,13 @@ namespace GlobalSolutionNoBreaker.Forms
 
                 // Configuração opcional para renomear colunas na interface
                 dgvNobreak.Columns["Id"].HeaderText = "ID";
-                dgvNobreak.Columns["Modelo"].HeaderText = "Modelo";
+                dgvNobreak.Columns["Nome"].HeaderText = "Modelo";  
                 dgvNobreak.Columns["Localizacao"].HeaderText = "Localização";
-                dgvNobreak.Columns["CapacidadeVA"].HeaderText = "Capacidade (VA)";
+                dgvNobreak.Columns["CapacidadeVa"].HeaderText = "Capacidade (VA)";  
                 dgvNobreak.Columns["DataAquisicao"].HeaderText = "Data de Aquisição";
                 dgvNobreak.Columns["DataGarantia"].HeaderText = "Data de Garantia";
                 dgvNobreak.Columns["VidaUtilAnos"].HeaderText = "Vida Útil (anos)";
+
             }
             catch (Exception ex)
             {
@@ -126,9 +128,6 @@ namespace GlobalSolutionNoBreaker.Forms
 
         private void LimparCampos()
         {
-            txtCapacidade.Clear();
-            txtVida.Clear();
-            txtVida.Clear();
             cmbModelo.SelectedIndex = -1;
             cmbLocal.SelectedIndex = -1;
             dtpAquisicao.Value = DateTime.Today;
@@ -143,17 +142,35 @@ namespace GlobalSolutionNoBreaker.Forms
 
         }
 
+        private Dictionary<string, int> modelosDict = new()
+        {
+            { "Engetron Double Way Monofásico Modular DWMM 6 kVA", 1 },
+            { "Intelbras DNB ISO 6 kVA", 2 },
+            { "Delta Série RT 6 kVA", 3 },
+            { "TS Shara SYAL EM 4 kVA", 4 },
+            { "Eaton 9PX3000RT", 5 },
+            { "APC Symmetra PX 10 kVA", 6 }
+        };
+
+
 
 
         private void NobreakForm_Load(object sender, EventArgs e)
         {
             var data = NobreakRepository.GetAllNobreaksNobreaksPage();
             dgvNobreak.DataSource = data;
-            cmbModelo.Items.AddRange(new string[] { "Modelo A", "Modelo B", "Modelo C" });
+            cmbModelo.Items.AddRange(new string[]
+            {
+                "Engetron Double Way Monofásico Modular DWMM 6 kVA",
+                "Intelbras DNB ISO 6 kVA",
+                "Delta Série RT 6 kVA",
+                "TS Shara SYAL EM 4 kVA",
+                "Eaton 9PX3000RT",
+                "APC Symmetra PX 10 kVA"
+            });
             cmbLocal.Items.AddRange(new string[] { "Sala 1", "Sala 2", "Sala 3" });
 
             dtpAquisicao.MaxDate = DateTime.Today;
-            dtpGarantia.MinDate = DateTime.Today;   
         }
 
         private void dgvNobreak_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -164,14 +181,9 @@ namespace GlobalSolutionNoBreaker.Forms
                 {
                     var row = dgvNobreak.Rows[e.RowIndex];
                     selectedNobreakId = Convert.ToInt32(row.Cells["Id"].Value);
-                    
-
-                    cmbModelo.SelectedItem = row.Cells["Modelo"].Value.ToString();
+                    cmbModelo.SelectedItem = row.Cells["Nome"].Value.ToString();
                     cmbLocal.SelectedItem = row.Cells["Localizacao"].Value.ToString();
-                    txtCapacidade.Text = row.Cells["CapacidadeVA"].Value.ToString();
                     dtpAquisicao.Value = Convert.ToDateTime(row.Cells["DataAquisicao"].Value);
-                    dtpGarantia.Value = Convert.ToDateTime(row.Cells["DataGarantia"].Value);
-                    txtVida.Text = row.Cells["VidaUtilAnos"].Value.ToString();
 
                     isEditMode = true;
                     btnAdicionar.Text = "Salvar Alterações";
