@@ -16,9 +16,9 @@ namespace GlobalSolutionNoBreaker
             // Chama a função para garantir que o banco está criado
             //DataDeletion.DeleteDatabase();
             DataMaker.CreateDatabase();
-            DataPopulator.Populate(); // Popula o banco de dados com dados iniciais
+            //DataPopulator.Populate(); // Popula o banco de dados com dados iniciais
             //Application.Run(new LoginForm());
-            Application.Run(new NobreakForm());
+            Application.Run(new DashboardForm());
         }
     }
 }

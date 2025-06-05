@@ -168,7 +168,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 "Eaton 9PX3000RT",
                 "APC Symmetra PX 10 kVA"
             });
-            cmbLocal.Items.AddRange(new string[] { "Sala 1", "Sala 2", "Sala 3" });
+            cmbLocal.Items.AddRange(new string[] { "UTI", "Centro Cirúrgico", "Radiologia", "Emergência", "TI", "Farmácia", "Laboratório de Análise", "Sala do Servidor" });
 
             dtpAquisicao.MaxDate = DateTime.Today;
         }

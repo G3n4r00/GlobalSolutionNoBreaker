@@ -98,7 +98,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 {
                     await connection.OpenAsync();
                     string sql = @"SELECT COUNT(*) FROM Nobreaks 
-                              WHERE StatusOperacional IN ('Inativo', 'Em Manutenção')";
+                              WHERE StatusOperacional = 'Inativo'";
 
                     using (var command = new SQLiteCommand(sql, connection))
                     {
@@ -192,7 +192,9 @@ namespace GlobalSolutionNoBreaker.Repositories
                     string sql = @"
                     SELECT 
                         TIME(i.DataHora) as Horario,
-                        n.Modelo as Nobreak,
+                        m.Nome as Modelo,
+                        n.Id as NobreakId,
+                        n.Localizacao as Localizacao,
                         i.TipoIncidente as Tipo,
                         CASE 
                             WHEN i.Prioridade = 1 THEN 'Crítico'
@@ -201,6 +203,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                         END as Status
                     FROM Incidentes i
                     INNER JOIN Nobreaks n ON i.NobreakId = n.Id
+                    INNER JOIN Modelos m ON n.ModeloId = m.Id
                     ORDER BY i.DataHora DESC
                     LIMIT @limite";
 
@@ -234,8 +237,9 @@ namespace GlobalSolutionNoBreaker.Repositories
                     await connection.OpenAsync();
                     string sql = @"
                     SELECT 
-                        Id, Modelo, Localizacao, ProximaTrocaBateria 
-                    FROM Nobreaks   
+                        n.Id, m.Nome AS Modelo, n.Localizacao, n.ProximaTrocaBateria 
+                    FROM Nobreaks n
+                    INNER JOIN Modelos m ON n.ModeloId = m.Id
                     WHERE StatusOperacional = 'Ativo'
                     AND ProximaTrocaBateria <= DATE('now', '+30 days')
                     ORDER BY ProximaTrocaBateria ASC";

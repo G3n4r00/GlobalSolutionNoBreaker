@@ -36,6 +36,14 @@ namespace GlobalSolutionNoBreaker.Data
                 {
                     connection.Open();
 
+
+                    // Verifica se as tabelas principais já têm dados
+                    if (TabelasJaPopuladas(connection))
+                    {
+                        Console.WriteLine("📋 Banco de dados já possui dados. Operação cancelada.");
+                        return;
+                    }
+
                     // Primeiro, verifica e insere modelos se necessário
                     InserirModelosPadrao(connection);
 
@@ -46,7 +54,7 @@ namespace GlobalSolutionNoBreaker.Data
                     for (int i = 0; i < 20; i++)
                     {
                         int modeloId = RandomInt(1, 6);
-                        string local = $"Setor {RandomChoice(sectors)}";
+                        string local = RandomChoice(sectors);
                         string dataAquisicao = RandomDate(1000, 2000);
                         string dataGarantia = FutureDate(30, 365);
                         string ultimaManutencao = RandomDate(365, 30);
@@ -186,17 +194,17 @@ namespace GlobalSolutionNoBreaker.Data
                     // Lista de modelos para inserir
                     var modelos = new[]
                     {
-                        new { Nome = "Engetron Double Way Monofásico Modular DWMM 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 5, TempoDeTrocaDeBateria = 4, VidaUtilAnos = 8 },
-                        new { Nome = "Intelbras DNB ISO 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 2, TempoDeTrocaDeBateria = 3, VidaUtilAnos = 8 },
-                        new { Nome = "Delta Série RT 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 2, TempoDeTrocaDeBateria = 3, VidaUtilAnos = 10 },
-                        new { Nome = "TS Shara SYAL EM 4 kVA", CapacidadeVA = 4000, TempoDeGarantia = 2, TempoDeTrocaDeBateria = 3, VidaUtilAnos = 8 },
-                        new { Nome = "Eaton 9PX3000RT", CapacidadeVA = 3000, TempoDeGarantia = 3, TempoDeTrocaDeBateria = 3, VidaUtilAnos = 10 },
-                        new { Nome = "APC Symmetra PX 10 kVA", CapacidadeVA = 10000, TempoDeGarantia = 1, TempoDeTrocaDeBateria = 4, VidaUtilAnos = 10 }
+                        new { Nome = "Engetron Double Way Monofásico Modular DWMM 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 5, TempoTrocaBateria = 4, VidaUtilAnos = 8 },
+                        new { Nome = "Intelbras DNB ISO 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 2, TempoTrocaBateria = 3, VidaUtilAnos = 8 },
+                        new { Nome = "Delta Série RT 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 2, TempoTrocaBateria = 3, VidaUtilAnos = 10 },
+                        new { Nome = "TS Shara SYAL EM 4 kVA", CapacidadeVA = 4000, TempoDeGarantia = 2, TempoTrocaBateria = 3, VidaUtilAnos = 8 },
+                        new { Nome = "Eaton 9PX3000RT", CapacidadeVA = 3000, TempoDeGarantia = 3, TempoTrocaBateria = 3, VidaUtilAnos = 10 },
+                        new { Nome = "APC Symmetra PX 10 kVA", CapacidadeVA = 10000, TempoDeGarantia = 1, TempoTrocaBateria = 4, VidaUtilAnos = 10 }
                     };
 
                     string insertModelo = @"
-                        INSERT INTO Modelos (Nome, CapacidadeVA, TempoDeGarantia, TempoDeTrocaDeBateria, VidaUtilAnos)
-                        VALUES (@Nome, @CapacidadeVA, @TempoDeGarantia, @TempoDeTrocaDeBateria, @VidaUtilAnos)";
+                        INSERT INTO Modelos (Nome, CapacidadeVA, TempoDeGarantia, TempoTrocaBateria, VidaUtilAnos)
+                        VALUES (@Nome, @CapacidadeVA, @TempoDeGarantia, @TempoTrocaBateria, @VidaUtilAnos)";
 
                     foreach (var modelo in modelos)
                     {
@@ -205,12 +213,48 @@ namespace GlobalSolutionNoBreaker.Data
                             insertCmd.Parameters.AddWithValue("@Nome", modelo.Nome);
                             insertCmd.Parameters.AddWithValue("@CapacidadeVA", modelo.CapacidadeVA);
                             insertCmd.Parameters.AddWithValue("@TempoDeGarantia", modelo.TempoDeGarantia);
-                            insertCmd.Parameters.AddWithValue("@TempoDeTrocaDeBateria", modelo.TempoDeTrocaDeBateria);
+                            insertCmd.Parameters.AddWithValue("@TempoTrocaBateria", modelo.TempoTrocaBateria);
                             insertCmd.Parameters.AddWithValue("@VidaUtilAnos", modelo.VidaUtilAnos);
                             insertCmd.ExecuteNonQuery();
                         }
                     }
                 }
+            }
+        }
+
+        private static bool TabelasJaPopuladas(SQLiteConnection connection)
+        {
+            try
+            {
+                // Verifica se as principais tabelas têm dados
+                var tabelasParaVerificar = new[]
+                {
+                    "Nobreaks",
+                    "Equipamentos",
+                    "Monitoramento",
+                    "Incidentes"
+                };
+
+                foreach (string tabela in tabelasParaVerificar)
+                {
+                    string query = $"SELECT COUNT(*) FROM {tabela}";
+                    using (var cmd = new SQLiteCommand(query, connection))
+                    {
+                        long count = (long)cmd.ExecuteScalar();
+                        if (count > 0)
+                        {
+                            Console.WriteLine($"⚠️  Tabela {tabela} já contém {count} registro(s).");
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Erro ao verificar tabelas: {ex.Message}");
+                // Se não conseguir verificar, assume que pode popular (mais seguro)
+                return false;
             }
         }
 

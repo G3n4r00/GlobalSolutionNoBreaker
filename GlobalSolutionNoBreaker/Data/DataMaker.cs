@@ -130,7 +130,7 @@ namespace GlobalSolutionNoBreaker.Data
 
         public static void InitializeDatabase()
         {
-            AdicionarDados.Populate();
+            DataPopulator.Populate();
         }
     }
 }
