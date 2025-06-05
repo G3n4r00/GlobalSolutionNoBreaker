@@ -62,26 +62,27 @@
             panAtivos.BackColor = SystemColors.ControlDarkDark;
             panAtivos.Controls.Add(lblValorAtivos);
             panAtivos.Controls.Add(lblTituloAtivos);
-            panAtivos.Location = new Point(24, 32);
+            panAtivos.Location = new Point(27, 43);
+            panAtivos.Margin = new Padding(3, 4, 3, 4);
             panAtivos.Name = "panAtivos";
-            panAtivos.Size = new Size(144, 112);
+            panAtivos.Size = new Size(180, 180);
             panAtivos.TabIndex = 0;
             // 
             // lblValorAtivos
             // 
             lblValorAtivos.AutoSize = true;
-            lblValorAtivos.Location = new Point(56, 56);
+            lblValorAtivos.Location = new Point(64, 88);
             lblValorAtivos.Name = "lblValorAtivos";
-            lblValorAtivos.Size = new Size(13, 15);
+            lblValorAtivos.Size = new Size(17, 20);
             lblValorAtivos.TabIndex = 1;
             lblValorAtivos.Text = "0";
             // 
             // lblTituloAtivos
             // 
             lblTituloAtivos.AutoSize = true;
-            lblTituloAtivos.Location = new Point(48, 24);
+            lblTituloAtivos.Location = new Point(40, 32);
             lblTituloAtivos.Name = "lblTituloAtivos";
-            lblTituloAtivos.Size = new Size(74, 15);
+            lblTituloAtivos.Size = new Size(92, 20);
             lblTituloAtivos.TabIndex = 0;
             lblTituloAtivos.Text = "Titulo Ativos";
             // 
@@ -90,26 +91,27 @@
             panel1.BackColor = SystemColors.ControlDarkDark;
             panel1.Controls.Add(lblValorIncidentes);
             panel1.Controls.Add(lblTituloIncidentes);
-            panel1.Location = new Point(192, 32);
+            panel1.Location = new Point(280, 40);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(160, 128);
+            panel1.Size = new Size(180, 180);
             panel1.TabIndex = 1;
             // 
             // lblValorIncidentes
             // 
             lblValorIncidentes.AutoSize = true;
-            lblValorIncidentes.Location = new Point(56, 56);
+            lblValorIncidentes.Location = new Point(80, 88);
             lblValorIncidentes.Name = "lblValorIncidentes";
-            lblValorIncidentes.Size = new Size(13, 15);
+            lblValorIncidentes.Size = new Size(17, 20);
             lblValorIncidentes.TabIndex = 1;
             lblValorIncidentes.Text = "0";
             // 
             // lblTituloIncidentes
             // 
             lblTituloIncidentes.AutoSize = true;
-            lblTituloIncidentes.Location = new Point(48, 24);
+            lblTituloIncidentes.Location = new Point(32, 32);
             lblTituloIncidentes.Name = "lblTituloIncidentes";
-            lblTituloIncidentes.Size = new Size(95, 15);
+            lblTituloIncidentes.Size = new Size(118, 20);
             lblTituloIncidentes.TabIndex = 0;
             lblTituloIncidentes.Text = "Titulo Incidentes";
             // 
@@ -118,35 +120,36 @@
             panel2.BackColor = SystemColors.ControlDarkDark;
             panel2.Controls.Add(lblValorCritico);
             panel2.Controls.Add(lblTituloCritico);
-            panel2.Location = new Point(368, 32);
+            panel2.Location = new Point(544, 40);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(176, 120);
+            panel2.Size = new Size(180, 180);
             panel2.TabIndex = 2;
             // 
             // lblValorCritico
             // 
             lblValorCritico.AutoSize = true;
-            lblValorCritico.Location = new Point(56, 56);
+            lblValorCritico.Location = new Point(64, 75);
             lblValorCritico.Name = "lblValorCritico";
-            lblValorCritico.Size = new Size(13, 15);
+            lblValorCritico.Size = new Size(17, 20);
             lblValorCritico.TabIndex = 1;
             lblValorCritico.Text = "0";
             // 
             // lblTituloCritico
             // 
             lblTituloCritico.AutoSize = true;
-            lblTituloCritico.Location = new Point(48, 24);
+            lblTituloCritico.Location = new Point(55, 32);
             lblTituloCritico.Name = "lblTituloCritico";
-            lblTituloCritico.Size = new Size(114, 15);
+            lblTituloCritico.Size = new Size(143, 20);
             lblTituloCritico.TabIndex = 0;
             lblTituloCritico.Text = "Titulo Estado Critico";
             // 
             // lblTituloTroca
             // 
             lblTituloTroca.AutoSize = true;
-            lblTituloTroca.Location = new Point(8, 400);
+            lblTituloTroca.Location = new Point(9, 533);
             lblTituloTroca.Name = "lblTituloTroca";
-            lblTituloTroca.Size = new Size(143, 15);
+            lblTituloTroca.Size = new Size(182, 20);
             lblTituloTroca.TabIndex = 3;
             lblTituloTroca.Text = "Proximos Troca de Bateria";
             // 
@@ -154,17 +157,18 @@
             // 
             dgvNobreaksTroca.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNobreaksTroca.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNobreaksTroca.Location = new Point(8, 424);
+            dgvNobreaksTroca.Location = new Point(9, 565);
+            dgvNobreaksTroca.Margin = new Padding(3, 4, 3, 4);
             dgvNobreaksTroca.Name = "dgvNobreaksTroca";
-            dgvNobreaksTroca.Size = new Size(784, 88);
+            dgvNobreaksTroca.Size = new Size(959, 117);
             dgvNobreaksTroca.TabIndex = 4;
             // 
             // lblTituloIncidentesRecentes
             // 
             lblTituloIncidentesRecentes.AutoSize = true;
-            lblTituloIncidentesRecentes.Location = new Point(8, 520);
+            lblTituloIncidentesRecentes.Location = new Point(9, 693);
             lblTituloIncidentesRecentes.Name = "lblTituloIncidentesRecentes";
-            lblTituloIncidentesRecentes.Size = new Size(163, 15);
+            lblTituloIncidentesRecentes.Size = new Size(204, 20);
             lblTituloIncidentesRecentes.TabIndex = 5;
             lblTituloIncidentesRecentes.Text = "Lista Incidentes mais recentes";
             // 
@@ -172,9 +176,10 @@
             // 
             dgvAlertasRecentes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAlertasRecentes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAlertasRecentes.Location = new Point(8, 552);
+            dgvAlertasRecentes.Location = new Point(9, 736);
+            dgvAlertasRecentes.Margin = new Padding(3, 4, 3, 4);
             dgvAlertasRecentes.Name = "dgvAlertasRecentes";
-            dgvAlertasRecentes.Size = new Size(784, 72);
+            dgvAlertasRecentes.Size = new Size(959, 96);
             dgvAlertasRecentes.TabIndex = 6;
             // 
             // panel3
@@ -182,26 +187,27 @@
             panel3.BackColor = SystemColors.ControlDarkDark;
             panel3.Controls.Add(lblValorManutencao);
             panel3.Controls.Add(label2);
-            panel3.Location = new Point(584, 32);
+            panel3.Location = new Point(792, 40);
+            panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 120);
+            panel3.Size = new Size(180, 180);
             panel3.TabIndex = 7;
             // 
             // lblValorManutencao
             // 
             lblValorManutencao.AutoSize = true;
-            lblValorManutencao.Location = new Point(56, 56);
+            lblValorManutencao.Location = new Point(64, 75);
             lblValorManutencao.Name = "lblValorManutencao";
-            lblValorManutencao.Size = new Size(13, 15);
+            lblValorManutencao.Size = new Size(17, 20);
             lblValorManutencao.TabIndex = 1;
             lblValorManutencao.Text = "0";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(48, 24);
+            label2.Location = new Point(55, 32);
             label2.Name = "label2";
-            label2.Size = new Size(156, 15);
+            label2.Size = new Size(192, 20);
             label2.TabIndex = 0;
             label2.Text = "Titulo Quantos Manutencao";
             // 
@@ -212,22 +218,23 @@
             chartStatus.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chartStatus.Legends.Add(legend1);
-            chartStatus.Location = new Point(16, 176);
+            chartStatus.Location = new Point(18, 235);
+            chartStatus.Margin = new Padding(3, 4, 3, 4);
             chartStatus.Name = "chartStatus";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chartStatus.Series.Add(series1);
-            chartStatus.Size = new Size(752, 208);
+            chartStatus.Size = new Size(950, 277);
             chartStatus.TabIndex = 8;
             chartStatus.Text = "chart1";
             // 
             // DashboardForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 632);
+            ClientSize = new Size(1079, 843);
             Controls.Add(chartStatus);
             Controls.Add(panel3);
             Controls.Add(dgvAlertasRecentes);
@@ -237,6 +244,8 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(panAtivos);
+            Margin = new Padding(3, 5, 3, 5);
+            MinimumSize = new Size(518, 503);
             Name = "DashboardForm";
             Text = "DashboardForm";
             panAtivos.ResumeLayout(false);

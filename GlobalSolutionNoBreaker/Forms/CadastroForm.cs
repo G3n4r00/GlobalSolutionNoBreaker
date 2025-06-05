@@ -11,19 +11,19 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class CadastroForm : BaseForm
+    public partial class CadastroForm : BaseIntroForm
     {
         public CadastroForm()
         {
             InitializeComponent();
         }
 
-        private void btnConfirmarCadastro_Click(object sender, EventArgs e)
+        private void btnCriarUsuarioCadastro_Click(object sender, EventArgs e)
         {
             Usuario usuario = new Usuario
             {
-                Email = txtEmail.Text,
-                HashSenha = txtSenha.Text // Aqui você deve aplicar o hash na senha antes de salvar
+                Email = txtEmailCadastro.Text,
+                HashSenha = txtSenhaCadastro.Text 
             };
 
             try
@@ -43,21 +43,20 @@ namespace GlobalSolutionNoBreaker.Forms
                 Services.UsuarioServices.AddUsuario(usuario);
                 MessageBox.Show("Usuário cadastrado com sucesso!");
                 this.Hide();
-                //LoginForm form = new LoginForm();
-                //form.Show();
+                LoginForm form = new LoginForm();
+                form.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao cadastrar usuário: " + ex.Message);
             }
-
         }
 
-        private void hopeRoundButton1_Click(object sender, EventArgs e)
+        private void btnVoltarCadastro_Click(object sender, EventArgs e)
         {
             this.Hide();
-            //LoginForm form = new LoginForm();
-            //form.Show();
+            LoginForm form = new LoginForm();
+            form.Show();
         }
     }
 }

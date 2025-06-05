@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class LoginFormulario : BaseIntroForm
+    public partial class LoginForm : BaseIntroForm
     {
-        public LoginFormulario()
+        public LoginForm()
         {
             InitializeComponent();
         }
@@ -54,6 +54,11 @@ namespace GlobalSolutionNoBreaker.Forms
             this.Hide();
             CadastroForm form = new CadastroForm();
             form.Show();
+        }
+
+        private void txtEmailLogin_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

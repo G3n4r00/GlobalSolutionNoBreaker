@@ -24,7 +24,7 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
-                string query = "SELECT Id, Modelo, Localizacao, CapacidadeVA, DataAquisicao, DataGarantia, VidaUtilAnos FROM Nobreaks;";
+                string query = "SELECT Id, ModeloId, Localizacao DataAquisicao, DataGarantia FROM Nobreaks;";
                 using (var cmd = new SQLiteCommand(query, conn))
                 using (var adapter = new SQLiteDataAdapter(cmd))
                 {

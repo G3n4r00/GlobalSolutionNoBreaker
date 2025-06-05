@@ -33,12 +33,10 @@ namespace GlobalSolutionNoBreaker.Data
                     string createTables = @"
                         CREATE TABLE IF NOT EXISTS Nobreaks (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Modelo TEXT NOT NULL,
+                        ModeloId TEXT NOT NULL,
                         Localizacao TEXT NOT NULL,
-                        CapacidadeVA INTEGER NOT NULL,
                         DataAquisicao DATE NOT NULL,
                         DataGarantia DATE,
-                        VidaUtilAnos INTEGER NOT NULL,
                         DataUltimaManutencao DATE,
                         ProximaTrocaBateria DATE,
                         StatusOperacional TEXT DEFAULT 'Ativo',
@@ -46,9 +44,18 @@ namespace GlobalSolutionNoBreaker.Data
                         CriadoEm DATETIME DEFAULT (datetime('now')),
                         CriadoPor TEXT,
                         AtualizadoEm DATETIME,
-                        AtualizadoPor TEXT
+                        AtualizadoPor TEXT,
+                        FOREIGN KEY (ModeloId) REFERENCES Modelos(Id) ON DELETE CASCADE
                         );
 
+                        CREATE TABLE IF NOT EXISTS Modelos (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Nome TEXT NOT NULL,
+                        CapacidadeVA INTEGER NOT NULL,
+                        TempodeGarantia INTEGER NOT NULL, -- em anos
+                        TempoTrocaBateria INTEGER NOT NULL, -- em meses
+                        VidaUtilAnos INTEGER NOT NULL
+                        );
 
                         CREATE TABLE IF NOT EXISTS Equipamentos (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,

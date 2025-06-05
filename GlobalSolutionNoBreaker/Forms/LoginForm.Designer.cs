@@ -1,6 +1,6 @@
 ﻿namespace GlobalSolutionNoBreaker.Forms
 {
-    partial class LoginFormulario
+    partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -144,7 +144,7 @@
             btnCadastrarLogin.WarningColor = Color.FromArgb(230, 162, 60);
             btnCadastrarLogin.Click += btnCadastrarLogin_Click;
             // 
-            // LofinFormulario
+            // LoginFormulario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -155,7 +155,7 @@
             Controls.Add(txtEmailLogin);
             Controls.Add(foxLabel2);
             Controls.Add(foxLabel1);
-            Name = "LofinFormulario";
+            Name = "LoginFormulario";
             Text = "LofinFormulario";
             ResumeLayout(false);
         }
