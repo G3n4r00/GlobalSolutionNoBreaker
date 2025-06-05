@@ -36,15 +36,18 @@
             btnMonitoramentoMenu = new ReaLTaiizor.Controls.HopeRoundButton();
             btnExportMenu = new ReaLTaiizor.Controls.HopeRoundButton();
             btnSairMenu = new ReaLTaiizor.Controls.HopeRoundButton();
+            panelMenuDireito = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelMenuDireito.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
             // 
+            pictureBox1.Dock = DockStyle.Right;
             pictureBox1.Image = Properties.Resources.Captura_de_tela_2025_06_05_152207_removebg_preview;
-            pictureBox1.Location = new Point(240, 0);
+            pictureBox1.Location = new Point(248, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(560, 456);
+            pictureBox1.Size = new Size(666, 561);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -57,7 +60,7 @@
             btnNobreaksMenu.Font = new Font("Segoe UI", 12F);
             btnNobreaksMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnNobreaksMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnNobreaksMenu.Location = new Point(8, 144);
+            btnNobreaksMenu.Location = new Point(16, 208);
             btnNobreaksMenu.Name = "btnNobreaksMenu";
             btnNobreaksMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnNobreaksMenu.Size = new Size(224, 40);
@@ -77,7 +80,7 @@
             btnManutencaoMenu.Font = new Font("Segoe UI", 12F);
             btnManutencaoMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnManutencaoMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnManutencaoMenu.Location = new Point(8, 208);
+            btnManutencaoMenu.Location = new Point(16, 280);
             btnManutencaoMenu.Name = "btnManutencaoMenu";
             btnManutencaoMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnManutencaoMenu.Size = new Size(224, 40);
@@ -97,7 +100,7 @@
             btnDashboardMenu.Font = new Font("Segoe UI", 12F);
             btnDashboardMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnDashboardMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnDashboardMenu.Location = new Point(8, 80);
+            btnDashboardMenu.Location = new Point(16, 128);
             btnDashboardMenu.Name = "btnDashboardMenu";
             btnDashboardMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnDashboardMenu.Size = new Size(224, 40);
@@ -110,14 +113,15 @@
             // 
             // foxBigLabel1
             // 
-            foxBigLabel1.BackColor = Color.Transparent;
+            foxBigLabel1.BackColor = SystemColors.MenuHighlight;
+            foxBigLabel1.Dock = DockStyle.Top;
             foxBigLabel1.Font = new Font("Segoe UI Semibold", 20F);
-            foxBigLabel1.ForeColor = Color.FromArgb(76, 88, 100);
+            foxBigLabel1.ForeColor = Color.White;
             foxBigLabel1.Line = ReaLTaiizor.Controls.FoxBigLabel.Direction.Bottom;
             foxBigLabel1.LineColor = Color.FromArgb(200, 200, 200);
-            foxBigLabel1.Location = new Point(16, 16);
+            foxBigLabel1.Location = new Point(0, 0);
             foxBigLabel1.Name = "foxBigLabel1";
-            foxBigLabel1.Size = new Size(208, 41);
+            foxBigLabel1.Size = new Size(248, 41);
             foxBigLabel1.TabIndex = 4;
             foxBigLabel1.Text = "Páginas";
             // 
@@ -130,7 +134,7 @@
             btnMonitoramentoMenu.Font = new Font("Segoe UI", 12F);
             btnMonitoramentoMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnMonitoramentoMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnMonitoramentoMenu.Location = new Point(8, 272);
+            btnMonitoramentoMenu.Location = new Point(16, 344);
             btnMonitoramentoMenu.Name = "btnMonitoramentoMenu";
             btnMonitoramentoMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnMonitoramentoMenu.Size = new Size(224, 40);
@@ -150,7 +154,7 @@
             btnExportMenu.Font = new Font("Segoe UI", 12F);
             btnExportMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnExportMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnExportMenu.Location = new Point(8, 336);
+            btnExportMenu.Location = new Point(16, 408);
             btnExportMenu.Name = "btnExportMenu";
             btnExportMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnExportMenu.Size = new Size(224, 40);
@@ -171,7 +175,7 @@
             btnSairMenu.Font = new Font("Segoe UI", 12F);
             btnSairMenu.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnSairMenu.InfoColor = Color.FromArgb(144, 147, 153);
-            btnSairMenu.Location = new Point(8, 400);
+            btnSairMenu.Location = new Point(16, 504);
             btnSairMenu.Name = "btnSairMenu";
             btnSairMenu.PrimaryColor = Color.FromArgb(64, 158, 255);
             btnSairMenu.Size = new Size(224, 40);
@@ -182,22 +186,33 @@
             btnSairMenu.WarningColor = Color.FromArgb(230, 162, 60);
             btnSairMenu.Click += btnSairMenu_Click;
             // 
+            // panelMenuDireito
+            // 
+            panelMenuDireito.Controls.Add(foxBigLabel1);
+            panelMenuDireito.Controls.Add(btnDashboardMenu);
+            panelMenuDireito.Controls.Add(btnSairMenu);
+            panelMenuDireito.Controls.Add(btnNobreaksMenu);
+            panelMenuDireito.Controls.Add(btnExportMenu);
+            panelMenuDireito.Controls.Add(btnManutencaoMenu);
+            panelMenuDireito.Controls.Add(btnMonitoramentoMenu);
+            panelMenuDireito.Dock = DockStyle.Left;
+            panelMenuDireito.Location = new Point(0, 0);
+            panelMenuDireito.Name = "panelMenuDireito";
+            panelMenuDireito.Size = new Size(248, 561);
+            panelMenuDireito.TabIndex = 8;
+            // 
             // MenuForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(btnSairMenu);
-            Controls.Add(btnExportMenu);
-            Controls.Add(btnMonitoramentoMenu);
-            Controls.Add(foxBigLabel1);
-            Controls.Add(btnDashboardMenu);
-            Controls.Add(btnManutencaoMenu);
-            Controls.Add(btnNobreaksMenu);
+            ClientSize = new Size(914, 561);
+            ControlBox = false;
+            Controls.Add(panelMenuDireito);
             Controls.Add(pictureBox1);
             Name = "MenuForm";
-            Text = "MenuForm";
+            Text = "Menu Principal";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelMenuDireito.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -211,5 +226,6 @@
         private ReaLTaiizor.Controls.HopeRoundButton btnMonitoramentoMenu;
         private ReaLTaiizor.Controls.HopeRoundButton btnExportMenu;
         private ReaLTaiizor.Controls.HopeRoundButton btnSairMenu;
+        private Panel panelMenuDireito;
     }
 }

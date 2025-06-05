@@ -1,4 +1,6 @@
 ﻿using GlobalSolutionNoBreaker.Models;
+using GlobalSolutionNoBreaker.Repositories;
+using NobreakSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,9 +58,27 @@ namespace GlobalSolutionNoBreaker.Forms
 
         private void btnExportMenu_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            LoginForm form = new LoginForm();
-            form.Show();
+            try
+            {
+                string connectionString = $"Data Source={NobreakRepository.DbPath};Version=3;";
+                var relatorioService = new RelatorioService(connectionString);
+
+                // Método específico que salva no desktop e abre automaticamente
+                string arquivo = relatorioService.GerarEAbrirRelatorio();
+
+                MessageBox.Show($"Relatório gerado com sucesso!\nSalvo em: {arquivo}",
+                               "Relatório Gerado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao gerar relatório:\n{ex.Message}",
+                               "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void foxBigLabel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

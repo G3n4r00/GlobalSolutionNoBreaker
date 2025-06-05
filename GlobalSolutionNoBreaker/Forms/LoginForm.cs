@@ -60,5 +60,10 @@ namespace GlobalSolutionNoBreaker.Forms
         {
 
         }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            Application.Exit(); // Encerra a aplicação
+        }
     }
 }

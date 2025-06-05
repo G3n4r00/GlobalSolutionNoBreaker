@@ -109,7 +109,7 @@
             // btnCriarUsuarioCadastro
             // 
             btnCriarUsuarioCadastro.BorderColor = Color.FromArgb(220, 223, 230);
-            btnCriarUsuarioCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
+            btnCriarUsuarioCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Success;
             btnCriarUsuarioCadastro.DangerColor = Color.FromArgb(245, 108, 108);
             btnCriarUsuarioCadastro.DefaultColor = Color.FromArgb(255, 255, 255);
             btnCriarUsuarioCadastro.Font = new Font("Segoe UI", 12F);
@@ -129,7 +129,7 @@
             // btnVoltarCadastro
             // 
             btnVoltarCadastro.BorderColor = Color.FromArgb(220, 223, 230);
-            btnVoltarCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
+            btnVoltarCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Danger;
             btnVoltarCadastro.DangerColor = Color.FromArgb(245, 108, 108);
             btnVoltarCadastro.DefaultColor = Color.FromArgb(255, 255, 255);
             btnVoltarCadastro.Font = new Font("Segoe UI", 12F);
@@ -146,19 +146,20 @@
             btnVoltarCadastro.WarningColor = Color.FromArgb(230, 162, 60);
             btnVoltarCadastro.Click += btnVoltarCadastro_Click;
             // 
-            // CadastroFormulario
+            // CadastroForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            ControlBox = false;
             Controls.Add(btnVoltarCadastro);
             Controls.Add(btnCriarUsuarioCadastro);
             Controls.Add(txtSenhaCadastro);
             Controls.Add(txtEmailCadastro);
             Controls.Add(foxLabel2);
             Controls.Add(foxLabel1);
-            Name = "CadastroFormulario";
-            Text = "CadastroFormulario";
+            Name = "CadastroForm";
+            Text = "Formulário de Cadastro";
             ResumeLayout(false);
         }
 

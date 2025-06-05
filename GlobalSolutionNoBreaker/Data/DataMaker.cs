@@ -33,15 +33,15 @@ namespace GlobalSolutionNoBreaker.Data
                     string createTables = @"
                         CREATE TABLE IF NOT EXISTS Nobreaks (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ModeloId TEXT NOT NULL,
+                        ModeloId TEXT NOT NULL, --Link com o modelo do nobreak
                         Localizacao TEXT NOT NULL,
                         DataAquisicao DATE NOT NULL,
                         DataGarantia DATE, -- Calculada como DataAquisicao + TempodeGarantia do modelo
-                        DataUltimaManutencao DATE,
+                        DataUltimaManutencao DATE, --Definida na pagina de manutenção e atualizada
                         ProximaTrocaBateria DATE, -- Calculada como DataAquisicao + TempoTrocaBateria do modelo
-                        StatusOperacional TEXT DEFAULT 'Ativo',
-                        NivelBateriaPercent INTEGER DEFAULT 100,
-                        CriadoEm DATETIME DEFAULT (datetime('now')),
+                        StatusOperacional TEXT DEFAULT 'Ativo', -- Ativo, Crítico, Inativo
+                        NivelBateriaPercent INTEGER DEFAULT 100, 
+                        CriadoEm DATETIME DEFAULT (datetime('now')), 
                         CriadoPor TEXT,
                         AtualizadoEm DATETIME,
                         AtualizadoPor TEXT,
@@ -53,14 +53,14 @@ namespace GlobalSolutionNoBreaker.Data
                         Nome TEXT NOT NULL,
                         CapacidadeVA INTEGER NOT NULL,
                         TempodeGarantia INTEGER NOT NULL, -- em anos
-                        TempoTrocaBateria INTEGER NOT NULL, -- em meses
+                        TempoTrocaBateria INTEGER NOT NULL, -- em anos
                         VidaUtilAnos INTEGER NOT NULL
                         );
 
                         CREATE TABLE IF NOT EXISTS Equipamentos (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Nome TEXT NOT NULL,
-                        Tipo TEXT,
+                        Nome TEXT NOT NULL, -- Nome do equipamento conectado ao nobreak
+                        Tipo TEXT, -- Ex: Servidor, Máquina, Roteador, Respirador.
                         NobreakId INTEGER NOT NULL,
                         FOREIGN KEY (NobreakId) REFERENCES Nobreaks(Id) ON DELETE CASCADE
                         );
@@ -88,27 +88,11 @@ namespace GlobalSolutionNoBreaker.Data
 
                         CREATE TABLE IF NOT EXISTS EquipamentosIncidente (
                         IncidenteId INTEGER NOT NULL,
-                        EquipamentoId INTEGER NOT NULL,
+                        EquipamentoId INTEGER NOT NULL, -- Link com o equipamento afetado pelo incidente
                         PRIMARY KEY (IncidenteId, EquipamentoId),
                         FOREIGN KEY (IncidenteId) REFERENCES Incidentes(Id),
                         FOREIGN KEY (EquipamentoId) REFERENCES Equipamentos(EquipamentoId)
                         );
-
-
-                        CREATE TABLE IF NOT EXISTS LogsEventos (
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Timestamp TEXT NOT NULL DEFAULT (datetime('now')),
-                        TipoEvento TEXT NOT NULL,
-                        Retorno TEXT NOT NULL,
-                        UsuarioId INTEGER,
-                        NobreakId INTEGER,
-                        IncidenteId INTEGER,
-                        MonitoramentoId INTEGER,
-                        FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id),
-                        FOREIGN KEY (NobreakId) REFERENCES NobreakS(Id),
-                        FOREIGN KEY (IncidenteId) REFERENCES IncidenteS(Id),
-                        FOREIGN KEY (MonitoramentoId) REFERENCES Monitoramento(Id)
-                       );
 
                         CREATE TABLE IF NOT EXISTS Usuarios(
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,

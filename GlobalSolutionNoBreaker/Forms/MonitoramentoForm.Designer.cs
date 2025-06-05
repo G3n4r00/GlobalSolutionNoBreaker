@@ -123,19 +123,20 @@
             dgvMonitoramento.Name = "dgvMonitoramento";
             dgvMonitoramento.ReadOnly = true;
             dgvMonitoramento.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMonitoramento.Size = new Size(914, 342);
+            dgvMonitoramento.Size = new Size(914, 461);
             dgvMonitoramento.TabIndex = 2;
             dgvMonitoramento.CellFormatting += dgvMonitoramento_CellFormatting;
             // 
-            // MonitoramentoFormulario
+            // MonitoramentoForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 442);
+            ClientSize = new Size(914, 561);
+            ControlBox = false;
             Controls.Add(dgvMonitoramento);
             Controls.Add(panelStats);
             Controls.Add(panelTop);
-            Name = "MonitoramentoFormulario";
+            Name = "MonitoramentoForm";
             Text = "Monitormaneto Em Tempo Real";
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();

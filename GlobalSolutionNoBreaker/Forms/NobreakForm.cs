@@ -208,5 +208,10 @@ namespace GlobalSolutionNoBreaker.Forms
             MenuForm form = new MenuForm();
             form.Show();
         }
+
+        private void headerLabel2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
