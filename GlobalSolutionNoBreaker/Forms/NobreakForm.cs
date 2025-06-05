@@ -7,7 +7,7 @@ namespace GlobalSolutionNoBreaker.Forms
 {
 
 
-    public partial class NobreakForm : Form
+    public partial class NobreakForm : BaseForm
     {
         private bool isEditMode = false;
         private int selectedNobreakId = -1;

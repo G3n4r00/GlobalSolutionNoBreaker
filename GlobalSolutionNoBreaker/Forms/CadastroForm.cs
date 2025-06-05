@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class CadastroForm : Form
+    public partial class CadastroForm : BaseForm
     {
         public CadastroForm()
         {

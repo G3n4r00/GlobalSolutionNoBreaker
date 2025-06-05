@@ -223,6 +223,40 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dataTable;
         }
 
+        public async Task<DataTable> ObterProximaBateriaAsync()
+        {
+            var dataTable = new DataTable();
+
+            try
+            {
+                using (var connection = new SQLiteConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    string sql = @"
+                    SELECT 
+                        Id, Modelo, Localizacao, ProximaTrocaBateria 
+                    FROM Nobreaks   
+                    WHERE StatusOperacional = 'Ativo'
+                    AND ProximaTrocaBateria <= DATE('now', '+30 days')
+                    ORDER BY ProximaTrocaBateria ASC";
+
+                    using (var command = new SQLiteCommand(sql, connection))
+                    {
+                        using (var adapter = new SQLiteDataAdapter(command))
+                        {
+                            await Task.Run(() => adapter.Fill(dataTable));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao obter próximas Recargas de Bateria: {ex.Message}");
+            }
+
+            return dataTable;
+        }
+
 
     }
 }

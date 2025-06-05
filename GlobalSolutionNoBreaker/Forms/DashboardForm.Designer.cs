@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             panAtivos = new Panel();
             lblValorAtivos = new Label();
             lblTituloAtivos = new Label();
@@ -44,12 +47,14 @@
             panel3 = new Panel();
             lblValorManutencao = new Label();
             label2 = new Label();
+            chartStatus = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panAtivos.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvNobreaksTroca).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvAlertasRecentes).BeginInit();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chartStatus).BeginInit();
             SuspendLayout();
             // 
             // panAtivos
@@ -139,7 +144,7 @@
             // lblTituloTroca
             // 
             lblTituloTroca.AutoSize = true;
-            lblTituloTroca.Location = new Point(8, 416);
+            lblTituloTroca.Location = new Point(8, 400);
             lblTituloTroca.Name = "lblTituloTroca";
             lblTituloTroca.Size = new Size(143, 15);
             lblTituloTroca.TabIndex = 3;
@@ -147,10 +152,11 @@
             // 
             // dgvNobreaksTroca
             // 
+            dgvNobreaksTroca.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNobreaksTroca.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNobreaksTroca.Location = new Point(8, 448);
+            dgvNobreaksTroca.Location = new Point(8, 424);
             dgvNobreaksTroca.Name = "dgvNobreaksTroca";
-            dgvNobreaksTroca.Size = new Size(784, 64);
+            dgvNobreaksTroca.Size = new Size(784, 88);
             dgvNobreaksTroca.TabIndex = 4;
             // 
             // lblTituloIncidentesRecentes
@@ -199,11 +205,30 @@
             label2.TabIndex = 0;
             label2.Text = "Titulo Quantos Manutencao";
             // 
+            // chartStatus
+            // 
+            chartArea1.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea1.Name = "ChartArea1";
+            chartStatus.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chartStatus.Legends.Add(legend1);
+            chartStatus.Location = new Point(16, 176);
+            chartStatus.Name = "chartStatus";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chartStatus.Series.Add(series1);
+            chartStatus.Size = new Size(752, 208);
+            chartStatus.TabIndex = 8;
+            chartStatus.Text = "chart1";
+            // 
             // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(944, 632);
+            Controls.Add(chartStatus);
             Controls.Add(panel3);
             Controls.Add(dgvAlertasRecentes);
             Controls.Add(lblTituloIncidentesRecentes);
@@ -224,6 +249,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvAlertasRecentes).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)chartStatus).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -246,5 +272,6 @@
         private Panel panel3;
         private Label lblValorManutencao;
         private Label label2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartStatus;
     }
 }

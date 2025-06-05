@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class ManutencaoForm: Form
+    public partial class ManutencaoForm: BaseForm
     {
         public ManutencaoForm()
         {

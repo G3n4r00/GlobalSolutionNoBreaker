@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm : BaseForm
     {
         public LoginForm()
         {
