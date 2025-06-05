@@ -105,6 +105,7 @@
             btnVoltarNobreak.Text = "Voltar";
             btnVoltarNobreak.TextColor = Color.White;
             btnVoltarNobreak.WarningColor = Color.FromArgb(230, 162, 60);
+            btnVoltarNobreak.Click += btnVoltarNobreak_Click;
             // 
             // btnLimpar
             // 

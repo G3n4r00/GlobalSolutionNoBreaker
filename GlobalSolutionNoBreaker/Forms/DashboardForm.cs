@@ -67,7 +67,7 @@ namespace GlobalSolutionNoBreaker.Forms
             chartStatus.ChartAreas.Clear();
             chartStatus.Legends.Clear();
             chartStatus.BackColor = Color.FromArgb(30, 30, 60); // Fundo azul escuro do gráfico
-            
+
 
             // Título
             chartStatus.Titles.Add("Status dos Nobreaks");
@@ -135,6 +135,13 @@ namespace GlobalSolutionNoBreaker.Forms
         private void headerLabel3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnVoltarDashboard_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MenuForm form = new MenuForm();
+            form.Show();
         }
     }
 }

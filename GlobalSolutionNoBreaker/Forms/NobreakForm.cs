@@ -26,7 +26,7 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             try
             {
-                
+
                 string modeloSelecionado = cmbModelo.SelectedItem?.ToString();
                 modelosDict.TryGetValue(modeloSelecionado, out int modeloId);
 
@@ -53,15 +53,15 @@ namespace GlobalSolutionNoBreaker.Forms
                 else
                 {
                     nobreak.CriadoEm = DateTime.Now;
-                    nobreak.CriadoPor = Session.LoggedInEmail; 
+                    nobreak.CriadoPor = Session.LoggedInEmail;
                     NobreakServices.AddNobreak(nobreak);
                     MessageBox.Show("Nobreak inserido com sucesso!");
                     CarregarNobreaksGrid();
                     LimparCampos();
-                    
+
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -78,9 +78,9 @@ namespace GlobalSolutionNoBreaker.Forms
 
                 // Configuração opcional para renomear colunas na interface
                 dgvNobreak.Columns["Id"].HeaderText = "ID";
-                dgvNobreak.Columns["Nome"].HeaderText = "Modelo";  
+                dgvNobreak.Columns["Nome"].HeaderText = "Modelo";
                 dgvNobreak.Columns["Localizacao"].HeaderText = "Localização";
-                dgvNobreak.Columns["CapacidadeVa"].HeaderText = "Capacidade (VA)";  
+                dgvNobreak.Columns["CapacidadeVa"].HeaderText = "Capacidade (VA)";
                 dgvNobreak.Columns["DataAquisicao"].HeaderText = "Data de Aquisição";
                 dgvNobreak.Columns["DataGarantia"].HeaderText = "Data de Garantia";
                 dgvNobreak.Columns["VidaUtilAnos"].HeaderText = "Vida Útil (anos)";
@@ -94,7 +94,7 @@ namespace GlobalSolutionNoBreaker.Forms
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            
+
 
 
             try
@@ -107,8 +107,8 @@ namespace GlobalSolutionNoBreaker.Forms
                                      MessageBoxButtons.YesNo);
                 if (confirmar == DialogResult.No)
                 {
-                    MessageBox.Show("Exclusão cancelada!"); 
-                    LimparCampos(); 
+                    MessageBox.Show("Exclusão cancelada!");
+                    LimparCampos();
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace GlobalSolutionNoBreaker.Forms
                     CarregarNobreaksGrid();
                     LimparCampos();
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -200,6 +200,13 @@ namespace GlobalSolutionNoBreaker.Forms
         private void lblVida_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnVoltarNobreak_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MenuForm form = new MenuForm();
+            form.Show();
         }
     }
 }
