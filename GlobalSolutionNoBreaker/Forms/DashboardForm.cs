@@ -93,7 +93,7 @@ namespace GlobalSolutionNoBreaker.Forms
             chartStatus.Legends.Add(new Legend("Legend"));
             chartStatus.Legends[0].ForeColor = Color.White;
             chartStatus.Legends[0].BackColor = Color.Transparent;
-            
+
 
             var ordem = new List<string> { "Crítico", "Alerta", "OK" };
 
@@ -103,7 +103,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 {
                     var serie = new Series(status)
                     {
-                        ChartType = SeriesChartType.Bar, 
+                        ChartType = SeriesChartType.Bar,
                         IsValueShownAsLabel = true,
                         LabelForeColor = Color.White,
                         Color = status switch
@@ -114,7 +114,7 @@ namespace GlobalSolutionNoBreaker.Forms
                             _ => Color.Gray
                         },
                         Font = new Font("Segoe UI", 9, FontStyle.Bold),
-                        ["PointWidth"] = "0.7" 
+                        ["PointWidth"] = "0.7"
                     };
 
                     // X = categoria (string vazia para empilhar verticalmente), Y = valor
@@ -124,5 +124,9 @@ namespace GlobalSolutionNoBreaker.Forms
             }
         }
 
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

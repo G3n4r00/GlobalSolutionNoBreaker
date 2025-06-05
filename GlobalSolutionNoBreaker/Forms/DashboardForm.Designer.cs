@@ -62,10 +62,10 @@
             panAtivos.BackColor = SystemColors.ControlDarkDark;
             panAtivos.Controls.Add(lblValorAtivos);
             panAtivos.Controls.Add(lblTituloAtivos);
-            panAtivos.Location = new Point(27, 43);
+            panAtivos.Location = new Point(24, 40);
             panAtivos.Margin = new Padding(3, 4, 3, 4);
             panAtivos.Name = "panAtivos";
-            panAtivos.Size = new Size(180, 180);
+            panAtivos.Size = new Size(230, 180);
             panAtivos.TabIndex = 0;
             // 
             // lblValorAtivos
@@ -94,7 +94,7 @@
             panel1.Location = new Point(280, 40);
             panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(180, 180);
+            panel1.Size = new Size(230, 180);
             panel1.TabIndex = 1;
             // 
             // lblValorIncidentes
@@ -123,7 +123,7 @@
             panel2.Location = new Point(544, 40);
             panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(180, 180);
+            panel2.Size = new Size(230, 180);
             panel2.TabIndex = 2;
             // 
             // lblValorCritico
@@ -147,7 +147,7 @@
             // lblTituloTroca
             // 
             lblTituloTroca.AutoSize = true;
-            lblTituloTroca.Location = new Point(9, 533);
+            lblTituloTroca.Location = new Point(24, 528);
             lblTituloTroca.Name = "lblTituloTroca";
             lblTituloTroca.Size = new Size(182, 20);
             lblTituloTroca.TabIndex = 3;
@@ -157,16 +157,16 @@
             // 
             dgvNobreaksTroca.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNobreaksTroca.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNobreaksTroca.Location = new Point(9, 565);
+            dgvNobreaksTroca.Location = new Point(24, 560);
             dgvNobreaksTroca.Margin = new Padding(3, 4, 3, 4);
             dgvNobreaksTroca.Name = "dgvNobreaksTroca";
-            dgvNobreaksTroca.Size = new Size(959, 117);
+            dgvNobreaksTroca.Size = new Size(1032, 96);
             dgvNobreaksTroca.TabIndex = 4;
             // 
             // lblTituloIncidentesRecentes
             // 
             lblTituloIncidentesRecentes.AutoSize = true;
-            lblTituloIncidentesRecentes.Location = new Point(9, 693);
+            lblTituloIncidentesRecentes.Location = new Point(24, 664);
             lblTituloIncidentesRecentes.Name = "lblTituloIncidentesRecentes";
             lblTituloIncidentesRecentes.Size = new Size(204, 20);
             lblTituloIncidentesRecentes.TabIndex = 5;
@@ -176,10 +176,10 @@
             // 
             dgvAlertasRecentes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvAlertasRecentes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAlertasRecentes.Location = new Point(9, 736);
+            dgvAlertasRecentes.Location = new Point(24, 688);
             dgvAlertasRecentes.Margin = new Padding(3, 4, 3, 4);
             dgvAlertasRecentes.Name = "dgvAlertasRecentes";
-            dgvAlertasRecentes.Size = new Size(959, 96);
+            dgvAlertasRecentes.Size = new Size(1032, 144);
             dgvAlertasRecentes.TabIndex = 6;
             // 
             // panel3
@@ -187,11 +187,12 @@
             panel3.BackColor = SystemColors.ControlDarkDark;
             panel3.Controls.Add(lblValorManutencao);
             panel3.Controls.Add(label2);
-            panel3.Location = new Point(792, 40);
+            panel3.Location = new Point(816, 40);
             panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(180, 180);
+            panel3.Size = new Size(230, 180);
             panel3.TabIndex = 7;
+            panel3.Paint += panel3_Paint;
             // 
             // lblValorManutencao
             // 
@@ -218,7 +219,7 @@
             chartStatus.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chartStatus.Legends.Add(legend1);
-            chartStatus.Location = new Point(18, 235);
+            chartStatus.Location = new Point(24, 235);
             chartStatus.Margin = new Padding(3, 4, 3, 4);
             chartStatus.Name = "chartStatus";
             series1.ChartArea = "ChartArea1";
@@ -226,7 +227,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chartStatus.Series.Add(series1);
-            chartStatus.Size = new Size(950, 277);
+            chartStatus.Size = new Size(1024, 277);
             chartStatus.TabIndex = 8;
             chartStatus.Text = "chart1";
             // 

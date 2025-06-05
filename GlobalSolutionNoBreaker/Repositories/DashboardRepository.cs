@@ -241,6 +241,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                     FROM Nobreaks n
                     INNER JOIN Modelos m ON n.ModeloId = m.Id
                     WHERE StatusOperacional = 'Ativo'
+                    AND n.ProximaTrocaBateria >= DATE('now')   
                     AND ProximaTrocaBateria <= DATE('now', '+30 days')
                     ORDER BY ProximaTrocaBateria ASC";
 
