@@ -10,8 +10,24 @@ using GlobalSolutionNoBreaker.Models;
 
 namespace GlobalSolutionNoBreaker.Repositories
 {
+    /// <summary>
+    /// Repositório responsável pelas operações de dados relacionadas aos usuários.
+    /// Gerencia registro e autenticação de usuários no banco de dados SQLite.
+    /// </summary>
     class UsuarioRepository
     {
+        /// <summary>
+        /// Registra um novo usuário no sistema.
+        /// </summary>
+        /// <param name="usuario">Objeto Usuario contendo os dados do usuário a ser registrado</param>
+        /// <returns>
+        /// true se o usuário foi registrado com sucesso;
+        /// false se o usuário já existe ou ocorreu algum erro
+        /// </returns>
+        /// <remarks>
+        /// Este método verifica se já existe um usuário com o email fornecido antes de realizar o registro.
+        /// A senha é automaticamente hasheada antes de ser armazenada no banco de dados.
+        /// </remarks>
         public static bool RegisterUsuario(Usuario usuario)
         {
             try
@@ -23,7 +39,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 {
                     connection.Open();
 
-                    //Checa se o usuário já existe
+                    // Verifica se o usuário já existe no banco de dados
                     string checkSql = "SELECT COUNT(*) FROM Usuarios WHERE Email = @Email";
                     using (var checkCommand = new SQLiteCommand(checkSql, connection))
                     {
@@ -37,13 +53,12 @@ namespace GlobalSolutionNoBreaker.Repositories
                         }
                     }
 
-                    // Hash a senha
+                    // Gera o hash da senha para armazenamento seguro
                     string senhaHash = SenhaUtils.HashPassword(senha);
 
-                    // Insert new user
+                    // Insere o novo usuário no banco de dados
                     string insertSql = @"INSERT INTO Usuarios (Email, senhaHash) 
                                    VALUES (@Email, @senhaHash)";
-
                     using (var command = new SQLiteCommand(insertSql, connection))
                     {
                         command.Parameters.AddWithValue("@Email", email);
@@ -61,7 +76,18 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
-
+        /// <summary>
+        /// Autentica um usuário no sistema.
+        /// </summary>
+        /// <param name="usuario">Objeto Usuario contendo as credenciais de login (email e senha)</param>
+        /// <returns>
+        /// true se as credenciais são válidas e o login foi bem-sucedido;
+        /// false se o email não existe, a senha está incorreta ou ocorreu algum erro
+        /// </returns>
+        /// <remarks>
+        /// Este método busca o usuário pelo email e verifica se a senha fornecida
+        /// corresponde ao hash armazenado no banco de dados.
+        /// </remarks>
         public static bool LoginUsuario(Usuario usuario)
         {
             try
@@ -72,8 +98,9 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection($"Data Source={NobreakRepository.DbPath};Version=3;"))
                 {
                     connection.Open();
-                    string sql = "SELECT senhaHash FROM Usuarios WHERE Email = @Email";
 
+                    // Busca o hash da senha armazenado para o email fornecido
+                    string sql = "SELECT senhaHash FROM Usuarios WHERE Email = @Email";
                     using (var command = new SQLiteCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@Email", email);
@@ -87,7 +114,7 @@ namespace GlobalSolutionNoBreaker.Repositories
 
                         string storedHash = result.ToString();
 
-                        // Verifica senha
+                        // Verifica se a senha fornecida corresponde ao hash armazenado
                         if (SenhaUtils.VerifyPassword(password, storedHash))
                         {
                             return true;

@@ -12,7 +12,7 @@ namespace GlobalSolutionNoBreaker.Models
         public string Nome { get; set; } // Nome do modelo
         public int CapacidadeVA { get; set; } // Potência do nobreak
         public int TempoDeGarantia { get; set; } // em anos
-        public int TempoTrocaBateria { get; set; } // em meses
+        public int TempoTrocaBateria { get; set; } // em anos
         public int VidaUtilAnos { get; set; } // em anos
 
     }

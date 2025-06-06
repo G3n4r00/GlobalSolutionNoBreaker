@@ -6,16 +6,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GlobalSolutionNoBreaker.Models;
+
 namespace GlobalSolutionNoBreaker.Repositories
 {
+    /// <summary>
+    /// Repositório responsável pelas operações de acesso a dados dos Nobreaks.
+    /// Gerencia a conexão com o banco de dados SQLite e implementa operações CRUD.
+    /// </summary>
     public class NobreakRepository
     {
+        /// <summary>
+        /// Obtém o caminho completo do arquivo de banco de dados SQLite.
+        /// O banco é armazenado na pasta ApplicationData do usuário.
+        /// </summary>
+        /// <returns>Caminho completo para o arquivo do banco de dados</returns>
         public static string DbPath => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "NobreakerSystemApp",
             "NoBreakerSystem.db"
         );
 
+        /// <summary>
+        /// Obtém todos os nobreaks com informações do modelo para exibição na página principal.
+        /// Inclui dados como nome do modelo, localização, capacidade e datas importantes.
+        /// </summary>
+        /// <returns>DataTable contendo os dados dos nobreaks com informações do modelo</returns>
         public static DataTable GetAllNobreaksNobreaksPage()
         {
             var dt = new DataTable();
@@ -24,10 +39,10 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
-                string query = @"SELECT N.Id, M.Nome, N.Localizacao, M.CapacidadeVa, N.DataAquisicao, N.DataGarantia,  M.VidaUtilAnos
+                // Query com JOIN para obter dados do nobreak e modelo
+                string query = @"SELECT N.Id, M.Nome, N.Localizacao, M.CapacidadeVa, N.DataAquisicao, N.DataGarantia, M.VidaUtilAnos
                 FROM Nobreaks N 
                 INNER JOIN Modelos M ON N.ModeloId = M.Id";
-
 
                 using (var cmd = new SQLiteCommand(query, conn))
                 using (var adapter = new SQLiteDataAdapter(cmd))
@@ -41,6 +56,11 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dt;
         }
 
+        /// <summary>
+        /// Obtém todos os nobreaks com informações específicas para o módulo de manutenção.
+        /// Inclui status operacional e data da última manutenção.
+        /// </summary>
+        /// <returns>DataTable contendo os dados dos nobreaks para manutenção</returns>
         public static DataTable GetAllNobreaksManutencao()
         {
             var dt = new DataTable();
@@ -49,10 +69,10 @@ namespace GlobalSolutionNoBreaker.Repositories
             {
                 conn.Open();
 
+                // Query específica para dados de manutenção
                 string query = @"SELECT N.Id, M.Nome, N.StatusOperacional, N.Localizacao, M.CapacidadeVa, N.DataUltimaManutencao
                 FROM Nobreaks N 
                 INNER JOIN Modelos M ON N.ModeloId = M.Id";
-
 
                 using (var cmd = new SQLiteCommand(query, conn))
                 using (var adapter = new SQLiteDataAdapter(cmd))
@@ -66,12 +86,18 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dt;
         }
 
+        /// <summary>
+        /// Registra uma manutenção realizada em um nobreak.
+        /// Atualiza a data da última manutenção, status operacional e informações de auditoria.
+        /// </summary>
+        /// <param name="nobreak">Objeto Nobreak com os dados atualizados da manutenção</param>
         public static void RegistroNobreakManutencao(Nobreak nobreak)
         {
-
             using (var connection = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 connection.Open();
+
+                // Atualiza apenas os campos relacionados à manutenção
                 string sqlUpdate = @"UPDATE Nobreaks SET 
                       DataUltimaManutencao = @DataUltimaManutencao, 
                       StatusOperacional = @StatusOperacional, 
@@ -88,42 +114,45 @@ namespace GlobalSolutionNoBreaker.Repositories
                     command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
 
                     command.ExecuteNonQuery();
-
                 }
             }
-
         }
 
+        /// <summary>
+        /// Insere um novo nobreak no banco de dados.
+        /// Calcula automaticamente as datas de garantia e próxima troca de bateria baseado no modelo.
+        /// </summary>
+        /// <param name="nobreak">Objeto Nobreak a ser inserido</param>
         public static void InsertNobreak(Nobreak nobreak)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 conn.Open();
 
-                // Buscar dados do modelo
+                // Buscar dados do modelo para calcular datas automáticas
                 string modeloQuery = "SELECT TempodeGarantia, TempoTrocaBateria FROM Modelos WHERE Id = @modeloId";
                 int tempoGarantiaAnos = 0;
                 int tempoTrocaBateriaAnos = 0;
 
                 using (var cmdModelo = new SQLiteCommand(modeloQuery, conn))
                 {
-                    cmdModelo.Parameters.AddWithValue("@modeloId", nobreak.ModeloId); // precisa garantir que ModeloId esteja definido
+                    cmdModelo.Parameters.AddWithValue("@modeloId", nobreak.ModeloId);
 
                     using (var reader = cmdModelo.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             tempoGarantiaAnos = reader.GetInt32(0); // TempodeGarantia
-                            int trocaAnos = reader.GetInt32(1);     // TempoTrocaBateria
+                            tempoTrocaBateriaAnos = reader.GetInt32(1); // TempoTrocaBateria
                         }
                     }
                 }
 
-                // Calcular datas
+                // Calcular datas baseadas na data de aquisição
                 nobreak.DataGarantia = nobreak.DataAquisicao.AddYears(tempoGarantiaAnos);
                 nobreak.ProximaTrocaBateria = nobreak.DataAquisicao.AddYears(tempoTrocaBateriaAnos);
 
-
+                // Inserir o novo nobreak
                 string query = @"
                     INSERT INTO Nobreaks (
                         ModeloId, Localizacao, DataAquisicao, DataGarantia,
@@ -144,34 +173,45 @@ namespace GlobalSolutionNoBreaker.Repositories
                     cmd.Parameters.AddWithValue("@criadoEm", nobreak.CriadoEm);
                     cmd.Parameters.AddWithValue("@criadoPor", nobreak.CriadoPor);
 
-
                     cmd.ExecuteNonQuery();
                 }
 
                 conn.Close();
             }
-
         }
 
+        /// <summary>
+        /// Obtém um nobreak específico pelo seu ID.
+        /// </summary>
+        /// <param name="id">ID do nobreak a ser buscado</param>
+        /// <returns>Objeto Nobreak encontrado ou null se não existir</returns>
+        /// <remarks>
+        /// ATENÇÃO: Este método está retornando apenas alguns campos do nobreak.
+        /// Verificar se todos os campos necessários estão sendo mapeados.
+        /// </remarks>
         public static Nobreak GetNobreakById(int id)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 conn.Open();
                 string query = "SELECT * FROM Nobreaks WHERE Id = @id;";
+
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
+
                     using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
+                            // TODO: Mapear todos os campos da tabela Nobreaks
                             return new Nobreak
                             {
                                 Id = reader.GetInt32(0),
                                 ModeloId = reader.GetInt32(1),
                                 Localizacao = reader.GetString(2),
                                 DataAquisicao = DateTime.Parse(reader.GetString(3)),
+                                // Outros campos não estão sendo mapeados
                             };
                         }
                     }
@@ -181,12 +221,20 @@ namespace GlobalSolutionNoBreaker.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Remove um nobreak do banco de dados pelo seu ID.
+        /// </summary>
+        /// <param name="id">ID do nobreak a ser removido</param>
+        /// <remarks>
+        /// CUIDADO: Esta operação é irreversível. Considerar implementar soft delete.
+        /// </remarks>
         public static void DeleteNobreak(int id)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 conn.Open();
                 string query = "DELETE FROM Nobreaks WHERE Id = @id;";
+
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
@@ -196,12 +244,22 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
+        /// <summary>
+        /// Atualiza os dados básicos de um nobreak existente.
+        /// Atualiza modelo, localização, data de aquisição e informações de auditoria.
+        /// </summary>
+        /// <param name="nobreak">Objeto Nobreak com os dados atualizados</param>
+        /// <remarks>
+        /// Este método não recalcula as datas de garantia e troca de bateria.
+        /// Considerar se isso é necessário quando o modelo ou data de aquisição são alterados.
+        /// </remarks>
         public static void UpdateNobreak(Nobreak nobreak)
         {
-
             using (var connection = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 connection.Open();
+
+                // Atualiza apenas os campos básicos do nobreak
                 string sqlUpdate = @"UPDATE Nobreaks SET 
                       ModeloId = @ModeloId, 
                       Localizacao = @Localizacao, 
@@ -220,11 +278,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                     command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
 
                     command.ExecuteNonQuery();
-
                 }
             }
-
         }
     }
 }
-

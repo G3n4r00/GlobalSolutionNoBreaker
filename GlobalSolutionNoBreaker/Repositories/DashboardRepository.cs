@@ -8,12 +8,32 @@ using System.Threading.Tasks;
 
 namespace GlobalSolutionNoBreaker.Repositories
 {
+    /// <summary>
+    /// Repositório responsável por fornecer dados estatísticos e informações 
+    /// para o dashboard do sistema de monitoramento de nobreaks.
+    /// </summary>
+    /// <remarks>
+    /// Esta classe centraliza as consultas de dados agregados utilizados 
+    /// na interface do dashboard, incluindo contadores, gráficos e relatórios.
+    /// </remarks>
     class DashboardRepository
     {
+        /// <summary>
+        /// String de conexão com o banco de dados SQLite.
+        /// </summary>
         private readonly string connectionString = $"Data Source={NobreakRepository.DbPath};Version=3;";
 
-
-        // Contar nobreaks ativos
+        /// <summary>
+        /// Conta o número de nobreaks que estão atualmente ativos no sistema.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém o número de nobreaks ativos.
+        /// </returns>
+        /// <remarks>
+        /// Considera apenas nobreaks com StatusOperacional = 'Ativo'.
+        /// Em caso de erro, retorna 0 e registra o erro no Debug.
+        /// </remarks>
         public async Task<int> ContarNobreaksAtivosAsync()
         {
             try
@@ -32,13 +52,23 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
             catch (Exception ex)
             {
-                // Log do erro 
+                // Registra o erro no console de debug para diagnóstico
                 System.Diagnostics.Debug.WriteLine($"Erro ao contar nobreaks ativos: {ex.Message}");
-                return 0;
+                return 0; // Retorna 0 como valor padrão em caso de erro
             }
         }
 
-        // Contar incidentes de hoje
+        /// <summary>
+        /// Conta o número de incidentes que ocorreram no dia atual.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém o número de incidentes registrados hoje.
+        /// </returns>
+        /// <remarks>
+        /// Utiliza a função DATE('now') do SQLite para comparar com a data atual.
+        /// Em caso de erro, retorna 0 e registra o erro no Debug.
+        /// </remarks>
         public async Task<int> ContarIncidentesHojeAsync()
         {
             try
@@ -46,6 +76,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection(connectionString))
                 {
                     await connection.OpenAsync();
+                    // Consulta apenas incidentes da data atual
                     string sql = @"SELECT COUNT(*) FROM Incidentes 
                               WHERE DATE(DataHora) = DATE('now')";
 
@@ -63,7 +94,17 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
-        // Contar nobreaks que precisam de manutenção (próxima troca de bateria)
+        /// <summary>
+        /// Conta quantos nobreaks precisam de manutenção preventiva nos próximos 30 dias.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém o número de nobreaks que precisam de manutenção.
+        /// </returns>
+        /// <remarks>
+        /// Considera nobreaks ativos cuja data de próxima troca de bateria 
+        /// está dentro dos próximos 30 dias. Em caso de erro, retorna 0.
+        /// </remarks>
         public async Task<int> ContarManutencaoPendenteAsync()
         {
             try
@@ -71,6 +112,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection(connectionString))
                 {
                     await connection.OpenAsync();
+                    // Busca nobreaks ativos com troca de bateria nos próximos 30 dias
                     string sql = @"SELECT COUNT(*) FROM Nobreaks 
                               WHERE StatusOperacional = 'Ativo' 
                               AND DATE(ProximaTrocaBateria) <= DATE('now', '+30 days')";
@@ -89,7 +131,17 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
-        // Contar nobreaks offline/inativos
+        /// <summary>
+        /// Conta o número de nobreaks que estão offline ou inativos.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém o número de nobreaks offline/inativos.
+        /// </returns>
+        /// <remarks>
+        /// Considera apenas nobreaks com StatusOperacional = 'Inativo'.
+        /// Em caso de erro, retorna 0 e registra o erro no Debug.
+        /// </remarks>
         public async Task<int> ContarNobreaksOfflineAsync()
         {
             try
@@ -114,7 +166,19 @@ namespace GlobalSolutionNoBreaker.Repositories
             }
         }
 
-        // Buscar dados para o gráfico (status dos nobreaks)
+        /// <summary>
+        /// Obtém dados agregados sobre o status dos nobreaks para exibição em gráfico.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém um dicionário com os status como chave 
+        /// e a quantidade de nobreaks como valor.
+        /// </returns>
+        /// <remarks>
+        /// Baseia-se no último monitoramento de cada nobreak ativo.
+        /// Os códigos de estado são mapeados para: OK (0), Alerta (1), Crítico (2,3).
+        /// Sempre retorna as três categorias principais, mesmo que com valor zero.
+        /// </remarks>
         public async Task<Dictionary<string, int>> ObterDadosGraficoStatusAsync()
         {
             var dados = new Dictionary<string, int>();
@@ -125,7 +189,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                 {
                     await connection.OpenAsync();
 
-                    // Buscar último monitoramento de cada nobreak ativo
+                    // Consulta complexa que busca o último monitoramento de cada nobreak ativo
+                    // e agrupa por status traduzido
                     string sql = @"
                     SELECT 
                         CASE 
@@ -171,7 +236,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                 System.Diagnostics.Debug.WriteLine($"Erro ao obter dados do gráfico: {ex.Message}");
             }
 
-            // Garantir que sempre temos as 3 categorias
+            // Garante que as três categorias principais sempre existam no retorno
+            // mesmo que não tenham dados no banco
             if (!dados.ContainsKey("OK")) dados["OK"] = 0;
             if (!dados.ContainsKey("Alerta")) dados["Alerta"] = 0;
             if (!dados.ContainsKey("Crítico")) dados["Crítico"] = 0;
@@ -179,7 +245,19 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dados;
         }
 
-        // Buscar últimos alertas/incidentes
+        /// <summary>
+        /// Obtém os últimos alertas/incidentes registrados no sistema.
+        /// </summary>
+        /// <param name="limite">Número máximo de registros a retornar. Padrão: 5.</param>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém um DataTable com os dados dos últimos alertas.
+        /// </returns>
+        /// <remarks>
+        /// Retorna informações detalhadas incluindo horário, modelo, localização e prioridade.
+        /// Os registros são ordenados por data/hora decrescente (mais recentes primeiro).
+        /// Em caso de erro, retorna um DataTable vazio.
+        /// </remarks>
         public async Task<DataTable> ObterUltimosAlertasAsync(int limite = 5)
         {
             var dataTable = new DataTable();
@@ -189,6 +267,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection(connectionString))
                 {
                     await connection.OpenAsync();
+                    // Consulta com JOINs para obter informações completas dos incidentes
                     string sql = @"
                     SELECT 
                         TIME(i.DataHora) as Horario,
@@ -213,6 +292,7 @@ namespace GlobalSolutionNoBreaker.Repositories
 
                         using (var adapter = new SQLiteDataAdapter(command))
                         {
+                            // Executa o preenchimento do DataTable em uma task separada
                             await Task.Run(() => adapter.Fill(dataTable));
                         }
                     }
@@ -226,6 +306,19 @@ namespace GlobalSolutionNoBreaker.Repositories
             return dataTable;
         }
 
+        /// <summary>
+        /// Obtém a lista de nobreaks que necessitam troca de bateria nos próximos 30 dias.
+        /// </summary>
+        /// <returns>
+        /// Uma tarefa que representa a operação assíncrona. 
+        /// O valor da tarefa contém um DataTable com os dados dos nobreaks 
+        /// que precisam de manutenção de bateria.
+        /// </returns>
+        /// <remarks>
+        /// Considera apenas nobreaks ativos cuja data de próxima troca de bateria 
+        /// está entre hoje e os próximos 30 dias. Os resultados são ordenados 
+        /// por data de troca (mais urgentes primeiro). Em caso de erro, retorna um DataTable vazio.
+        /// </remarks>
         public async Task<DataTable> ObterProximaBateriaAsync()
         {
             var dataTable = new DataTable();
@@ -235,6 +328,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var connection = new SQLiteConnection(connectionString))
                 {
                     await connection.OpenAsync();
+                    // Consulta nobreaks com troca de bateria programada nos próximos 30 dias
                     string sql = @"
                     SELECT 
                         n.Id, m.Nome AS Modelo, n.Localizacao, n.ProximaTrocaBateria 
@@ -261,7 +355,5 @@ namespace GlobalSolutionNoBreaker.Repositories
 
             return dataTable;
         }
-
-
     }
 }

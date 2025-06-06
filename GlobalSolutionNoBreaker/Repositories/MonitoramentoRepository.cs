@@ -6,18 +6,43 @@ using System.Data.SQLite;
 
 namespace NobreakSystem.Repository
 {
+    /// <summary>
+    /// Repositório responsável pelo gerenciamento de dados de monitoramento dos nobreaks.
+    /// </summary>
+    /// <remarks>
+    /// Esta classe fornece funcionalidades para inserir leituras de monitoramento,
+    /// obter dados de status dos nobreaks, gerar dados aleatórios para simulação
+    /// e calcular estatísticas de monitoramento.
+    /// </remarks>
     public class MonitoramentoRepository
     {
+        /// <summary>
+        /// String de conexão com o banco de dados SQLite.
+        /// </summary>
         private readonly string _connectionString = $"Data Source={NobreakRepository.DbPath};Version=3;";
 
+        /// <summary>
+        /// Inicializa uma nova instância da classe MonitoramentoRepository.
+        /// </summary>
+        /// <param name="connectionString">String de conexão personalizada com o banco de dados.</param>
+        /// <remarks>
+        /// O construtor permite sobrescrever a string de conexão padrão se necessário.
+        /// </remarks>
         public MonitoramentoRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
         /// <summary>
-        /// Busca todos os nobreaks ativos para monitoramento
+        /// Busca todos os IDs dos nobreaks que estão atualmente ativos no sistema.
         /// </summary>
+        /// <returns>Lista contendo os IDs dos nobreaks ativos.</returns>
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro ao acessar o banco de dados.
+        /// </exception>
+        /// <remarks>
+        /// Considera apenas nobreaks com StatusOperacional = 'Ativo'.
+        /// </remarks>
         public List<int> GetActiveNobreakIds()
         {
             var nobreakIds = new List<int>();
@@ -49,8 +74,18 @@ namespace NobreakSystem.Repository
         }
 
         /// <summary>
-        /// Insere uma nova leitura de monitoramento
+        /// Insere uma nova leitura de monitoramento no banco de dados.
         /// </summary>
+        /// <param name="nobreakId">ID do nobreak sendo monitorado.</param>
+        /// <param name="cargaAtualVA">Carga atual em VA (Volt-Ampere).</param>
+        /// <param name="porcentagemBateria">Percentual de carga da bateria (0-100).</param>
+        /// <param name="codigoEstado">Código do estado operacional do nobreak.</param>
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro ao inserir a leitura no banco de dados.
+        /// </exception>
+        /// <remarks>
+        /// O timestamp da leitura é definido automaticamente pelo banco de dados.
+        /// </remarks>
         public void InsertMonitoringReading(int nobreakId, int cargaAtualVA, int porcentagemBateria, int codigoEstado)
         {
             try
@@ -65,6 +100,7 @@ namespace NobreakSystem.Repository
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
+                        // Utiliza parâmetros para evitar SQL injection
                         command.Parameters.AddWithValue("@NobreakId", nobreakId);
                         command.Parameters.AddWithValue("@CargaAtualVA", cargaAtualVA);
                         command.Parameters.AddWithValue("@PorcentagemBateria", porcentagemBateria);
@@ -81,8 +117,16 @@ namespace NobreakSystem.Repository
         }
 
         /// <summary>
-        /// Atualiza o nível da bateria do nobreak
+        /// Atualiza o nível de bateria de um nobreak específico.
         /// </summary>
+        /// <param name="nobreakId">ID do nobreak a ser atualizado.</param>
+        /// <param name="batteryLevel">Novo nível de bateria em percentual (0-100).</param>
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro ao atualizar o banco de dados.
+        /// </exception>
+        /// <remarks>
+        /// Além de atualizar o nível da bateria, também registra o timestamp da atualização.
+        /// </remarks>
         public void UpdateNobreakBatteryLevel(int nobreakId, int batteryLevel)
         {
             try
@@ -113,8 +157,17 @@ namespace NobreakSystem.Repository
         }
 
         /// <summary>
-        /// Busca dados completos de monitoramento para exibição
+        /// Busca dados completos de monitoramento de todos os nobreaks ativos para exibição.
         /// </summary>
+        /// <returns>DataTable contendo os dados de monitoramento formatados.</returns>
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro ao carregar os dados do banco.
+        /// </exception>
+        /// <remarks>
+        /// Retorna informações detalhadas incluindo modelo, localização, carga atual,
+        /// percentual de bateria, status traduzido e timestamp da última leitura.
+        /// Utiliza a leitura mais recente de cada nobreak.
+        /// </remarks>
         public DataTable GetMonitoringData()
         {
             try
@@ -123,6 +176,7 @@ namespace NobreakSystem.Repository
                 {
                     connection.Open();
 
+                    // Consulta complexa que combina dados de nobreaks, modelos e último monitoramento
                     string query = @"
                         SELECT 
                             n.Id,
@@ -168,43 +222,64 @@ namespace NobreakSystem.Repository
         }
 
         /// <summary>
-        /// Gera e insere uma leitura aleatória para um nobreak específico
+        /// Gera e insere uma leitura aleatória para um nobreak específico.
         /// </summary>
+        /// <param name="nobreakId">ID do nobreak para o qual gerar a leitura.</param>
+        /// <param name="random">Instância do gerador de números aleatórios.</param>
+        /// <remarks>
+        /// Método útil para simulação e testes. Gera valores realistas de carga (100-2000 VA)
+        /// e percentual de bateria (10-100%). O código de estado é determinado automaticamente
+        /// com base nos valores gerados.
+        /// </remarks>
         public void GenerateRandomReadingForNobreak(int nobreakId, Random random)
         {
-            // Gera valores aleatórios realistas
+            // Gera valores aleatórios dentro de faixas realistas
             int cargaAtual = random.Next(100, 2000); // VA entre 100 e 2000
             int percentualBateria = random.Next(10, 100); // Entre 10% e 100%
 
-            // Define código de estado baseado no percentual da bateria e carga
+            // Determina o código de estado baseado nas condições simuladas
             int codigoEstado = DetermineStatusCode(percentualBateria, cargaAtual, random);
 
-            // Insere a leitura e atualiza o nobreak
+            // Insere a leitura e atualiza o registro do nobreak
             InsertMonitoringReading(nobreakId, cargaAtual, percentualBateria, codigoEstado);
             UpdateNobreakBatteryLevel(nobreakId, percentualBateria);
         }
 
         /// <summary>
-        /// Determina o código de status baseado nas condições do nobreak
+        /// Determina o código de status baseado nas condições operacionais do nobreak.
         /// </summary>
+        /// <param name="batteryPercent">Percentual atual da bateria.</param>
+        /// <param name="currentLoad">Carga atual em VA.</param>
+        /// <param name="random">Gerador de números aleatórios para simulação.</param>
+        /// <returns>
+        /// Código de estado: 0=Operacional, 1=Bateria Fraca, 2=Sobrecarga, 3=Desligado.
+        /// </returns>
+        /// <remarks>
+        /// Implementa uma lógica de prioridade: Desligado > Bateria Fraca > Sobrecarga > Operacional.
+        /// Inclui 2% de chance aleatória de simular desligamento inesperado.
+        /// </remarks>
         private int DetermineStatusCode(int batteryPercent, int currentLoad, Random random)
         {
-            // Prioridade: Desligado > Bateria Fraca > Sobrecarga > Operacional
+            // Implementa prioridade: Desligado > Bateria Fraca > Sobrecarga > Operacional
             if (random.Next(1, 100) <= 2) // 2% de chance de estar desligado
                 return 3; // Desligado
 
-            if (batteryPercent < 20)
+            if (batteryPercent < 20) // Bateria crítica
                 return 1; // Bateria Fraca
 
-            if (currentLoad > 1800)
+            if (currentLoad > 1800) // Carga muito alta
                 return 2; // Sobrecarga
 
             return 0; // Operacional
         }
 
         /// <summary>
-        /// Gera leituras aleatórias para todos os nobreaks ativos
+        /// Gera leituras aleatórias para todos os nobreaks ativos no sistema.
         /// </summary>
+        /// <remarks>
+        /// Método conveniente para simular dados de monitoramento em massa.
+        /// Utiliza uma única instância de Random para garantir distribuição adequada.
+        /// </remarks>
         public void GenerateRandomReadingsForAllActive()
         {
             var random = new Random();
@@ -217,16 +292,28 @@ namespace NobreakSystem.Repository
         }
 
         /// <summary>
-        /// Verifica se existem nobreaks ativos para monitoramento
+        /// Verifica se existem nobreaks ativos disponíveis para monitoramento.
         /// </summary>
+        /// <returns>True se houver nobreaks ativos, False caso contrário.</returns>
+        /// <remarks>
+        /// Método utilitário para validar se o sistema tem dispositivos para monitorar.
+        /// </remarks>
         public bool HasActiveNobreaks()
         {
             return GetActiveNobreakIds().Count > 0;
         }
 
         /// <summary>
-        /// Obtém estatísticas básicas do monitoramento
+        /// Obtém estatísticas consolidadas do monitoramento de todos os nobreaks ativos.
         /// </summary>
+        /// <returns>Objeto MonitoringStats com as estatísticas atuais.</returns>
+        /// <exception cref="Exception">
+        /// Lançada quando ocorre erro ao calcular as estatísticas.
+        /// </exception>
+        /// <remarks>
+        /// Baseia-se na leitura mais recente de cada nobreak para calcular as estatísticas.
+        /// Em caso de erro, retorna um objeto MonitoringStats vazio.
+        /// </remarks>
         public MonitoringStats GetMonitoringStats()
         {
             try
@@ -235,6 +322,7 @@ namespace NobreakSystem.Repository
                 {
                     connection.Open();
 
+                    // Consulta que agrega estatísticas por código de estado
                     string query = @"
                         SELECT 
                             COUNT(*) as TotalNobreaks,
@@ -274,19 +362,43 @@ namespace NobreakSystem.Repository
                 throw new Exception($"Erro ao obter estatísticas: {ex.Message}", ex);
             }
 
+            // Retorna objeto vazio em caso de falha na consulta
             return new MonitoringStats();
         }
     }
 
     /// <summary>
-    /// Classe para estatísticas de monitoramento
+    /// Classe que representa as estatísticas consolidadas de monitoramento dos nobreaks.
     /// </summary>
+    /// <remarks>
+    /// Utilizada para agrupar informações quantitativas sobre o status 
+    /// operacional dos nobreaks no sistema.
+    /// </remarks>
     public class MonitoringStats
     {
+        /// <summary>
+        /// Número total de nobreaks ativos no sistema.
+        /// </summary>
         public int TotalNobreaks { get; set; }
+
+        /// <summary>
+        /// Quantidade de nobreaks em estado operacional normal.
+        /// </summary>
         public int Operacionais { get; set; }
+
+        /// <summary>
+        /// Quantidade de nobreaks com bateria fraca (abaixo de 20%).
+        /// </summary>
         public int BateriaFraca { get; set; }
+
+        /// <summary>
+        /// Quantidade de nobreaks em estado de sobrecarga.
+        /// </summary>
         public int Sobrecarga { get; set; }
+
+        /// <summary>
+        /// Quantidade de nobreaks que estão desligados.
+        /// </summary>
         public int Desligados { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace GlobalSolutionNoBreaker.Models
         public int ModeloId { get; set; } // FK para Modelos(Id)
         public string Localizacao { get; set; }
         public DateTime DataAquisicao { get; set; }
-        public DateTime? DataGarantia { get; set; } // Calculada a partir do modelo
+        public DateTime? DataGarantia { get; set; } // Calculada a partir da data de aquisição e garantia do modelo
         public DateTime? DataUltimaManutencao { get; set; }
-        public DateTime? ProximaTrocaBateria { get; set; } // Calculada a partir do modelo
+        public DateTime? ProximaTrocaBateria { get; set; } // Calculada a partir data de aquisição e tempo de troca do modelo
         public string StatusOperacional { get; set; }
         public int? NivelBateriaPercent { get; set; }
         public DateTime CriadoEm { get; set; } = DateTime.Now;

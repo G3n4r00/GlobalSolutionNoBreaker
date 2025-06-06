@@ -4,32 +4,70 @@ using System.IO;
 
 namespace GlobalSolutionNoBreaker.Data
 {
+    /// <summary>
+    /// Classe estática responsável pela criação e inicialização do banco de dados SQLite.
+    /// Gerencia a estrutura de tabelas e a configuração inicial do sistema NoBreaker.
+    /// </summary>
     public static class DataMaker
     {
+        /// <summary>
+        /// Cria o banco de dados SQLite e todas as tabelas necessárias para o sistema.
+        /// </summary>
+        /// <remarks>
+        /// Este método:
+        /// <list type="bullet">
+        /// <item><description>Cria o diretório da aplicação em %APPDATA%\NobreakerSystemApp</description></item>
+        /// <item><description>Cria o arquivo de banco de dados NoBreakerSystem.db se não existir</description></item>
+        /// <item><description>Executa scripts DDL para criar todas as tabelas do sistema</description></item>
+        /// <item><description>Estabelece relacionamentos de chave estrangeira entre as tabelas</description></item>
+        /// </list>
+        /// 
+        /// Tabelas criadas:
+        /// <list type="bullet">
+        /// <item><description>Nobreaks - Armazena informações dos equipamentos nobreak</description></item>
+        /// <item><description>Modelos - Catálogo de modelos de nobreak disponíveis</description></item>
+        /// <item><description>Equipamentos - Equipamentos conectados aos nobreaks</description></item>
+        /// <item><description>Monitoramento - Dados de monitoramento em tempo real</description></item>
+        /// <item><description>Incidentes - Registro de incidentes do sistema</description></item>
+        /// <item><description>EquipamentosIncidente - Relacionamento entre equipamentos e incidentes</description></item>
+        /// <item><description>Usuarios - Dados de autenticação dos usuários</description></item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="DirectoryNotFoundException">
+        /// Pode ser lançada se houver problemas ao criar o diretório da aplicação.
+        /// </exception>
+        /// <exception cref="SQLiteException">
+        /// Lançada quando ocorrem erros específicos do SQLite durante a criação do banco.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// Lançada quando há problemas de acesso ao sistema de arquivos.
+        /// </exception>
         public static void CreateDatabase()
         {
-            // Define o caminho para AppData\Roaming\NobreakerSystemApp
+            // Define o caminho para a pasta da aplicação em AppData\Roaming\NobreakerSystemApp
             string path = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "NobreakerSystemApp"
             );
 
+            // Cria o diretório se ele não existir
             Directory.CreateDirectory(path); // Cria a pasta, se não existir
 
-            // Caminho completo do arquivo .db
+            // Define o caminho completo do arquivo de banco de dados
             string dbPath = Path.Combine(path, "NoBreakerSystem.db");
 
-            // Verifica se o arquivo já existe
+            // Verifica se o banco de dados já existe para evitar recriação
             if (!File.Exists(dbPath))
             {
-                // Cria o arquivo do banco de dados no caminho correto
+                // Cria o arquivo físico do banco de dados SQLite
                 SQLiteConnection.CreateFile(dbPath);
 
-                // Usa o caminho completo para conectar
+                // Estabelece conexão com o banco de dados recém-criado
                 using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
                 {
                     connection.Open();
 
+                    // Script DDL para criação de todas as tabelas do sistema
                     string createTables = @"
                         CREATE TABLE IF NOT EXISTS Nobreaks (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -102,18 +140,30 @@ namespace GlobalSolutionNoBreaker.Data
 
                     ";
 
+                    // Executa o script DDL para criar todas as tabelas
                     using (var cmd = new SQLiteCommand(createTables, connection))
                     {
                         cmd.ExecuteNonQuery();
                     }
 
+                    // Fecha a conexão com o banco de dados
                     connection.Close();
                 }
             }
         }
 
+        /// <summary>
+        /// Inicializa o banco de dados com dados padrão após sua criação.
+        /// </summary>
+        /// <remarks>
+        /// Este método delega a população inicial do banco de dados para a classe DataPopulator,
+        /// que é responsável por inserir dados de exemplo, configurações padrão e registros
+        /// necessários para o funcionamento inicial do sistema.
+        /// </remarks>
+        /// <seealso cref="DataPopulator.Populate"/>
         public static void InitializeDatabase()
         {
+            // Chama o método responsável por popular o banco com dados iniciais
             DataPopulator.Populate();
         }
     }

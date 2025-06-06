@@ -5,31 +5,43 @@ using System.Data;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
-
-
+    /// <summary>
+    /// Formulário para gerenciamento dos nobreaks,
+    /// permitindo adicionar, editar, excluir e visualizar os nobreaks cadastrados.
+    /// </summary>
     public partial class NobreakForm : BaseForm
     {
         private bool isEditMode = false;
         private int selectedNobreakId = -1;
 
+        /// <summary>
+        /// Inicializa uma nova instância do formulário NobreakForm.
+        /// </summary>
         public NobreakForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Evento disparado ao clicar em alguma célula do DataGridView (a implementar ou remover).
+        /// </summary>
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Evento não implementado - avaliar remoção ou uso futuro.
         }
 
+        /// <summary>
+        /// Evento de clique no botão Adicionar/Salvar, para inserir ou atualizar um nobreak.
+        /// </summary>
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             try
             {
-
+                // Obtém o modelo selecionado no combobox e seu ID via dicionário
                 string modeloSelecionado = cmbModelo.SelectedItem?.ToString();
                 modelosDict.TryGetValue(modeloSelecionado, out int modeloId);
 
+                // Cria objeto nobreak com dados preenchidos no formulário
                 var nobreak = new Nobreak
                 {
                     ModeloId = modeloId,
@@ -39,10 +51,10 @@ namespace GlobalSolutionNoBreaker.Forms
 
                 if (isEditMode)
                 {
-                    // Atualizar nobreak existente
+                    // Atualiza nobreak existente
                     nobreak.Id = selectedNobreakId;
                     nobreak.AtualizadoEm = DateTime.Now;
-                    nobreak.AtualizadoPor = Session.LoggedInEmail; // Captura o usuário que está atualizando
+                    nobreak.AtualizadoPor = Session.LoggedInEmail; // Usuário logado realizando a alteração
                     NobreakServices.UpdateNobreak(nobreak);
                     MessageBox.Show("Nobreak atualizado com sucesso!");
                     isEditMode = false;
@@ -52,16 +64,14 @@ namespace GlobalSolutionNoBreaker.Forms
                 }
                 else
                 {
+                    // Insere novo nobreak
                     nobreak.CriadoEm = DateTime.Now;
                     nobreak.CriadoPor = Session.LoggedInEmail;
                     NobreakServices.AddNobreak(nobreak);
                     MessageBox.Show("Nobreak inserido com sucesso!");
                     CarregarNobreaksGrid();
                     LimparCampos();
-
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -69,6 +79,9 @@ namespace GlobalSolutionNoBreaker.Forms
             }
         }
 
+        /// <summary>
+        /// Carrega os nobreaks no DataGridView para visualização.
+        /// </summary>
         private void CarregarNobreaksGrid()
         {
             try
@@ -76,7 +89,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 DataTable dt = NobreakRepository.GetAllNobreaksNobreaksPage();
                 dgvNobreak.DataSource = dt;
 
-                // Configuração opcional para renomear colunas na interface
+                // Configuração das colunas para melhor exibição
                 dgvNobreak.Columns["Id"].HeaderText = "ID";
                 dgvNobreak.Columns["Nome"].HeaderText = "Modelo";
                 dgvNobreak.Columns["Localizacao"].HeaderText = "Localização";
@@ -84,7 +97,6 @@ namespace GlobalSolutionNoBreaker.Forms
                 dgvNobreak.Columns["DataAquisicao"].HeaderText = "Data de Aquisição";
                 dgvNobreak.Columns["DataGarantia"].HeaderText = "Data de Garantia";
                 dgvNobreak.Columns["VidaUtilAnos"].HeaderText = "Vida Útil (anos)";
-
             }
             catch (Exception ex)
             {
@@ -92,19 +104,22 @@ namespace GlobalSolutionNoBreaker.Forms
             }
         }
 
+        /// <summary>
+        /// Evento de clique no botão Excluir, remove o nobreak selecionado após confirmação.
+        /// </summary>
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-
-
-
             try
             {
                 DataGridViewRow nobreakrow = dgvNobreak.SelectedRows[0];
                 var idValue = nobreakrow.Cells[0].Value;
                 int id = Convert.ToInt32(idValue);
-                var confirmar = MessageBox.Show($"Você tem certeza que deseja deletar o Nobreak de id {id}??",
-                                     $"Confirme a Exclusão do Nobreaker de id {id}!!",
-                                     MessageBoxButtons.YesNo);
+
+                var confirmar = MessageBox.Show(
+                    $"Você tem certeza que deseja deletar o Nobreak de id {id}?",
+                    $"Confirme a Exclusão do Nobreak de id {id}",
+                    MessageBoxButtons.YesNo);
+
                 if (confirmar == DialogResult.No)
                 {
                     MessageBox.Show("Exclusão cancelada!");
@@ -117,31 +132,43 @@ namespace GlobalSolutionNoBreaker.Forms
                     CarregarNobreaksGrid();
                     LimparCampos();
                 }
-
             }
             catch (Exception ex)
             {
+                // Caso nenhum nobreak válido esteja selecionado
                 MessageBox.Show("Selecione um nobreak válido para excluir.");
             }
-
         }
 
+        /// <summary>
+        /// Limpa os campos do formulário, resetando seleção e datas.
+        /// </summary>
         private void LimparCampos()
         {
             cmbModelo.SelectedIndex = -1;
             cmbLocal.SelectedIndex = -1;
             dtpAquisicao.Value = DateTime.Today;
         }
+
+        /// <summary>
+        /// Evento para limpar campos ao clicar no botão Limpar.
+        /// </summary>
         private void btnLimpar_Click(object sender, EventArgs e)
         {
             LimparCampos();
         }
 
+        /// <summary>
+        /// Evento não implementado para o botão Voltar (avaliar uso ou remoção).
+        /// </summary>
         private void btnVoltar_Click(object sender, EventArgs e)
         {
-
+            // Implementar ação de voltar ou remover evento se não utilizado
         }
 
+        /// <summary>
+        /// Dicionário que relaciona nome do modelo com seu respectivo ID.
+        /// </summary>
         private Dictionary<string, int> modelosDict = new()
         {
             { "Engetron Double Way Monofásico Modular DWMM 6 kVA", 1 },
@@ -152,13 +179,15 @@ namespace GlobalSolutionNoBreaker.Forms
             { "APC Symmetra PX 10 kVA", 6 }
         };
 
-
-
-
+        /// <summary>
+        /// Evento disparado ao carregar o formulário, inicializa combos e carrega dados.
+        /// </summary>
         private void NobreakForm_Load(object sender, EventArgs e)
         {
             var data = NobreakRepository.GetAllNobreaksNobreaksPage();
             dgvNobreak.DataSource = data;
+
+            // Preenche combo com opções de modelos
             cmbModelo.Items.AddRange(new string[]
             {
                 "Engetron Double Way Monofásico Modular DWMM 6 kVA",
@@ -168,12 +197,18 @@ namespace GlobalSolutionNoBreaker.Forms
                 "Eaton 9PX3000RT",
                 "APC Symmetra PX 10 kVA"
             });
+
+            // Preenche combo com possíveis locais
             cmbLocal.Items.AddRange(new string[] { "UTI", "Centro Cirúrgico", "Radiologia", "Emergência", "TI", "Farmácia", "Laboratório de Análise", "Sala do Servidor" });
 
             dtpAquisicao.MaxDate = DateTime.Today;
+
             CarregarNobreaksGrid();
         }
 
+        /// <summary>
+        /// Evento de duplo clique em célula do DataGridView para carregar nobreak selecionado para edição.
+        /// </summary>
         private void dgvNobreak_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -181,6 +216,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 if (e.RowIndex >= 0)
                 {
                     var row = dgvNobreak.Rows[e.RowIndex];
+
                     selectedNobreakId = Convert.ToInt32(row.Cells["Id"].Value);
                     cmbModelo.SelectedItem = row.Cells["Nome"].Value.ToString();
                     cmbLocal.SelectedItem = row.Cells["Localizacao"].Value.ToString();
@@ -194,14 +230,19 @@ namespace GlobalSolutionNoBreaker.Forms
             {
                 MessageBox.Show("Erro ao carregar nobreak para edição: " + ex.Message);
             }
-
         }
 
+        /// <summary>
+        /// Evento não implementado para clique em label Vida Útil (avaliar necessidade).
+        /// </summary>
         private void lblVida_Click(object sender, EventArgs e)
         {
-
+            // Evento não utilizado - considerar remoção ou implementação futura.
         }
 
+        /// <summary>
+        /// Evento para retornar ao menu principal e esconder este formulário.
+        /// </summary>
         private void btnVoltarNobreak_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -209,9 +250,12 @@ namespace GlobalSolutionNoBreaker.Forms
             form.Show();
         }
 
+        /// <summary>
+        /// Evento não implementado para clique em headerLabel2 (avaliar uso).
+        /// </summary>
         private void headerLabel2_Click(object sender, EventArgs e)
         {
-
+            // Evento não utilizado - avaliar necessidade.
         }
     }
 }

@@ -11,8 +11,15 @@ using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
+    /// <summary>
+    /// Formulário responsável pelo monitoramento dos nobreaks em tempo real.
+    /// </summary>
     public partial class MonitoramentoForm : BaseForm
     {
+        /// <summary>
+        /// Inicializa uma nova instância do formulário de monitoramento.
+        /// </summary>
+        /// <param name="connectionString">String de conexão com o banco de dados.</param>
         public MonitoramentoForm(string connectionString)
         {
             repository = new MonitoramentoRepository(connectionString);
@@ -22,12 +29,29 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         #region Fields
+
+        /// <summary>
+        /// Repositório utilizado para acesso aos dados de monitoramento.
+        /// </summary>
         private readonly MonitoramentoRepository repository;
+
+        /// <summary>
+        /// Temporizador responsável pela geração periódica de leituras.
+        /// </summary>
         private System.Windows.Forms.Timer monitoringTimer;
+
+        /// <summary>
+        /// Indica se o monitoramento está ativo.
+        /// </summary>
         private bool isMonitoring = false;
+
         #endregion
 
         #region Timer Initialization
+
+        /// <summary>
+        /// Inicializa o temporizador com intervalo de 20 segundos.
+        /// </summary>
         private void InitializeTimer()
         {
             monitoringTimer = new System.Windows.Forms.Timer
@@ -36,25 +60,32 @@ namespace GlobalSolutionNoBreaker.Forms
             };
             monitoringTimer.Tick += MonitoringTimer_Tick;
         }
+
         #endregion
 
         #region Event Handlers
 
+        /// <summary>
+        /// Evento chamado a cada intervalo do temporizador para gerar novas leituras.
+        /// </summary>
         private async void MonitoringTimer_Tick(object sender, EventArgs e)
         {
             await GenerateRandomReadingsAsync();
         }
 
-        
         #endregion
 
         #region Monitoring Control
+
+        /// <summary>
+        /// Inicia o processo de monitoramento, se houver nobreaks ativos.
+        /// </summary>
         private void StartMonitoring()
         {
             if (!repository.HasActiveNobreaks())
             {
                 MessageBox.Show("Não há nobreaks ativos para monitorar.", "Aviso",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -63,10 +94,13 @@ namespace GlobalSolutionNoBreaker.Forms
 
             UpdateUIForMonitoringState(true);
 
-            // Gera primeira leitura imediatamente
+            // Gera a primeira leitura imediatamente
             Task.Run(async () => await GenerateRandomReadingsAsync());
         }
 
+        /// <summary>
+        /// Encerra o processo de monitoramento.
+        /// </summary>
         private void StopMonitoring()
         {
             isMonitoring = false;
@@ -75,6 +109,9 @@ namespace GlobalSolutionNoBreaker.Forms
             UpdateUIForMonitoringState(false);
         }
 
+        /// <summary>
+        /// Atualiza os elementos visuais com base no estado atual do monitoramento.
+        /// </summary>
         private void UpdateUIForMonitoringState(bool isMonitoring)
         {
             if (isMonitoring)
@@ -92,16 +129,21 @@ namespace GlobalSolutionNoBreaker.Forms
                 lblStatus.ForeColor = Color.FromArgb(84, 84, 84);
             }
         }
+
         #endregion
 
         #region Data Management
+
+        /// <summary>
+        /// Gera leituras aleatórias para todos os nobreaks ativos e atualiza a interface.
+        /// </summary>
         private async Task GenerateRandomReadingsAsync()
         {
             try
             {
                 await Task.Run(() => repository.GenerateRandomReadingsForAllActive());
 
-                // Atualiza UI na thread principal
+                // Atualiza a interface na thread principal
                 if (this.InvokeRequired)
                 {
                     this.Invoke(new Action(() =>
@@ -121,17 +163,23 @@ namespace GlobalSolutionNoBreaker.Forms
                 this.Invoke(new Action(() =>
                 {
                     MessageBox.Show($"Erro ao gerar leituras: {ex.Message}", "Erro",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }));
             }
         }
 
+        /// <summary>
+        /// Carrega os dados e estatísticas iniciais do monitoramento.
+        /// </summary>
         private void LoadInitialData()
         {
             LoadMonitoringData();
             UpdateStatsDisplay();
         }
 
+        /// <summary>
+        /// Recupera os dados de monitoramento do repositório e os exibe na grade.
+        /// </summary>
         private void LoadMonitoringData()
         {
             try
@@ -143,29 +191,37 @@ namespace GlobalSolutionNoBreaker.Forms
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao carregar dados: {ex.Message}", "Erro",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        /// <summary>
+        /// Atualiza a exibição das estatísticas gerais dos nobreaks.
+        /// </summary>
         private void UpdateStatsDisplay()
         {
             try
             {
                 var stats = repository.GetMonitoringStats();
                 lblStatus.Text = $"Total: {stats.TotalNobreaks} | " +
-                               $"Operacionais: {stats.Operacionais} | " +
-                               $"Bateria Fraca: {stats.BateriaFraca} | " +
-                               $"Sobrecarga: {stats.Sobrecarga} | " +
-                               $"Desligados: {stats.Desligados}";
+                                 $"Operacionais: {stats.Operacionais} | " +
+                                 $"Bateria Fraca: {stats.BateriaFraca} | " +
+                                 $"Sobrecarga: {stats.Sobrecarga} | " +
+                                 $"Desligados: {stats.Desligados}";
             }
             catch (Exception ex)
             {
                 lblStatus.Text = $"Erro ao carregar estatísticas: {ex.Message}";
             }
         }
+
         #endregion
 
         #region UI Configuration
+
+        /// <summary>
+        /// Configura as colunas da grade de monitoramento.
+        /// </summary>
         private void ConfigureGridColumns()
         {
             if (dgvMonitoramento.Columns.Count == 0) return;
@@ -176,7 +232,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             }
 
-            // Agora configura normalmente
+            // Configura os nomes e larguras das colunas
             var columnConfig = new[]
             {
                 new { Name = "Id", Header = "ID", Width = 80 },
@@ -202,6 +258,9 @@ namespace GlobalSolutionNoBreaker.Forms
                 dgvMonitoramento.Columns["CodigoEstado"].Visible = false;
         }
 
+        /// <summary>
+        /// Aplica a coloração nas linhas da grade com base no código de estado.
+        /// </summary>
         private void ApplyRowStatusColor(DataGridViewRow row, int codigoEstado)
         {
             var colorScheme = GetStatusColorScheme(codigoEstado);
@@ -210,6 +269,9 @@ namespace GlobalSolutionNoBreaker.Forms
             row.DefaultCellStyle.SelectionBackColor = colorScheme.SelectionBackColor;
         }
 
+        /// <summary>
+        /// Retorna o esquema de cores de acordo com o estado do nobreak.
+        /// </summary>
         private (Color BackColor, Color ForeColor, Color SelectionBackColor) GetStatusColorScheme(int codigoEstado)
         {
             return codigoEstado switch
@@ -220,9 +282,15 @@ namespace GlobalSolutionNoBreaker.Forms
                 _ => (Color.White, Color.Black, Color.LightBlue) // Padrão
             };
         }
+
         #endregion
 
         #region Disposal
+
+        /// <summary>
+        /// Libera os recursos utilizados pelo formulário.
+        /// </summary>
+        /// <param name="disposing">Indica se deve liberar os recursos gerenciados.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -232,8 +300,12 @@ namespace GlobalSolutionNoBreaker.Forms
             }
             base.Dispose(disposing);
         }
+
         #endregion
-    
+
+        /// <summary>
+        /// Evento de clique no botão de iniciar/parar monitoramento.
+        /// </summary>
         private void btnStartStop_Click(object sender, EventArgs e)
         {
             if (!isMonitoring)
@@ -246,6 +318,9 @@ namespace GlobalSolutionNoBreaker.Forms
             }
         }
 
+        /// <summary>
+        /// Evento que formata as células da grade com base no estado do nobreak.
+        /// </summary>
         private void dgvMonitoramento_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < dgvMonitoramento.Rows.Count)

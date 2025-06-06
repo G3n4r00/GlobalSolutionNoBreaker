@@ -8,51 +8,111 @@ using System.Threading.Tasks;
 
 namespace GlobalSolutionNoBreaker.Data
 {
+    /// <summary>
+    /// Classe estática responsável por popular o banco de dados com dados de exemplo.
+    /// Fornece funcionalidades para inserir dados fictícios em todas as tabelas do sistema
+    /// para fins de teste e demonstração.
+    /// </summary>
     public static class DataPopulator
     {
+        /// <summary>
+        /// Gerador de números aleatórios utilizado para criar dados fictícios.
+        /// </summary>
         private static Random random = new Random();
 
-        // Define o caminho para AppData\Roaming\NobreakerSystemApp
+        /// <summary>
+        /// Caminho do diretório da aplicação em AppData\Roaming.
+        /// </summary>
         private static string path = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "NobreakerSystemApp"
         );
 
-        // Caminho completo do arquivo .db
+        /// <summary>
+        /// Caminho completo do arquivo de banco de dados SQLite.
+        /// </summary>
         private static string dbPath = Path.Combine(path, "NoBreakerSystem.db");
 
+        /// <summary>
+        /// Array de setores hospitalares utilizados para gerar localizações aleatórias.
+        /// </summary>
         private static string[] sectors = { "UTI", "Centro Cirúrgico", "Radiologia", "Emergência", "TI", "Farmácia", "Laboratório de Análise", "Sala do Servidor" };
+
+        /// <summary>
+        /// Array de nomes de equipamentos hospitalares para geração de dados fictícios.
+        /// </summary>
         private static string[] equipmentNames = { "Monitor cardíaco", "Ventilador pulmonar", "Bomba de infusão", "Ultrassom", "Desfibrilador", "Computador hospitalar", "Servidor Hospitalar" };
+
+        /// <summary>
+        /// Array de tipos de equipamentos para classificação.
+        /// </summary>
         private static string[] equipmentTypes = { "Crítico", "Suporte", "Diagnóstico" };
+
+        /// <summary>
+        /// Array de status operacionais possíveis para os nobreaks.
+        /// </summary>
         private static string[] statuses = { "Ativo", "Crítico", "Inativo" };
+
+        /// <summary>
+        /// Array de tipos de incidentes que podem ocorrer no sistema.
+        /// </summary>
         private static string[] incidentTypes = { "Bateria Fraca", "Falha no Inversor", "Sobrecarga", "Desligamento Inesperado" };
+
+        /// <summary>
+        /// Array de status possíveis para os incidentes registrados.
+        /// </summary>
         private static string[] incidentStatuses = { "Aberto", "Em Análise", "Resolvido" };
 
+        /// <summary>
+        /// Popula o banco de dados com dados de exemplo em todas as tabelas.
+        /// </summary>
+        /// <remarks>
+        /// Este método executa a seguinte sequência de operações:
+        /// <list type="number">
+        /// <item><description>Verifica se o banco já foi populado anteriormente</description></item>
+        /// <item><description>Insere modelos padrão de nobreak se necessário</description></item>
+        /// <item><description>Cria 20 registros de nobreaks com dados aleatórios</description></item>
+        /// <item><description>Associa 1-3 equipamentos a cada nobreak</description></item>
+        /// <item><description>Gera 10 registros de monitoramento por nobreak</description></item>
+        /// <item><description>Cria 15 incidentes distribuídos aleatoriamente</description></item>
+        /// </list>
+        /// 
+        /// Todos os dados são gerados aleatoriamente usando valores realísticos
+        /// para simular um ambiente hospitalar real.
+        /// </remarks>
+        /// <exception cref="SQLiteException">
+        /// Lançada quando ocorrem erros específicos do SQLite durante a inserção.
+        /// </exception>
+        /// <exception cref="Exception">
+        /// Captura e relança qualquer exceção não prevista para permitir tratamento pelo código chamador.
+        /// </exception>
         public static void Populate()
         {
             try
             {
+                // Estabelece conexão com o banco de dados
                 using (var connection = new SQLiteConnection($"Data Source={dbPath}"))
                 {
                     connection.Open();
 
-
-                    // Verifica se as tabelas principais já têm dados
+                    // Verifica se as tabelas principais já contêm dados
                     if (TabelasJaPopuladas(connection))
                     {
                         Console.WriteLine("📋 Banco de dados já possui dados. Operação cancelada.");
                         return;
                     }
 
-                    // Primeiro, verifica e insere modelos se necessário
+                    // Insere modelos padrão de nobreak se a tabela estiver vazia
                     InserirModelosPadrao(connection);
 
+                    // Lista para armazenar os IDs dos nobreaks criados
                     List<long> nobreakIds = new List<long>();
 
-                    // 1. Insert Nobreaks
+                    // 1. Inserção de registros de Nobreaks
                     Console.WriteLine("Inserindo Nobreaks...");
                     for (int i = 0; i < 20; i++)
                     {
+                        // Gera dados aleatórios para cada nobreak
                         int modeloId = RandomInt(1, 6);
                         string local = RandomChoice(sectors);
                         string dataAquisicao = RandomDate(1000, 2000);
@@ -63,6 +123,7 @@ namespace GlobalSolutionNoBreaker.Data
                         int nivelBateria = RandomInt(30, 100);
                         string criadoPor = GenerateEmail();
 
+                        // SQL para inserção do nobreak
                         string sql = @"
                             INSERT INTO Nobreaks (
                                 ModeloId, Localizacao, DataAquisicao, DataGarantia,
@@ -73,6 +134,7 @@ namespace GlobalSolutionNoBreaker.Data
 
                         using (var command = new SQLiteCommand(sql, connection))
                         {
+                            // Adiciona parâmetros para evitar SQL injection
                             command.Parameters.AddWithValue("@ModeloId", modeloId);
                             command.Parameters.AddWithValue("@Localizacao", local);
                             command.Parameters.AddWithValue("@DataAquisicao", dataAquisicao);
@@ -85,7 +147,7 @@ namespace GlobalSolutionNoBreaker.Data
 
                             command.ExecuteNonQuery();
 
-                            // Get the last inserted row ID
+                            // Obtém o ID do registro recém-inserido
                             using (var idCommand = new SQLiteCommand("SELECT last_insert_rowid()", connection))
                             {
                                 long lastId = (long)idCommand.ExecuteScalar();
@@ -94,10 +156,11 @@ namespace GlobalSolutionNoBreaker.Data
                         }
                     }
 
-                    // 2. Insert Equipment
+                    // 2. Inserção de Equipamentos associados aos nobreaks
                     Console.WriteLine("Inserindo Equipamentos...");
                     foreach (long nobreakId in nobreakIds)
                     {
+                        // Cada nobreak terá entre 1 e 3 equipamentos
                         int equipmentCount = RandomInt(1, 3);
                         for (int i = 0; i < equipmentCount; i++)
                         {
@@ -116,15 +179,16 @@ namespace GlobalSolutionNoBreaker.Data
                         }
                     }
 
-                    // 3. Insert Monitoring
+                    // 3. Inserção de dados de Monitoramento
                     Console.WriteLine("Inserindo dados de Monitoramento...");
                     foreach (long nobreakId in nobreakIds)
                     {
+                        // Gera 10 registros de monitoramento por nobreak
                         for (int i = 0; i < 10; i++)
                         {
                             int cargaVa = RandomInt(500, 4500);
                             int porcentagem = RandomInt(10, 100);
-                            int codigoEstado = RandomInt(0, 3);
+                            int codigoEstado = RandomInt(0, 3); // 0: Operacional, 1: BFraca, 2: Sobrecarga, 3: Desligado
                             string timestamp = RandomDate(30, 0) + " " + RandomTime();
 
                             string sql = @"
@@ -143,14 +207,14 @@ namespace GlobalSolutionNoBreaker.Data
                         }
                     }
 
-                    // 4. Insert Incidents
+                    // 4. Inserção de Incidentes
                     Console.WriteLine("Inserindo Incidentes...");
                     for (int i = 0; i < 15; i++)
                     {
                         long nobreakId = RandomChoice(nobreakIds);
                         string tipo = RandomChoice(incidentTypes);
                         string status = RandomChoice(incidentStatuses);
-                        int prioridade = RandomInt(1, 3);
+                        int prioridade = RandomInt(1, 3); // 1=Alta, 2=Média, 3=Baixa
                         string dataHora = RandomDate(5, 0) + " " + RandomTime();
 
                         string sql = @"
@@ -180,6 +244,22 @@ namespace GlobalSolutionNoBreaker.Data
             }
         }
 
+        /// <summary>
+        /// Insere modelos padrão de nobreak na tabela Modelos se ela estiver vazia.
+        /// </summary>
+        /// <param name="connection">Conexão ativa com o banco de dados SQLite.</param>
+        /// <remarks>
+        /// Este método insere 6 modelos de nobreak com especificações reais:
+        /// - Engetron Double Way Monofásico Modular DWMM 6 kVA
+        /// - Intelbras DNB ISO 6 kVA
+        /// - Delta Série RT 6 kVA
+        /// - TS Shara SYAL EM 4 kVA
+        /// - Eaton 9PX3000RT
+        /// - APC Symmetra PX 10 kVA
+        /// 
+        /// Cada modelo inclui informações sobre capacidade, garantia,
+        /// tempo de troca de bateria e vida útil.
+        /// </remarks>
         private static void InserirModelosPadrao(SQLiteConnection connection)
         {
             // Verifica se já existem modelos na tabela
@@ -191,7 +271,7 @@ namespace GlobalSolutionNoBreaker.Data
                 {
                     Console.WriteLine("Inserindo Modelos padrão...");
 
-                    // Lista de modelos para inserir
+                    // Lista de modelos de nobreak para inserir com especificações reais
                     var modelos = new[]
                     {
                         new { Nome = "Engetron Double Way Monofásico Modular DWMM 6 kVA", CapacidadeVA = 6000, TempoDeGarantia = 5, TempoTrocaBateria = 4, VidaUtilAnos = 8 },
@@ -206,6 +286,7 @@ namespace GlobalSolutionNoBreaker.Data
                         INSERT INTO Modelos (Nome, CapacidadeVA, TempoDeGarantia, TempoTrocaBateria, VidaUtilAnos)
                         VALUES (@Nome, @CapacidadeVA, @TempoDeGarantia, @TempoTrocaBateria, @VidaUtilAnos)";
 
+                    // Insere cada modelo na tabela
                     foreach (var modelo in modelos)
                     {
                         using (var insertCmd = new SQLiteCommand(insertModelo, connection))
@@ -222,11 +303,29 @@ namespace GlobalSolutionNoBreaker.Data
             }
         }
 
+        /// <summary>
+        /// Verifica se as principais tabelas do sistema já foram populadas com dados.
+        /// </summary>
+        /// <param name="connection">Conexão ativa com o banco de dados SQLite.</param>
+        /// <returns>
+        /// <c>true</c> se alguma das tabelas principais contém dados; 
+        /// <c>false</c> se todas estão vazias.
+        /// </returns>
+        /// <remarks>
+        /// Este método verifica as seguintes tabelas:
+        /// - Nobreaks
+        /// - Equipamentos  
+        /// - Monitoramento
+        /// - Incidentes
+        /// 
+        /// Se qualquer uma dessas tabelas contiver registros, o método retorna true
+        /// para evitar duplicação de dados.
+        /// </remarks>
         private static bool TabelasJaPopuladas(SQLiteConnection connection)
         {
             try
             {
-                // Verifica se as principais tabelas têm dados
+                // Lista das principais tabelas a serem verificadas
                 var tabelasParaVerificar = new[]
                 {
                     "Nobreaks",
@@ -235,6 +334,7 @@ namespace GlobalSolutionNoBreaker.Data
                     "Incidentes"
                 };
 
+                // Verifica cada tabela para presença de dados
                 foreach (string tabela in tabelasParaVerificar)
                 {
                     string query = $"SELECT COUNT(*) FROM {tabela}";
@@ -258,24 +358,53 @@ namespace GlobalSolutionNoBreaker.Data
             }
         }
 
-        // Utility methods
+        #region Métodos Utilitários para Geração de Dados Aleatórios
+
+        /// <summary>
+        /// Gera um número inteiro aleatório dentro do intervalo especificado (inclusivo).
+        /// </summary>
+        /// <param name="min">Valor mínimo (inclusivo).</param>
+        /// <param name="max">Valor máximo (inclusivo).</param>
+        /// <returns>Um número inteiro aleatório entre min e max.</returns>
         private static int RandomInt(int min, int max)
         {
             return random.Next(min, max + 1);
         }
 
+        /// <summary>
+        /// Seleciona um elemento aleatório de um array.
+        /// </summary>
+        /// <typeparam name="T">Tipo dos elementos do array.</typeparam>
+        /// <param name="array">Array de elementos para seleção.</param>
+        /// <returns>Um elemento aleatório do array.</returns>
         private static T RandomChoice<T>(T[] array)
         {
             return array[random.Next(array.Length)];
         }
 
+        /// <summary>
+        /// Seleciona um elemento aleatório de uma lista.
+        /// </summary>
+        /// <typeparam name="T">Tipo dos elementos da lista.</typeparam>
+        /// <param name="list">Lista de elementos para seleção.</param>
+        /// <returns>Um elemento aleatório da lista.</returns>
         private static T RandomChoice<T>(List<T> list)
         {
             return list[random.Next(list.Count)];
         }
 
+        /// <summary>
+        /// Gera uma data aleatória no passado dentro do intervalo especificado.
+        /// </summary>
+        /// <param name="startDaysAgo">Número de dias atrás para início do intervalo.</param>
+        /// <param name="endDaysAgo">Número de dias atrás para fim do intervalo.</param>
+        /// <returns>Uma string representando a data no formato "yyyy-MM-dd".</returns>
+        /// <remarks>
+        /// Se startDaysAgo for maior que endDaysAgo, os valores são trocados automaticamente.
+        /// </remarks>
         private static string RandomDate(int startDaysAgo, int endDaysAgo)
         {
+            // Garante que startDaysAgo seja menor que endDaysAgo
             if (startDaysAgo > endDaysAgo)
             {
                 int temp = startDaysAgo;
@@ -288,6 +417,12 @@ namespace GlobalSolutionNoBreaker.Data
             return date.ToString("yyyy-MM-dd");
         }
 
+        /// <summary>
+        /// Gera uma data aleatória no futuro dentro do intervalo especificado.
+        /// </summary>
+        /// <param name="startDays">Número mínimo de dias no futuro.</param>
+        /// <param name="endDays">Número máximo de dias no futuro.</param>
+        /// <returns>Uma string representando a data no formato "yyyy-MM-dd".</returns>
         private static string FutureDate(int startDays, int endDays)
         {
             int days = RandomInt(startDays, endDays);
@@ -295,6 +430,10 @@ namespace GlobalSolutionNoBreaker.Data
             return date.ToString("yyyy-MM-dd");
         }
 
+        /// <summary>
+        /// Gera um horário aleatório no formato "HH:mm:ss".
+        /// </summary>
+        /// <returns>Uma string representando o horário no formato "HH:mm:ss".</returns>
         private static string RandomTime()
         {
             int hours = random.Next(0, 24);
@@ -303,6 +442,18 @@ namespace GlobalSolutionNoBreaker.Data
             return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
         }
 
+        /// <summary>
+        /// Gera um endereço de email aleatório usando nomes e domínios predefinidos.
+        /// </summary>
+        /// <returns>Uma string representando um endereço de email fictício.</returns>
+        /// <remarks>
+        /// O email é gerado combinando aleatoriamente:
+        /// - Nomes brasileiros comuns
+        /// - Sobrenomes brasileiros comuns  
+        /// - Domínios de email populares
+        /// 
+        /// Formato: nome.sobrenome@dominio.com
+        /// </remarks>
         private static string GenerateEmail()
         {
             string[] firstNames = { "joao", "maria", "jose", "ana", "carlos", "lucia", "paulo", "fernanda" };
@@ -316,7 +467,20 @@ namespace GlobalSolutionNoBreaker.Data
             return $"{firstName}.{lastName}@{domain}";
         }
 
-        // Método adicional para verificar se o banco já foi populado
+        #endregion
+
+        /// <summary>
+        /// Verifica se o banco de dados já foi populado anteriormente.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> se o banco contém dados na tabela Nobreaks;
+        /// <c>false</c> caso contrário ou em caso de erro.
+        /// </returns>
+        /// <remarks>
+        /// Este é um método de conveniência que pode ser usado externamente
+        /// para verificar o status de população do banco antes de executar
+        /// operações que dependem da presença de dados.
+        /// </remarks>
         public static bool JaFoiPopulado()
         {
             try
@@ -334,6 +498,7 @@ namespace GlobalSolutionNoBreaker.Data
             }
             catch
             {
+                // Em caso de erro, assume que não foi populado
                 return false;
             }
         }
