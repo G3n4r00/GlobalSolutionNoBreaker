@@ -227,7 +227,7 @@ namespace NobreakSystem.Repository
         /// <param name="nobreakId">ID do nobreak para o qual gerar a leitura.</param>
         /// <param name="random">Instância do gerador de números aleatórios.</param>
         /// <remarks>
-        /// Método útil para simulação e testes. Gera valores realistas de carga (100-2000 VA)
+        /// Gera valores realistas de carga (100-2000 VA)
         /// e percentual de bateria (10-100%). O código de estado é determinado automaticamente
         /// com base nos valores gerados.
         /// </remarks>
@@ -277,7 +277,6 @@ namespace NobreakSystem.Repository
         /// Gera leituras aleatórias para todos os nobreaks ativos no sistema.
         /// </summary>
         /// <remarks>
-        /// Método conveniente para simular dados de monitoramento em massa.
         /// Utiliza uma única instância de Random para garantir distribuição adequada.
         /// </remarks>
         public void GenerateRandomReadingsForAllActive()

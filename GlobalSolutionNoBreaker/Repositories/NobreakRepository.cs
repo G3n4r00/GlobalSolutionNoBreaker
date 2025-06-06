@@ -185,10 +185,6 @@ namespace GlobalSolutionNoBreaker.Repositories
         /// </summary>
         /// <param name="id">ID do nobreak a ser buscado</param>
         /// <returns>Objeto Nobreak encontrado ou null se não existir</returns>
-        /// <remarks>
-        /// ATENÇÃO: Este método está retornando apenas alguns campos do nobreak.
-        /// Verificar se todos os campos necessários estão sendo mapeados.
-        /// </remarks>
         public static Nobreak GetNobreakById(int id)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
@@ -204,14 +200,12 @@ namespace GlobalSolutionNoBreaker.Repositories
                     {
                         if (reader.Read())
                         {
-                            // TODO: Mapear todos os campos da tabela Nobreaks
                             return new Nobreak
                             {
                                 Id = reader.GetInt32(0),
                                 ModeloId = reader.GetInt32(1),
                                 Localizacao = reader.GetString(2),
                                 DataAquisicao = DateTime.Parse(reader.GetString(3)),
-                                // Outros campos não estão sendo mapeados
                             };
                         }
                     }
@@ -225,9 +219,6 @@ namespace GlobalSolutionNoBreaker.Repositories
         /// Remove um nobreak do banco de dados pelo seu ID.
         /// </summary>
         /// <param name="id">ID do nobreak a ser removido</param>
-        /// <remarks>
-        /// CUIDADO: Esta operação é irreversível. Considerar implementar soft delete.
-        /// </remarks>
         public static void DeleteNobreak(int id)
         {
             using (var conn = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
@@ -249,21 +240,42 @@ namespace GlobalSolutionNoBreaker.Repositories
         /// Atualiza modelo, localização, data de aquisição e informações de auditoria.
         /// </summary>
         /// <param name="nobreak">Objeto Nobreak com os dados atualizados</param>
-        /// <remarks>
-        /// Este método não recalcula as datas de garantia e troca de bateria.
-        /// Considerar se isso é necessário quando o modelo ou data de aquisição são alterados.
-        /// </remarks>
         public static void UpdateNobreak(Nobreak nobreak)
         {
             using (var connection = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
             {
                 connection.Open();
 
+                // Buscar dados do modelo para calcular datas automáticas
+                string modeloQuery = "SELECT TempodeGarantia, TempoTrocaBateria FROM Modelos WHERE Id = @modeloId";
+                int tempoGarantiaAnos = 0;
+                int tempoTrocaBateriaAnos = 0;
+
+                using (var cmdModelo = new SQLiteCommand(modeloQuery, connection))
+                {
+                    cmdModelo.Parameters.AddWithValue("@modeloId", nobreak.ModeloId);
+
+                    using (var reader = cmdModelo.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            tempoGarantiaAnos = reader.GetInt32(0); // TempodeGarantia
+                            tempoTrocaBateriaAnos = reader.GetInt32(1); // TempoTrocaBateria
+                        }
+                    }
+                }
+
+                // Calcular datas baseadas na data de aquisição
+                nobreak.DataGarantia = nobreak.DataAquisicao.AddYears(tempoGarantiaAnos);
+                nobreak.ProximaTrocaBateria = nobreak.DataAquisicao.AddYears(tempoTrocaBateriaAnos);
+
                 // Atualiza apenas os campos básicos do nobreak
                 string sqlUpdate = @"UPDATE Nobreaks SET 
                       ModeloId = @ModeloId, 
                       Localizacao = @Localizacao, 
                       DataAquisicao = @DataAquisicao, 
+                      DataGarantia = @DataGarantia,
+                      ProximaTrocaBateria = @ProximaTrocaBateria,
                       AtualizadoPor = @AtualizadoPor, 
                       AtualizadoEm = @AtualizadoEm
                       WHERE Id = @Id";
@@ -276,6 +288,8 @@ namespace GlobalSolutionNoBreaker.Repositories
                     command.Parameters.AddWithValue("@DataAquisicao", nobreak.DataAquisicao);
                     command.Parameters.AddWithValue("@AtualizadoPor", nobreak.AtualizadoPor);
                     command.Parameters.AddWithValue("@AtualizadoEm", nobreak.AtualizadoEm);
+                    command.Parameters.AddWithValue("@DataGarantia", nobreak.DataGarantia?.ToString("yyyy-MM-dd"));
+                    command.Parameters.AddWithValue("@ProximaTrocaBateria", nobreak.ProximaTrocaBateria?.ToString("yyyy-MM-dd"));
 
                     command.ExecuteNonQuery();
                 }

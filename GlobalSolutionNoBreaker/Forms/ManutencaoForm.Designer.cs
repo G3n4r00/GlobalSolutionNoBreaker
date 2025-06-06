@@ -57,11 +57,12 @@
             dgvManutencao.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvManutencao.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvManutencao.Dock = DockStyle.Fill;
-            dgvManutencao.Location = new Point(0, 0);
+            dgvManutencao.Location = new Point(0, 64);
             dgvManutencao.Margin = new Padding(3, 4, 3, 4);
             dgvManutencao.Name = "dgvManutencao";
             dgvManutencao.ReadOnly = true;
-            dgvManutencao.Size = new Size(914, 561);
+            dgvManutencao.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvManutencao.Size = new Size(914, 333);
             dgvManutencao.TabIndex = 1;
             dgvManutencao.CellDoubleClick += dgvManutencao_CellDoubleClick;
             // 
@@ -239,11 +240,11 @@
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(914, 561);
             ControlBox = false;
+            Controls.Add(dgvManutencao);
             Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(dgvManutencao);
             Margin = new Padding(3, 5, 3, 5);
             MinimumSize = new Size(518, 500);
             Name = "ManutencaoForm";

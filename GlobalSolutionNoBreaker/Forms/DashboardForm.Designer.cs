@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             panAtivos = new Panel();
             lblValorAtivos = new ReaLTaiizor.Controls.HeaderLabel();
             headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
@@ -172,7 +172,6 @@
             headerLabel3.Size = new Size(185, 15);
             headerLabel3.TabIndex = 3;
             headerLabel3.Text = "Nobreaks em Estado Crítico";
-            headerLabel3.Click += headerLabel3_Click;
             // 
             // lblTituloTroca
             // 
@@ -186,7 +185,6 @@
             // dgvNobreaksTroca
             // 
             dgvNobreaksTroca.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvNobreaksTroca.BackgroundColor = SystemColors.Info;
             dgvNobreaksTroca.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvNobreaksTroca.Dock = DockStyle.Bottom;
             dgvNobreaksTroca.Location = new Point(0, 565);
@@ -226,7 +224,6 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(208, 120);
             panel3.TabIndex = 7;
-            panel3.Paint += panel3_Paint;
             // 
             // smallLabel1
             // 
@@ -266,20 +263,20 @@
             // 
             // chartStatus
             // 
-            chartArea3.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
-            chartArea3.Name = "ChartArea1";
-            chartStatus.ChartAreas.Add(chartArea3);
+            chartArea2.AlignmentOrientation = System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal;
+            chartArea2.Name = "ChartArea1";
+            chartStatus.ChartAreas.Add(chartArea2);
             chartStatus.Dock = DockStyle.Fill;
-            legend3.Name = "Legend1";
-            chartStatus.Legends.Add(legend3);
+            legend2.Name = "Legend1";
+            chartStatus.Legends.Add(legend2);
             chartStatus.Location = new Point(0, 192);
             chartStatus.Margin = new Padding(3, 4, 3, 4);
             chartStatus.Name = "chartStatus";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            chartStatus.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chartStatus.Series.Add(series2);
             chartStatus.Size = new Size(984, 200);
             chartStatus.TabIndex = 8;
             chartStatus.Text = "chart1";

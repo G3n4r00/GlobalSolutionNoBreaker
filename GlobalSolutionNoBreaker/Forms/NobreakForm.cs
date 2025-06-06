@@ -23,14 +23,6 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Evento disparado ao clicar em alguma célula do DataGridView (a implementar ou remover).
-        /// </summary>
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Evento não implementado - avaliar remoção ou uso futuro.
-        }
-
-        /// <summary>
         /// Evento de clique no botão Adicionar/Salvar, para inserir ou atualizar um nobreak.
         /// </summary>
         private void btnAdicionar_Click(object sender, EventArgs e)
@@ -61,6 +53,7 @@ namespace GlobalSolutionNoBreaker.Forms
                     btnAdicionar.Text = "Adicionar";
                     CarregarNobreaksGrid();
                     LimparCampos();
+                    btnAdicionar.Refresh(); // Força o redesenho imediato do botão
                 }
                 else
                 {
@@ -71,6 +64,7 @@ namespace GlobalSolutionNoBreaker.Forms
                     MessageBox.Show("Nobreak inserido com sucesso!");
                     CarregarNobreaksGrid();
                     LimparCampos();
+                    btnAdicionar.Refresh(); 
                 }
             }
             catch (Exception ex)
@@ -105,7 +99,7 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Evento de clique no botão Excluir, remove o nobreak selecionado após confirmação.
+        /// Remove o nobreak selecionado após confirmação.
         /// </summary>
         private void btnExcluir_Click(object sender, EventArgs e)
         {
@@ -148,22 +142,6 @@ namespace GlobalSolutionNoBreaker.Forms
             cmbModelo.SelectedIndex = -1;
             cmbLocal.SelectedIndex = -1;
             dtpAquisicao.Value = DateTime.Today;
-        }
-
-        /// <summary>
-        /// Evento para limpar campos ao clicar no botão Limpar.
-        /// </summary>
-        private void btnLimpar_Click(object sender, EventArgs e)
-        {
-            LimparCampos();
-        }
-
-        /// <summary>
-        /// Evento não implementado para o botão Voltar (avaliar uso ou remoção).
-        /// </summary>
-        private void btnVoltar_Click(object sender, EventArgs e)
-        {
-            // Implementar ação de voltar ou remover evento se não utilizado
         }
 
         /// <summary>
@@ -224,20 +202,13 @@ namespace GlobalSolutionNoBreaker.Forms
 
                     isEditMode = true;
                     btnAdicionar.Text = "Salvar Alterações";
+                    btnAdicionar.Refresh();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao carregar nobreak para edição: " + ex.Message);
             }
-        }
-
-        /// <summary>
-        /// Evento não implementado para clique em label Vida Útil (avaliar necessidade).
-        /// </summary>
-        private void lblVida_Click(object sender, EventArgs e)
-        {
-            // Evento não utilizado - considerar remoção ou implementação futura.
         }
 
         /// <summary>
@@ -251,11 +222,20 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Evento não implementado para clique em headerLabel2 (avaliar uso).
+        /// Limpa todos os campos do formulário e reseta o modo de edição.
         /// </summary>
-        private void headerLabel2_Click(object sender, EventArgs e)
+        private void btnLimpar_Click_1(object sender, EventArgs e)
         {
-            // Evento não utilizado - avaliar necessidade.
+            // Limpa os campos do formulário
+            LimparCampos();
+
+            // Reseta o modo de edição
+            isEditMode = false;
+            selectedNobreakId = -1;
+
+            // Restaura o texto original do botão
+            btnAdicionar.Text = "Adicionar";
+            btnAdicionar.Refresh(); // Força o redesenho imediato do botão
         }
     }
 }

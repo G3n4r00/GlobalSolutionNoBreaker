@@ -28,7 +28,6 @@ namespace GlobalSolutionNoBreaker.Forms
             LoadInitialData();
         }
 
-        #region Fields
 
         /// <summary>
         /// Repositório utilizado para acesso aos dados de monitoramento.
@@ -45,9 +44,6 @@ namespace GlobalSolutionNoBreaker.Forms
         /// </summary>
         private bool isMonitoring = false;
 
-        #endregion
-
-        #region Timer Initialization
 
         /// <summary>
         /// Inicializa o temporizador com intervalo de 20 segundos.
@@ -61,10 +57,6 @@ namespace GlobalSolutionNoBreaker.Forms
             monitoringTimer.Tick += MonitoringTimer_Tick;
         }
 
-        #endregion
-
-        #region Event Handlers
-
         /// <summary>
         /// Evento chamado a cada intervalo do temporizador para gerar novas leituras.
         /// </summary>
@@ -72,10 +64,6 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             await GenerateRandomReadingsAsync();
         }
-
-        #endregion
-
-        #region Monitoring Control
 
         /// <summary>
         /// Inicia o processo de monitoramento, se houver nobreaks ativos.
@@ -119,7 +107,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 btnStartStop.Text = "PARAR MONITORAMENTO";
                 btnStartStop.ButtonType = ReaLTaiizor.Util.HopeButtonType.Danger;
                 lblStatus.Text = "Status: Monitorando...";
-                lblStatus.ForeColor = Color.FromArgb(46, 125, 50);
+                lblStatus.ForeColor = Color.FromArgb(255, 255, 255);
             }
             else
             {
@@ -129,10 +117,6 @@ namespace GlobalSolutionNoBreaker.Forms
                 lblStatus.ForeColor = Color.FromArgb(84, 84, 84);
             }
         }
-
-        #endregion
-
-        #region Data Management
 
         /// <summary>
         /// Gera leituras aleatórias para todos os nobreaks ativos e atualiza a interface.
@@ -215,10 +199,6 @@ namespace GlobalSolutionNoBreaker.Forms
             }
         }
 
-        #endregion
-
-        #region UI Configuration
-
         /// <summary>
         /// Configura as colunas da grade de monitoramento.
         /// </summary>
@@ -283,10 +263,6 @@ namespace GlobalSolutionNoBreaker.Forms
             };
         }
 
-        #endregion
-
-        #region Disposal
-
         /// <summary>
         /// Libera os recursos utilizados pelo formulário.
         /// </summary>
@@ -300,8 +276,6 @@ namespace GlobalSolutionNoBreaker.Forms
             }
             base.Dispose(disposing);
         }
-
-        #endregion
 
         /// <summary>
         /// Evento de clique no botão de iniciar/parar monitoramento.
@@ -333,6 +307,16 @@ namespace GlobalSolutionNoBreaker.Forms
                     ApplyRowStatusColor(row, codigoEstado);
                 }
             }
+        }
+
+        /// <summary>
+        /// Evento para retornar ao menu principal e esconder este formulário.
+        /// </summary>
+        private void btnVoltarManutencao_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MenuForm form = new MenuForm();
+            form.Show();
         }
     }
 }

@@ -68,7 +68,6 @@
             dgvNobreak.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNobreak.Size = new Size(914, 325);
             dgvNobreak.TabIndex = 0;
-            dgvNobreak.CellContentClick += dataGridView1_CellContentClick;
             dgvNobreak.CellDoubleClick += dgvNobreak_CellDoubleClick;
             // 
             // dtpAquisicao
@@ -132,15 +131,16 @@
             btnLimpar.Font = new Font("Segoe UI", 12F);
             btnLimpar.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnLimpar.InfoColor = Color.FromArgb(144, 147, 153);
-            btnLimpar.Location = new Point(640, 8);
+            btnLimpar.Location = new Point(512, 8);
             btnLimpar.Name = "btnLimpar";
             btnLimpar.PrimaryColor = Color.FromArgb(64, 158, 255);
-            btnLimpar.Size = new Size(128, 32);
+            btnLimpar.Size = new Size(176, 32);
             btnLimpar.SuccessColor = Color.FromArgb(103, 194, 58);
             btnLimpar.TabIndex = 24;
             btnLimpar.Text = "Limpar";
             btnLimpar.TextColor = Color.White;
             btnLimpar.WarningColor = Color.FromArgb(230, 162, 60);
+            btnLimpar.Click += btnLimpar_Click_1;
             // 
             // btnExcluir
             // 
@@ -151,10 +151,10 @@
             btnExcluir.Font = new Font("Segoe UI", 12F);
             btnExcluir.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnExcluir.InfoColor = Color.FromArgb(144, 147, 153);
-            btnExcluir.Location = new Point(496, 8);
+            btnExcluir.Location = new Point(328, 8);
             btnExcluir.Name = "btnExcluir";
             btnExcluir.PrimaryColor = Color.FromArgb(64, 158, 255);
-            btnExcluir.Size = new Size(128, 32);
+            btnExcluir.Size = new Size(176, 32);
             btnExcluir.SuccessColor = Color.FromArgb(103, 194, 58);
             btnExcluir.TabIndex = 25;
             btnExcluir.Text = "Excluir";
@@ -170,10 +170,10 @@
             btnAdicionar.Font = new Font("Segoe UI", 12F);
             btnAdicionar.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnAdicionar.InfoColor = Color.FromArgb(144, 147, 153);
-            btnAdicionar.Location = new Point(776, 8);
+            btnAdicionar.Location = new Point(696, 8);
             btnAdicionar.Name = "btnAdicionar";
             btnAdicionar.PrimaryColor = Color.FromArgb(64, 158, 255);
-            btnAdicionar.Size = new Size(128, 32);
+            btnAdicionar.Size = new Size(208, 32);
             btnAdicionar.SuccessColor = Color.FromArgb(103, 194, 58);
             btnAdicionar.TabIndex = 26;
             btnAdicionar.Text = "Adicionar";
@@ -203,7 +203,6 @@
             headerLabel2.Size = new Size(72, 20);
             headerLabel2.TabIndex = 28;
             headerLabel2.Text = "Modelo:";
-            headerLabel2.Click += headerLabel2_Click;
             // 
             // headerLabel3
             // 

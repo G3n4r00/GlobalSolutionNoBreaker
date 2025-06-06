@@ -17,16 +17,12 @@ namespace GlobalSolutionNoBreaker.Forms
     /// </summary>
     public partial class CadastroForm : BaseForm
     {
-        /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="CadastroForm"/>.
-        /// </summary>
         public CadastroForm()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// Manipula o clique no botão de criar usuário.
         /// Realiza a validação dos campos e, se válidos, registra o usuário no sistema.
         /// </summary>
         /// <param name="sender">Objeto que disparou o evento.</param>

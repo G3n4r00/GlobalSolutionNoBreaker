@@ -50,7 +50,7 @@ namespace GlobalSolutionNoBreaker.Forms
 
                     // Abre a tela principal e oculta a de login
                     this.Hide();
-                    NobreakForm mainForm = new NobreakForm();
+                    MenuForm mainForm = new MenuForm();
                     mainForm.Show();
                 }
                 else
@@ -77,15 +77,6 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Evento de clique no campo de e-mail (reservado para lógica futura, se necessário).
-        /// </summary>
-        private void txtEmailLogin_Click(object sender, EventArgs e)
-        {
-            // Pode ser utilizado futuramente para interações com o campo de e-mail
-        }
-
-        /// <summary>
-        /// Evento acionado ao clicar no botão "Sair".
         /// Encerra a aplicação.
         /// </summary>
         private void btnSair_Click(object sender, EventArgs e)

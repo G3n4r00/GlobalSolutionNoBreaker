@@ -358,8 +358,6 @@ namespace GlobalSolutionNoBreaker.Data
             }
         }
 
-        #region Métodos Utilitários para Geração de Dados Aleatórios
-
         /// <summary>
         /// Gera um número inteiro aleatório dentro do intervalo especificado (inclusivo).
         /// </summary>
@@ -466,8 +464,6 @@ namespace GlobalSolutionNoBreaker.Data
 
             return $"{firstName}.{lastName}@{domain}";
         }
-
-        #endregion
 
         /// <summary>
         /// Verifica se o banco de dados já foi populado anteriormente.

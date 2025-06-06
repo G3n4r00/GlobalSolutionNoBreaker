@@ -33,14 +33,9 @@ namespace GlobalSolutionNoBreaker.Forms
 
             // Garante que o método de carregamento seja executado quando o formulário for aberto
             this.Load += DashboardForm_Load;
-
-            // Define o fundo escuro dos DataGridViews para manter a estética da interface
-            dgvNobreaksTroca.BackgroundColor = Color.FromArgb(30, 30, 60);
-            dgvAlertasRecentes.BackgroundColor = Color.FromArgb(30, 30, 60);
         }
 
         /// <summary>
-        /// Evento executado quando o formulário é carregado.
         /// Inicia a atualização dos dados e configura o temporizador de atualização automática.
         /// </summary>
         private async void DashboardForm_Load(object sender, EventArgs e)
@@ -157,22 +152,6 @@ namespace GlobalSolutionNoBreaker.Forms
                     chartStatus.Series.Add(serie);
                 }
             }
-        }
-
-        /// <summary>
-        /// Evento de pintura do painel 3 (não utilizado atualmente).
-        /// </summary>
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-            // Intencionalmente vazio - pode ser usado futuramente para desenhar elementos personalizados
-        }
-
-        /// <summary>
-        /// Evento de clique no rótulo do cabeçalho 3 (não utilizado atualmente).
-        /// </summary>
-        private void headerLabel3_Click(object sender, EventArgs e)
-        {
-            // Intencionalmente vazio
         }
 
         /// <summary>

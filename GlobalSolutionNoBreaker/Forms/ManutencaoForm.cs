@@ -21,9 +21,6 @@ namespace GlobalSolutionNoBreaker.Forms
         // Armazena o ID do nobreak selecionado
         private int selectedNobreakId = -1;
 
-        /// <summary>
-        /// Inicializa o formulário.
-        /// </summary>
         public ManutencaoForm()
         {
             InitializeComponent();
@@ -144,14 +141,6 @@ namespace GlobalSolutionNoBreaker.Forms
             this.Hide();
             MenuForm form = new MenuForm();
             form.Show();
-        }
-
-        /// <summary>
-        /// Evento de clique no rótulo do ID (reservado para lógica futura, se necessário).
-        /// </summary>
-        private void lblIdManutencao_Click(object sender, EventArgs e)
-        {
-            // Pode ser usado para lógica adicional no futuro.
         }
     }
 }

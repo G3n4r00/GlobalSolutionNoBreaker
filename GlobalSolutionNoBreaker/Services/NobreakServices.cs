@@ -84,7 +84,7 @@ namespace GlobalSolutionNoBreaker.Services
         /// Lançada quando algum campo obrigatório é inválido ou está em branco
         /// </exception>
         /// <remarks>
-        /// Valida: ID válido, modelo válido, localização preenchida e data de aquisição não futura
+        /// Valida: ID válido, modelo válido, localização preenchida e data de aquisição não sendo futura
         /// antes de atualizar no banco de dados.
         /// </remarks>
         public static void UpdateNobreak(Nobreak nobreak)

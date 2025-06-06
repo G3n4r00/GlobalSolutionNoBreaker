@@ -32,6 +32,7 @@
             lblStatus = new ReaLTaiizor.Controls.HeaderLabel();
             btnStartStop = new ReaLTaiizor.Controls.HopeRoundButton();
             panelStats = new Panel();
+            btnVoltarManutencao = new ReaLTaiizor.Controls.HopeRoundButton();
             headerLabel1 = new ReaLTaiizor.Controls.HeaderLabel();
             dgvMonitoramento = new DataGridView();
             panelTop.SuspendLayout();
@@ -69,13 +70,13 @@
             btnStartStop.ButtonType = ReaLTaiizor.Util.HopeButtonType.Success;
             btnStartStop.DangerColor = Color.FromArgb(245, 108, 108);
             btnStartStop.DefaultColor = Color.FromArgb(255, 255, 255);
-            btnStartStop.Font = new Font("Segoe UI", 12F);
+            btnStartStop.Font = new Font("Segoe UI", 10F);
             btnStartStop.HoverTextColor = Color.FromArgb(48, 49, 51);
             btnStartStop.InfoColor = Color.FromArgb(144, 147, 153);
-            btnStartStop.Location = new Point(16, 16);
+            btnStartStop.Location = new Point(8, 16);
             btnStartStop.Name = "btnStartStop";
             btnStartStop.PrimaryColor = Color.FromArgb(64, 158, 255);
-            btnStartStop.Size = new Size(216, 35);
+            btnStartStop.Size = new Size(224, 35);
             btnStartStop.SuccessColor = Color.FromArgb(103, 194, 58);
             btnStartStop.TabIndex = 0;
             btnStartStop.Text = "Iniciar Monitoramento";
@@ -86,6 +87,7 @@
             // panelStats
             // 
             panelStats.BackColor = SystemColors.Highlight;
+            panelStats.Controls.Add(btnVoltarManutencao);
             panelStats.Controls.Add(headerLabel1);
             panelStats.Dock = DockStyle.Top;
             panelStats.Location = new Point(0, 60);
@@ -93,6 +95,26 @@
             panelStats.Padding = new Padding(10, 5, 10, 5);
             panelStats.Size = new Size(914, 40);
             panelStats.TabIndex = 1;
+            // 
+            // btnVoltarManutencao
+            // 
+            btnVoltarManutencao.BorderColor = Color.FromArgb(220, 223, 230);
+            btnVoltarManutencao.ButtonType = ReaLTaiizor.Util.HopeButtonType.Danger;
+            btnVoltarManutencao.DangerColor = Color.FromArgb(245, 108, 108);
+            btnVoltarManutencao.DefaultColor = Color.FromArgb(255, 255, 255);
+            btnVoltarManutencao.Font = new Font("Segoe UI", 12F);
+            btnVoltarManutencao.HoverTextColor = Color.FromArgb(48, 49, 51);
+            btnVoltarManutencao.InfoColor = Color.FromArgb(144, 147, 153);
+            btnVoltarManutencao.Location = new Point(824, 8);
+            btnVoltarManutencao.Name = "btnVoltarManutencao";
+            btnVoltarManutencao.PrimaryColor = Color.FromArgb(64, 158, 255);
+            btnVoltarManutencao.Size = new Size(80, 24);
+            btnVoltarManutencao.SuccessColor = Color.FromArgb(103, 194, 58);
+            btnVoltarManutencao.TabIndex = 1;
+            btnVoltarManutencao.Text = "Voltar";
+            btnVoltarManutencao.TextColor = Color.White;
+            btnVoltarManutencao.WarningColor = Color.FromArgb(230, 162, 60);
+            btnVoltarManutencao.Click += btnVoltarManutencao_Click;
             // 
             // headerLabel1
             // 
@@ -154,5 +176,6 @@
         private Panel panelStats;
         private ReaLTaiizor.Controls.HeaderLabel headerLabel1;
         private DataGridView dgvMonitoramento;
+        private ReaLTaiizor.Controls.HopeRoundButton btnVoltarManutencao;
     }
 }

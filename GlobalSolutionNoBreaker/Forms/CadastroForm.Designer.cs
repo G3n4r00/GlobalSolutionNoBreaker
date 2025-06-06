@@ -79,7 +79,6 @@
             txtEmailCadastro.Size = new Size(424, 32);
             txtEmailCadastro.TabIndex = 2;
             txtEmailCadastro.TabStop = false;
-            txtEmailCadastro.Text = "hopeTextBox1";
             txtEmailCadastro.UseSystemPasswordChar = false;
             // 
             // txtSenhaCadastro
@@ -95,7 +94,7 @@
             txtSenhaCadastro.MaxLength = 32767;
             txtSenhaCadastro.Multiline = false;
             txtSenhaCadastro.Name = "txtSenhaCadastro";
-            txtSenhaCadastro.PasswordChar = '\0';
+            txtSenhaCadastro.PasswordChar = '*';
             txtSenhaCadastro.ScrollBars = ScrollBars.None;
             txtSenhaCadastro.SelectedText = "";
             txtSenhaCadastro.SelectionLength = 0;
@@ -103,13 +102,12 @@
             txtSenhaCadastro.Size = new Size(424, 32);
             txtSenhaCadastro.TabIndex = 3;
             txtSenhaCadastro.TabStop = false;
-            txtSenhaCadastro.Text = "hopeTextBox1";
             txtSenhaCadastro.UseSystemPasswordChar = false;
             // 
             // btnCriarUsuarioCadastro
             // 
             btnCriarUsuarioCadastro.BorderColor = Color.FromArgb(220, 223, 230);
-            btnCriarUsuarioCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Success;
+            btnCriarUsuarioCadastro.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
             btnCriarUsuarioCadastro.DangerColor = Color.FromArgb(245, 108, 108);
             btnCriarUsuarioCadastro.DefaultColor = Color.FromArgb(255, 255, 255);
             btnCriarUsuarioCadastro.Font = new Font("Segoe UI", 12F);

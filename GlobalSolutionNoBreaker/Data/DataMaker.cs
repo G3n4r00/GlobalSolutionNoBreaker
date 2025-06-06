@@ -18,8 +18,7 @@ namespace GlobalSolutionNoBreaker.Data
         /// <list type="bullet">
         /// <item><description>Cria o diretório da aplicação em %APPDATA%\NobreakerSystemApp</description></item>
         /// <item><description>Cria o arquivo de banco de dados NoBreakerSystem.db se não existir</description></item>
-        /// <item><description>Executa scripts DDL para criar todas as tabelas do sistema</description></item>
-        /// <item><description>Estabelece relacionamentos de chave estrangeira entre as tabelas</description></item>
+        /// <item><description>Executa scripts DDL para criar e linkar todas as tabelas do sistema</description></item>
         /// </list>
         /// 
         /// Tabelas criadas:
@@ -51,7 +50,7 @@ namespace GlobalSolutionNoBreaker.Data
             );
 
             // Cria o diretório se ele não existir
-            Directory.CreateDirectory(path); // Cria a pasta, se não existir
+            Directory.CreateDirectory(path);
 
             // Define o caminho completo do arquivo de banco de dados
             string dbPath = Path.Combine(path, "NoBreakerSystem.db");

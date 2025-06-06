@@ -23,15 +23,14 @@ namespace GlobalSolutionNoBreaker
             ApplicationConfiguration.Initialize();
 
             // Garante que o banco de dados está criado e configurado
-            // DataDeletion.DeleteDatabase(); // [COMENTADO] Remove o banco para reset completo
+            //DataDeletion.DeleteDatabase(); //Remove o banco para reset completo
             DataMaker.CreateDatabase();
 
             // Popula o banco de dados com dados iniciais se necessário
-            // DataPopulator.Populate(); // [COMENTADO] Dados de exemplo para desenvolvimento
+            DataPopulator.Populate();
 
-            // Inicia a aplicação com o formulário principal
-            // Application.Run(new LoginForm()); // [COMENTADO] Formulário de login
-            Application.Run(new MenuForm()); // Formulário principal do menu
+            // Inicia a aplicação com o formulário de LOGIN
+            Application.Run(new LoginForm()); 
         }
     }
 }

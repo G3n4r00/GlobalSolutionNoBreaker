@@ -77,8 +77,9 @@ namespace GlobalSolutionNoBreaker.Forms
         /// </summary>
         private void btnMonitoramentoMenu_Click(object sender, EventArgs e)
         {
+            string connectionString = $"Data Source={NobreakRepository.DbPath};Version=3;";
             this.Hide();
-            LoginForm form = new LoginForm(); // TODO: Substituir por MonitoramentoForm
+            MonitoramentoForm form = new MonitoramentoForm(connectionString); 
             form.Show();
         }
 
@@ -105,14 +106,6 @@ namespace GlobalSolutionNoBreaker.Forms
                 MessageBox.Show($"Erro ao gerar relatório:\n{ex.Message}",
                                 "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        /// <summary>
-        /// Evento de clique no rótulo (não utilizado no momento).
-        /// </summary>
-        private void foxBigLabel1_Click(object sender, EventArgs e)
-        {
-            // Reservado para lógica futura ou interação com a UI.
         }
     }
 }

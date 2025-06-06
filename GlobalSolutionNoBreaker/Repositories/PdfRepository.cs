@@ -209,14 +209,14 @@ namespace GlobalSolutionNoBreaker.Repositories
                 using (var command = new SQLiteCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
-                    // Verificar se há incidentes para mostrar
+                    // Verifica se há incidentes para mostrar
                     if (!reader.HasRows)
                     {
                         document.Add(new Paragraph("Nenhum incidente registrado nos últimos 30 dias.", normalFont));
                         return;
                     }
 
-                    // Criar tabela para incidentes
+                    // Cria tabela para incidentes
                     PdfPTable table = new PdfPTable(6);
                     table.WidthPercentage = 100;
                     table.SetWidths(new float[] { 0.5f, 2f, 2f, 1.5f, 1f, 1.5f });
@@ -229,7 +229,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                     AdicionarCelulaCabecalho(table, "Prioridade", smallFont);
                     AdicionarCelulaCabecalho(table, "Data/Hora", smallFont);
 
-                    // Preencher dados dos incidentes
+                    // Preenche dados dos incidentes
                     while (reader.Read())
                     {
                         table.AddCell(new PdfPCell(new Phrase(reader["Id"].ToString(), smallFont)));
@@ -286,7 +286,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                         return;
                     }
 
-                    // Criar tabela para alertas de manutenção
+                    // Cria tabela para alertas de manutenção
                     PdfPTable table = new PdfPTable(4);
                     table.WidthPercentage = 100;
                     table.SetWidths(new float[] { 1f, 2f, 2f, 1.5f });
@@ -302,7 +302,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                         table.AddCell(new PdfPCell(new Phrase(reader["Localizacao"].ToString(), smallFont)));
                         table.AddCell(new PdfPCell(new Phrase(reader["Modelo"].ToString(), smallFont)));
 
-                        // Destacar alertas urgentes (30 dias ou menos)
+                        // Destaca alertas urgentes (30 dias ou menos)
                         var diasRestantes = Math.Round(Convert.ToDouble(reader["DiasRestantes"]));
                         var cellDias = new PdfPCell(new Phrase(diasRestantes.ToString() + " dias", smallFont));
                         if (diasRestantes <= 30)
