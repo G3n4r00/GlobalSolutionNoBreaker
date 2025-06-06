@@ -30,7 +30,7 @@ namespace GlobalSolutionNoBreaker
             DataPopulator.Populate();
 
             // Inicia a aplicação com o formulário de LOGIN
-            Application.Run(new NobreakForm()); 
+            Application.Run(new LoginForm()); 
         }
     }
 }
