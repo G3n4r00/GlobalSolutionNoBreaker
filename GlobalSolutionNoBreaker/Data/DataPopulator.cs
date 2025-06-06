@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace GlobalSolutionNoBreaker.Data
 {
@@ -181,14 +182,17 @@ namespace GlobalSolutionNoBreaker.Data
 
                     // 3. Inserção de dados de Monitoramento
                     Console.WriteLine("Inserindo dados de Monitoramento...");
+                    Random rand = new Random();
                     foreach (long nobreakId in nobreakIds)
                     {
                         // Gera 10 registros de monitoramento por nobreak
                         for (int i = 0; i < 10; i++)
                         {
+                            
                             int cargaVa = RandomInt(500, 4500);
                             int porcentagem = RandomInt(10, 100);
-                            int codigoEstado = RandomInt(0, 3); // 0: Operacional, 1: BFraca, 2: Sobrecarga, 3: Desligado
+                            int[] weightedChoices = { 0, 0, 0, 0, 1, 2, 3 };
+                            int codigoEstado = weightedChoices[rand.Next(weightedChoices.Length)]; ; // 0: Operacional, 1: BFraca, 2: Sobrecarga, 3: Desligado
                             string timestamp = RandomDate(30, 0) + " " + RandomTime();
 
                             string sql = @"
@@ -209,6 +213,8 @@ namespace GlobalSolutionNoBreaker.Data
 
                     // 4. Inserção de Incidentes
                     Console.WriteLine("Inserindo Incidentes...");
+
+
                     for (int i = 0; i < 15; i++)
                     {
                         long nobreakId = RandomChoice(nobreakIds);

@@ -160,6 +160,7 @@
             btnExcluir.Text = "Excluir";
             btnExcluir.TextColor = Color.White;
             btnExcluir.WarningColor = Color.FromArgb(230, 162, 60);
+            btnExcluir.Click += btnExcluir_Click_1;
             // 
             // btnAdicionar
             // 

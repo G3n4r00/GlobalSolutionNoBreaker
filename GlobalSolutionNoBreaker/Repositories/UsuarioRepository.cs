@@ -121,7 +121,6 @@ namespace GlobalSolutionNoBreaker.Repositories
                         }
                         else
                         {
-                            MessageBox.Show("Senha incorreta!");
                             return false;
                         }
                     }

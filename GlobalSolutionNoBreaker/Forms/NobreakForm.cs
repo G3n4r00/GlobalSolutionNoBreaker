@@ -48,42 +48,6 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Remove o nobreak selecionado após confirmação.
-        /// </summary>
-        private void btnExcluir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DataGridViewRow nobreakrow = dgvNobreak.SelectedRows[0];
-                var idValue = nobreakrow.Cells[0].Value;
-                int id = Convert.ToInt32(idValue);
-
-                var confirmar = MessageBox.Show(
-                    $"Você tem certeza que deseja deletar o Nobreak de id {id}?",
-                    $"Confirme a Exclusão do Nobreak de id {id}",
-                    MessageBoxButtons.YesNo);
-
-                if (confirmar == DialogResult.No)
-                {
-                    MessageBox.Show("Exclusão cancelada!");
-                    LimparCampos();
-                }
-                else
-                {
-                    NobreakServices.DeleteNobreak(id);
-                    MessageBox.Show("Nobreak excluído com sucesso!");
-                    CarregarNobreaksGrid();
-                    LimparCampos();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Caso nenhum nobreak válido esteja selecionado
-                MessageBox.Show("Selecione um nobreak válido para excluir.");
-            }
-        }
-
-        /// <summary>
         /// Limpa os campos do formulário, resetando seleção e datas.
         /// </summary>
         private void LimparCampos()
@@ -236,6 +200,42 @@ namespace GlobalSolutionNoBreaker.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao inserir nobreak: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Remove o nobreak selecionado após confirmação.
+        /// </summary>
+        private void btnExcluir_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewRow nobreakrow = dgvNobreak.SelectedRows[0];
+                var idValue = nobreakrow.Cells[0].Value;
+                int id = Convert.ToInt32(idValue);
+
+                var confirmar = MessageBox.Show(
+                    $"Você tem certeza que deseja deletar o Nobreak de id {id}?",
+                    $"Confirme a Exclusão do Nobreak de id {id}",
+                    MessageBoxButtons.YesNo);
+
+                if (confirmar == DialogResult.No)
+                {
+                    MessageBox.Show("Exclusão cancelada!");
+                    LimparCampos();
+                }
+                else
+                {
+                    NobreakServices.DeleteNobreak(id);
+                    MessageBox.Show("Nobreak excluído com sucesso!");
+                    CarregarNobreaksGrid();
+                    LimparCampos();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Caso nenhum nobreak válido esteja selecionado
+                MessageBox.Show("Selecione um nobreak válido para excluir.");
             }
         }
     }

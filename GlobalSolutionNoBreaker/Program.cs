@@ -23,7 +23,7 @@ namespace GlobalSolutionNoBreaker
             ApplicationConfiguration.Initialize();
 
             // Garante que o banco de dados está criado e configurado
-            //DataDeletion.DeleteDatabase(); //Remove o banco para reset completo
+            DataDeletion.DeleteDatabase(); //Remove o banco para reset completo
             DataMaker.CreateDatabase();
 
             // Popula o banco de dados com dados iniciais se necessário
