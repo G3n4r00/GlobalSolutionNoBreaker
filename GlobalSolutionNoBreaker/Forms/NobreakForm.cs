@@ -2,6 +2,7 @@
 using GlobalSolutionNoBreaker.Repositories;
 using GlobalSolutionNoBreaker.Services;
 using System.Data;
+using System.Windows.Forms;
 
 namespace GlobalSolutionNoBreaker.Forms
 {
@@ -39,7 +40,7 @@ namespace GlobalSolutionNoBreaker.Forms
                 dgvNobreak.Columns["CapacidadeVa"].HeaderText = "Capacidade (VA)";
                 dgvNobreak.Columns["DataAquisicao"].HeaderText = "Data de Aquisição";
                 dgvNobreak.Columns["DataGarantia"].HeaderText = "Data de Garantia";
-                dgvNobreak.Columns["VidaUtilAnos"].HeaderText = "Vida Útil (anos)";
+                dgvNobreak.Columns["ProximaTrocaBateria"].HeaderText = "Proxima Troca de Bateria";
             }
             catch (Exception ex)
             {
@@ -210,13 +211,24 @@ namespace GlobalSolutionNoBreaker.Forms
         {
             try
             {
-                DataGridViewRow nobreakrow = dgvNobreak.SelectedRows[0];
-                var idValue = nobreakrow.Cells[0].Value;
-                int id = Convert.ToInt32(idValue);
+                if (dgvNobreak.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Nenhum nobreak selecionado.");
+                    return;
+                }
+
+                DataGridViewRow nobreakRow = dgvNobreak.SelectedRows[0];
+                var idValue = nobreakRow.Cells[0].Value;
+
+                if (idValue == null || idValue == DBNull.Value || !int.TryParse(idValue.ToString(), out int id))
+                {
+                    MessageBox.Show("ID do nobreak inválido. Selecione um nobreak válido.");
+                    return;
+                }
 
                 var confirmar = MessageBox.Show(
-                    $"Você tem certeza que deseja deletar o Nobreak de id {id}?",
-                    $"Confirme a Exclusão do Nobreak de id {id}",
+                    $"Você tem certeza que deseja deletar o Nobreak de ID {id}?",
+                    $"Confirme a Exclusão do Nobreak de ID {id}",
                     MessageBoxButtons.YesNo);
 
                 if (confirmar == DialogResult.No)
@@ -234,9 +246,9 @@ namespace GlobalSolutionNoBreaker.Forms
             }
             catch (Exception ex)
             {
-                // Caso nenhum nobreak válido esteja selecionado
-                MessageBox.Show("Selecione um nobreak válido para excluir.");
+                MessageBox.Show($"Erro ao excluir nobreak: {ex.Message}");
             }
         }
+
     }
 }

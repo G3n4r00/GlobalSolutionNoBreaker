@@ -70,7 +70,7 @@ namespace GlobalSolutionNoBreaker.Data
                     string createTables = @"
                         CREATE TABLE IF NOT EXISTS Nobreaks (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ModeloId TEXT NOT NULL, --Link com o modelo do nobreak
+                        ModeloId INTEGER NOT NULL, --Link com o modelo do nobreak
                         Localizacao TEXT NOT NULL,
                         DataAquisicao DATE NOT NULL,
                         DataGarantia DATE, -- Calculada como DataAquisicao + TempodeGarantia do modelo

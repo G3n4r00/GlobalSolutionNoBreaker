@@ -40,7 +40,7 @@ namespace GlobalSolutionNoBreaker.Repositories
                 conn.Open();
 
                 // Query com JOIN para obter dados do nobreak e modelo
-                string query = @"SELECT N.Id, M.Nome, N.Localizacao, M.CapacidadeVa, N.DataAquisicao, N.DataGarantia, M.VidaUtilAnos
+                string query = @"SELECT N.Id, M.Nome, N.Localizacao, M.CapacidadeVa, N.DataAquisicao, N.DataGarantia, N.ProximaTrocaBateria
                 FROM Nobreaks N 
                 INNER JOIN Modelos M ON N.ModeloId = M.Id";
 
