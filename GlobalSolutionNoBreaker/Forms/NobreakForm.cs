@@ -23,57 +23,6 @@ namespace GlobalSolutionNoBreaker.Forms
         }
 
         /// <summary>
-        /// Evento de clique no botão Adicionar/Salvar, para inserir ou atualizar um nobreak.
-        /// </summary>
-        private void btnAdicionar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Obtém o modelo selecionado no combobox e seu ID via dicionário
-                string modeloSelecionado = cmbModelo.SelectedItem?.ToString();
-                modelosDict.TryGetValue(modeloSelecionado, out int modeloId);
-
-                // Cria objeto nobreak com dados preenchidos no formulário
-                var nobreak = new Nobreak
-                {
-                    ModeloId = modeloId,
-                    Localizacao = cmbLocal.SelectedItem?.ToString(),
-                    DataAquisicao = dtpAquisicao.Value.Date
-                };
-
-                if (isEditMode)
-                {
-                    // Atualiza nobreak existente
-                    nobreak.Id = selectedNobreakId;
-                    nobreak.AtualizadoEm = DateTime.Now;
-                    nobreak.AtualizadoPor = Session.LoggedInEmail; // Usuário logado realizando a alteração
-                    NobreakServices.UpdateNobreak(nobreak);
-                    MessageBox.Show("Nobreak atualizado com sucesso!");
-                    isEditMode = false;
-                    btnAdicionar.Text = "Adicionar";
-                    CarregarNobreaksGrid();
-                    LimparCampos();
-                    btnAdicionar.Refresh(); // Força o redesenho imediato do botão
-                }
-                else
-                {
-                    // Insere novo nobreak
-                    nobreak.CriadoEm = DateTime.Now;
-                    nobreak.CriadoPor = Session.LoggedInEmail;
-                    NobreakServices.AddNobreak(nobreak);
-                    MessageBox.Show("Nobreak inserido com sucesso!");
-                    CarregarNobreaksGrid();
-                    LimparCampos();
-                    btnAdicionar.Refresh(); 
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao inserir nobreak: " + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Carrega os nobreaks no DataGridView para visualização.
         /// </summary>
         private void CarregarNobreaksGrid()
@@ -236,6 +185,58 @@ namespace GlobalSolutionNoBreaker.Forms
             // Restaura o texto original do botão
             btnAdicionar.Text = "Adicionar";
             btnAdicionar.Refresh(); // Força o redesenho imediato do botão
+        }
+
+        /// <summary>
+        /// Evento de clique no botão Adicionar/Salvar, para inserir ou atualizar um nobreak.
+        /// </summary>
+        /// 
+        private void btnAdicionar_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                // Obtém o modelo selecionado no combobox e seu ID via dicionário
+                string modeloSelecionado = cmbModelo.SelectedItem?.ToString();
+                modelosDict.TryGetValue(modeloSelecionado, out int modeloId);
+
+                // Cria objeto nobreak com dados preenchidos no formulário
+                var nobreak = new Nobreak
+                {
+                    ModeloId = modeloId,
+                    Localizacao = cmbLocal.SelectedItem?.ToString(),
+                    DataAquisicao = dtpAquisicao.Value.Date
+                };
+
+                if (isEditMode)
+                {
+                    // Atualiza nobreak existente
+                    nobreak.Id = selectedNobreakId;
+                    nobreak.AtualizadoEm = DateTime.Now;
+                    nobreak.AtualizadoPor = Session.LoggedInEmail; // Usuário logado realizando a alteração
+                    NobreakServices.UpdateNobreak(nobreak);
+                    MessageBox.Show("Nobreak atualizado com sucesso!");
+                    isEditMode = false;
+                    btnAdicionar.Text = "Adicionar";
+                    CarregarNobreaksGrid();
+                    LimparCampos();
+                    btnAdicionar.Refresh(); // Força o redesenho imediato do botão
+                }
+                else
+                {
+                    // Insere novo nobreak
+                    nobreak.CriadoEm = DateTime.Now;
+                    nobreak.CriadoPor = Session.LoggedInEmail;
+                    NobreakServices.AddNobreak(nobreak);
+                    MessageBox.Show("Nobreak inserido com sucesso!");
+                    CarregarNobreaksGrid();
+                    LimparCampos();
+                    btnAdicionar.Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao inserir nobreak: " + ex.Message);
+            }
         }
     }
 }

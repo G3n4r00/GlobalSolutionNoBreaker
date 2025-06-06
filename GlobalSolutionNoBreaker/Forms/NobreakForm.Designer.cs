@@ -85,9 +85,9 @@
             cmbLocal.Font = new Font("Segoe UI", 10F);
             cmbLocal.FormattingEnabled = true;
             cmbLocal.ItemHeight = 20;
-            cmbLocal.Location = new Point(608, 24);
+            cmbLocal.Location = new Point(208, 8);
             cmbLocal.Name = "cmbLocal";
-            cmbLocal.Size = new Size(288, 26);
+            cmbLocal.Size = new Size(312, 26);
             cmbLocal.TabIndex = 20;
             // 
             // cmbModelo
@@ -97,9 +97,9 @@
             cmbModelo.Font = new Font("Segoe UI", 10F);
             cmbModelo.FormattingEnabled = true;
             cmbModelo.ItemHeight = 20;
-            cmbModelo.Location = new Point(208, 8);
+            cmbModelo.Location = new Point(608, 32);
             cmbModelo.Name = "cmbModelo";
-            cmbModelo.Size = new Size(312, 26);
+            cmbModelo.Size = new Size(288, 26);
             cmbModelo.TabIndex = 22;
             // 
             // btnVoltarNobreak
@@ -179,6 +179,7 @@
             btnAdicionar.Text = "Adicionar";
             btnAdicionar.TextColor = Color.White;
             btnAdicionar.WarningColor = Color.FromArgb(230, 162, 60);
+            btnAdicionar.Click += btnAdicionar_Click_1;
             // 
             // headerLabel1
             // 
@@ -186,7 +187,7 @@
             headerLabel1.BackColor = Color.Transparent;
             headerLabel1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             headerLabel1.ForeColor = Color.FromArgb(255, 255, 255);
-            headerLabel1.Location = new Point(32, 8);
+            headerLabel1.Location = new Point(32, 16);
             headerLabel1.Name = "headerLabel1";
             headerLabel1.Size = new Size(161, 20);
             headerLabel1.TabIndex = 27;
